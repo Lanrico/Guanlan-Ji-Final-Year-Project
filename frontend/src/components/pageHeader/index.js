@@ -17,41 +17,42 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CompanyLogo from '../../images/CompanyLogo.svg';
-import { Avatar, Button, ButtonGroup } from "@mui/material";
+import { Avatar, Button, ButtonGroup, Grid } from "@mui/material";
 import { createTheme } from '@mui/material/styles';
+import MenuButton from "../menuButton";
 
 const theme = createTheme({
   palette: {
     primary: {
       // light: '#baffff',
-      main: '#87e5cf',
+      main: '#87e5c2',
       // dark: '#47c8c0',
-      // contrastText: '#fff',
+      contrastText: '#000',
     },
     secondary: {
       // light: '#ff62b8',
       main: '#ff1688',
       // dark: '#c6005b',
-      // contrastText: '#fff',
+      contrastText: '#fff',
     },
   },
 });
 
 const MyButtonGroup = styled(ButtonGroup)(({ theme }) => ({
   // color: theme.palette.grey,
-  ariaLabel:"outlined button group",
+  backgroundColor: alpha(theme.palette.common.white, 0),
   '& :hover': {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white
+    color: theme.palette.primary.contrastText
   },
 }));
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.primary.main, 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.primary.main, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -186,15 +187,15 @@ const PageHeader = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={1} sx={{ flexGrow: 1 }}>
         <AppBar position="static" color="default">
           <Toolbar>
             <img src={CompanyLogo} height="50px" alt="companylogo"></img>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <MyButtonGroup variant="text" color="inherit" style={{ color: 'grey' }}>
-                <Button>One</Button>
-                <Button>Two</Button>
-                <Button>Three</Button>
+                <MenuButton title="Game" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["","",""]}/>
+                <MenuButton title="Movie" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["","",""]}/>
+                <MenuButton title="Music" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["","",""]}/>
               </MyButtonGroup>
             </Box>
             <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -220,7 +221,13 @@ const PageHeader = (props) => {
                 inputProps={{ 'aria-label': 'search' }}
               />
             </Search>
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Button variant="contained">
+              Sign in
+            </Button>
+            <Button variant="outlined">
+              Sign up
+            </Button>
+            {/* <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="error">
                   <MailIcon />
@@ -258,12 +265,12 @@ const PageHeader = (props) => {
               >
                 <MoreIcon />
               </IconButton>
-            </Box>
+            </Box> */}
           </Toolbar>
         </AppBar>
         {renderMobileMenu}
         {renderMenu}
-      </Box>
+      </Grid>
     </ThemeProvider>
   );
 };
