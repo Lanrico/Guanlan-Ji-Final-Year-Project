@@ -6,12 +6,14 @@ import MediaList from "./components/mediaList";
 import AddMedia from "./components/addMedia";
 import Media from "./components/media";
 
+import HomePage from "./components/pages/homePage";
+
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MediaList />} />
-        <Route path="/homepage" element={<MediaList />} />
+        <Route path="/homepage" element={<HomePage />} />
         <Route path="/add" element={<AddMedia />} />
         <Route path="/medias/:id" element={<Media />} />
       </Routes>
