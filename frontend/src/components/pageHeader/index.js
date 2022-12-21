@@ -16,27 +16,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import CompanyLogo from '../../images/CompanyLogo.svg';
+import SimpleLogo from '../../images/SimpleLogo.png';
 import { Avatar, Button, ButtonGroup, Grid } from "@mui/material";
 import { createTheme } from '@mui/material/styles';
 import MenuButton from "../menuButton";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      // light: '#baffff',
-      main: '#87e5c2',
-      // dark: '#47c8c0',
-      contrastText: '#000',
-    },
-    secondary: {
-      // light: '#ff62b8',
-      main: '#ff1688',
-      // dark: '#c6005b',
-      contrastText: '#fff',
-    },
-  },
-});
 
 const MyButtonGroup = styled(ButtonGroup)(({ theme }) => ({
   // color: theme.palette.grey,
@@ -186,92 +169,53 @@ const PageHeader = (props) => {
   );
 
   return (
-    <ThemeProvider theme={theme}>
-      <Grid container spacing={1} sx={{ flexGrow: 1 }}>
-        <AppBar position="static" color="default">
-          <Toolbar>
-            <img src={CompanyLogo} height="50px" alt="companylogo"></img>
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <MyButtonGroup variant="text" color="inherit" style={{ color: 'grey' }}>
-                <MenuButton title="Game" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["","",""]}/>
-                <MenuButton title="Movie" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["","",""]}/>
-                <MenuButton title="Music" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["","",""]}/>
-              </MyButtonGroup>
-            </Box>
-            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
-                size="large"
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-            </Box>
+    <Grid container spacing={1} sx={{ flexGrow: 1 }}>
+      <AppBar elevation={1} position="static" color="default">
+        <Toolbar>
+        <Box sx={{ flexGrow: 1 }} />
+          <img src={SimpleLogo} height="50px" alt="companylogo"></img>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <MyButtonGroup variant="text" color="inherit" style={{ color: 'grey' }}>
+              <MenuButton title="Game" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["", "", ""]} />
+              <MenuButton title="Movie" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["", "", ""]} />
+              <MenuButton title="Music" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["", "", ""]} />
+            </MyButtonGroup>
+          </Box>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
 
-            <Box sx={{ flexGrow: 1 }} />
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Search>
-            <Button variant="contained">
-              Sign in
-            </Button>
-            <Button variant="outlined">
-              Sign up
-            </Button>
-            {/* <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="error">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                size="large"
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
-                <Badge badgeContent={17} color="error">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </Box>
-            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
-                size="large"
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-            </Box> */}
-          </Toolbar>
-        </AppBar>
-        {renderMobileMenu}
-        {renderMenu}
-      </Grid>
-    </ThemeProvider>
+          <Box sx={{ flexGrow: 1 }} />
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+          <Button variant="contained">
+            Sign in
+          </Button>
+          <Button variant="outlined">
+            Sign up
+          </Button>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
+    </Grid>
   );
 };
 
