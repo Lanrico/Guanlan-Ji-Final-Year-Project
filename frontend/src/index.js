@@ -6,14 +6,25 @@ import MediaList from "./components/mediaList";
 import AddMedia from "./components/addMedia";
 import Media from "./components/media";
 import { createTheme, ThemeProvider } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import HomePage from "./components/pages/homePage";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 360000,
+      refetchInterval: 360000,
+      refetchOnWindowFocus: false
+    },
+  },
+});
 
 const theme = createTheme({
   palette: {
     primary: {
       // light: '#baffff',
-      main: '#87e5c1',
+      main: '#87e5c0',
       // dark: '#47c8c0',
       contrastText: '#000',
     },
@@ -27,16 +38,18 @@ const theme = createTheme({
 });
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MediaList />} />
-          <Route path="/homepage" element={<HomePage />} />
-          <Route path="/add" element={<AddMedia />} />
-          <Route path="/medias/:id" element={<Media />} />
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MediaList />} />
+            <Route path="/homepage" element={<HomePage />} />
+            <Route path="/add" element={<AddMedia />} />
+            <Route path="/medias/:id" element={<Media />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
 const rootElement = createRoot(document.getElementById("root"))

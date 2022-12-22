@@ -169,7 +169,7 @@ const PageHeader = (props) => {
   );
 
   return (
-    <Grid container spacing={1} sx={{ flexGrow: 1 }}>
+    <Grid container mb={1} spacing={1} sx={{ flexGrow: 1 }}>
       <AppBar elevation={1} position="static" color="default">
         <Toolbar>
         <Box sx={{ flexGrow: 1 }} />
