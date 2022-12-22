@@ -7,7 +7,7 @@ const PageTemplate = (props) => {
   return (
     <Grid container>
       <Grid item xs></Grid>
-      <Grid item xs={10} lg={6}>
+      <Grid item xs={10} lg={7}>
         <PageHeader />
         {props.children}
         <PageFooter />
