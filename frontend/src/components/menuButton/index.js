@@ -5,17 +5,24 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link, ThemeProvider, useTheme } from "@mui/material";
 import { styled, alpha, createTheme } from '@mui/material/styles';
 import { changeElementColor } from "../../util";
+import zIndex from "@mui/material/styles/zIndex";
 
+
+// A bug to be fixed: Hover background color will be covered if click the button
 const StyledButton = styled(Button)(({ theme }) => ({
   backgroundColor: alpha(theme.palette.grey[300], 0.5),
   ':hover': {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText
+    backgroundColor: alpha(theme.palette.primary.main, 1),
+    color: theme.palette.primary.contrastText,
+    transform: "scale(1.3)",
+    zIndex: 9999
   },
+  transition: theme.transitions.create(['background-color', 'transform'], {
+    duration: theme.transitions.duration.standard,
+  })
 }));
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-  
   ':hover': {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText

@@ -24,7 +24,7 @@ import MenuButton from "../menuButton";
 
 const PageFooter = (props) => {
   return (
-    <Grid container spacing={1} sx={{ flexGrow: 1 }}>
+    <Grid container mt={1} spacing={1} sx={{ flexGrow: 1 }}>
       <AppBar elevation={0} position="static" color="primary">
         <Toolbar>
           <img src={SetuLogo} height="50px" alt=""></img>
