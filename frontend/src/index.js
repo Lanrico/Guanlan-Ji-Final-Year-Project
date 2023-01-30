@@ -8,7 +8,9 @@ import Media from "./components/media";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import HomePage from "./components/pages/homePage";
+import HomePage from "./pages/homePage";
+import MovieDetailPage from "./pages/MovieDetailPage";
+import SignUpPage from "./pages/signUpPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,8 +46,10 @@ const App = () => {
           <Routes>
             <Route path="/" element={<MediaList />} />
             <Route path="/homepage" element={<HomePage />} />
+            <Route path="/register" element={<SignUpPage />} />
+            <Route path="/medias/movie/:id" element={<MovieDetailPage />} />
             <Route path="/add" element={<AddMedia />} />
-            <Route path="/medias/:id" element={<Media />} />
+            {/* <Route path="/medias/:id" element={<Media />} /> */}
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

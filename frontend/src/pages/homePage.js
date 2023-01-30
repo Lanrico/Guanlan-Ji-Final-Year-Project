@@ -9,28 +9,28 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
-import Spinner from '../spinner';
-import Poster from '../../images/WebsiteLogo300-removebg.png';
-import LoginBlock from "../loginBlock";
-import PageTemplate from "../pageTemplate";
-import MediasBar from "../mediasBar";
-import MediaDataService from "../../services/mediaService";
-import HpRankList from "../hpRankList";
-
+import Spinner from '../components/spinner';
+import Poster from '../images/WebsiteLogo300-removebg.png';
+import LoginBlock from "../components/loginBlock";
+import PageTemplate from "../components/pageTemplate";
+import MediasBar from "../components/mediasBar";
+import MediaDataService from "../services/mediaService";
+import HpRankList from "../components/hpRankList";
+import movies from "../sampleData/movies";
 const HomePage = (props) => {
   const [value, setValue] = useState('1');
   const theme = useTheme();
-  const { data, error, isLoading, isError } = useQuery(
-    "medias", MediaDataService.getAll
-  )
-  if (isLoading) {
-    return <Spinner />
-  }
-  if (isError) {
-    return <h1>{error.message}</h1>
-  }
-  const medias = data.data;
-
+  // const { data, error, isLoading, isError } = useQuery(
+  //   "medias", MediaDataService.getAll
+  // )
+  // if (isLoading) {
+  //   return <Spinner />
+  // }
+  // if (isError) {
+  //   return <h1>{error.message}</h1>
+  // }
+  // const medias = data.data;
+  const medias = movies.slice(0, 4);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
