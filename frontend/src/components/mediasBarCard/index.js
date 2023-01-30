@@ -6,7 +6,7 @@ const MediasBarCard = ({ item }) => {
 
   return (
     <Grid key={item.id} item xs={3}>
-      <Link href="">
+      <Link href={`/medias/movie/${item.id}`}>
         <ImageListItem key={item.id} style={{ width: "90%" }}>
           <img
             src={

@@ -26,13 +26,13 @@ export default function LoginBlock() {
   const [userName, setUserName] = useState("");
   const theme = useTheme();
   const firebaseConfig = {
-    apiKey: "AIzaSyBuCt1AzgifZ98mO8IMvHe7fBqLUT1H5kw",
-    authDomain: "movies-guanlan-ji.firebaseapp.com",
-    projectId: "movies-guanlan-ji",
-    storageBucket: "movies-guanlan-ji.appspot.com",
-    messagingSenderId: "1080962489218",
-    appId: "1:1080962489218:web:5e6e9e8218312990338d9b",
-    measurementId: "G-QFTQJVEKHT"
+    apiKey: "AIzaSyB_opQz9NSfRrPLhwc9yvckrDv4mSinUxI",
+    authDomain: "final-year-project-jgl.firebaseapp.com",
+    projectId: "final-year-project-jgl",
+    storageBucket: "final-year-project-jgl.appspot.com",
+    messagingSenderId: "1082745032013",
+    appId: "1:1082745032013:web:01781659139f87f093fb04",
+    measurementId: "G-0E0943XPMF"
   };
 
 
@@ -152,7 +152,7 @@ export default function LoginBlock() {
             </ColorButton>
             <Grid container>
               <Grid item sx={{ justifyContent: 'center', margin: 'auto' }}>
-                <Link href='' variant="body2">
+                <Link href='/register' variant="body2">
                   {"Sign Up"}
                 </Link>
               </Grid>

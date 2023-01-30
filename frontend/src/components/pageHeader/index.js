@@ -20,6 +20,7 @@ import SimpleLogo from '../../images/SimpleLogo.png';
 import { Avatar, Button, ButtonGroup, Grid } from "@mui/material";
 import { createTheme } from '@mui/material/styles';
 import MenuButton from "../menuButton";
+import { Link } from "react-router-dom";
 
 const MyButtonGroup = styled(ButtonGroup)(({ theme }) => ({
   // color: theme.palette.grey,
@@ -172,8 +173,10 @@ const PageHeader = (props) => {
     <Grid container mb={1} spacing={1} sx={{ flexGrow: 1 }}>
       <AppBar elevation={1} position="static" color="default">
         <Toolbar>
-        <Box sx={{ flexGrow: 1 }} />
-          <img src={SimpleLogo} height="50px" alt="companylogo"></img>
+          <Box sx={{ flexGrow: 1 }} />
+          <Link to={`/homepage`}>
+            <img src={SimpleLogo} height="50px" alt="companylogo"></img>
+          </Link>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <MyButtonGroup variant="text" color="inherit" style={{ color: 'grey' }}>
@@ -208,7 +211,7 @@ const PageHeader = (props) => {
           <Button variant="contained">
             Sign in
           </Button>
-          <Button variant="outlined">
+          <Button variant="outlined" href="/register">
             Sign up
           </Button>
         </Toolbar>
