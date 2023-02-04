@@ -26,19 +26,6 @@ const MovieDetailPage = (props) => {
       media_type="movie"
       media={medias[0]}
     >
-      <Typography>
-      This is the movie detail template page
-      </Typography>
-
-      {/* <Grid container spacing={5} sx={{ padding: "15px" }}>
-        <Grid item xs={3}>
-
-        </Grid>
-
-        <Grid item xs={9}>
-
-        </Grid>
-      </Grid> */}
     </MediaPageTemplate>
   )
 }

@@ -1,14 +1,16 @@
-import { Grid, Paper, Typography } from "@mui/material";
+import { Avatar, Grid, Paper, Typography } from "@mui/material";
+import { deepOrange, green } from "@mui/material/colors";
+import MediaActionTabs from "../mediaActionTabs";
+import MediaDetailRateBlock from "../mediaDetailRateBlock";
 import MediaInfoList from "../mediaInfoList";
 import PageTemplate from "../pageTemplate"
 
 const MediaPageTemplate = (props) => {
-  console.log(props.media)
+
   return (
     <PageTemplate>
       {props.media_type === "movie" ? (
         <>
-          This is the media detail template page.
         </>
       ) : props.media_type === "game" ? (
         <>
@@ -24,7 +26,7 @@ const MediaPageTemplate = (props) => {
         </>
       )}
       {props.children}
-      <Grid container spacing={5} sx={{ padding: "15px" }}>
+      <Grid container spacing={3} sx={{ padding: "15px" }}>
         <Grid item xs={3}>
           <div sx={{
             display: "flex",
@@ -47,13 +49,19 @@ const MediaPageTemplate = (props) => {
         </Grid>
 
         <Grid item xs={9}>
-          <Typography variant="h5" component="h3">
-            Overview
-          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={9}>
+              <Typography variant="body1" component="p">
+                {props.media.overview}
+              </Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <MediaDetailRateBlock media={props.media} />
+            </Grid>
+          </Grid>
+          <MediaActionTabs>
 
-          <Typography variant="h6" component="p">
-            {props.media.overview}
-          </Typography>
+          </MediaActionTabs>
         </Grid>
       </Grid>
     </PageTemplate>

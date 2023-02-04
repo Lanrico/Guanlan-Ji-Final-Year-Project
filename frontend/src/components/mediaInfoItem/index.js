@@ -2,9 +2,9 @@ import { ListItem, ListItemText, Typography } from "@mui/material";
 import React from "react";
 
 const MediaInfoItem = (props) => {
-  console.log(props)
+
   return (
-    <ListItem alignItems="flex-start">
+    <ListItem alignItems="flex-start" sx={{padding: "0px 0px"}}>
       <ListItemText
         primary=
         {
@@ -12,7 +12,7 @@ const MediaInfoItem = (props) => {
             <Typography
               sx={{ display: 'inline' }}
               component="span"
-              variant="body2"
+              variant="caption"
               color="text.secondary"
             >
               {props.itemName}
@@ -25,7 +25,7 @@ const MediaInfoItem = (props) => {
             <Typography
               sx={{ display: 'inline' }}
               component="span"
-              variant="body2"
+              variant="body1"
               color="text.primary"
             >
               {props.value}
