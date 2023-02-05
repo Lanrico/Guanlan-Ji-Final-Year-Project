@@ -1,5 +1,6 @@
 import { Avatar, Grid, Paper, Typography } from "@mui/material";
 import { deepOrange, green } from "@mui/material/colors";
+import CastBar from "../cast/castBar";
 import MediaActionTabs from "../mediaActionTabs";
 import MediaDetailRateBlock from "../mediaDetailRateBlock";
 import MediaInfoList from "../mediaInfoList";
@@ -59,9 +60,8 @@ const MediaPageTemplate = (props) => {
               <MediaDetailRateBlock media={props.media} />
             </Grid>
           </Grid>
-          <MediaActionTabs>
-
-          </MediaActionTabs>
+          <CastBar />
+          <MediaActionTabs />
         </Grid>
       </Grid>
     </PageTemplate>

@@ -56,6 +56,7 @@ const MenuButton = ({ title, textList, linkList }) => {
       link: linkList[index]
     })
   }
+
   return (
     <>
       <StyledButton
@@ -79,7 +80,7 @@ const MenuButton = ({ title, textList, linkList }) => {
         {tllist.map((i) => {
           return (
             <StyledMenuItem onClick={handleClose} key={i.text}>
-              <Link underline="none" to={i.link} color={"inherit"}>{i.text}</Link>
+              <Link underline="none" href={i.link} color={"inherit"}>{i.text}</Link>
             </StyledMenuItem>
           )
         })}
