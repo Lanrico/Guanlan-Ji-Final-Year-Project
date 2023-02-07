@@ -2,9 +2,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import React from "react";
-import MediaList from "./components/mediaList";
 import AddMedia from "./components/addMedia";
-import Media from "./components/media";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -29,7 +27,7 @@ const theme = createTheme({
       // light: '#baffff',
       main: '#3accc0',
       // dark: '#47c8c0',
-      contrastText: '#000',
+      contrastText: '#fff',
     },
     secondary: {
       // light: '#ff62b8',

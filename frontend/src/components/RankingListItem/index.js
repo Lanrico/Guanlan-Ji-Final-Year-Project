@@ -1,5 +1,7 @@
-import { Avatar, Divider, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material"
+import { Chip, Divider, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography } from "@mui/material"
+import { yellow } from "@mui/material/colors"
 import React from "react"
+import genres from "../../sampleData/genres"
 
 const RankingListItem = (props) => {
   return (
@@ -10,9 +12,18 @@ const RankingListItem = (props) => {
             src={`https://image.tmdb.org/t/p/w500/${props.media.poster_path}`}
             alt={props.media.title}
             loading="lazy"
-            width={100}
+            width={80}
           />
         </ListItemAvatar>
+        <ListItemSecondaryAction sx={{ top: "20%" }}>
+          <Chip
+            color='primary'
+            label={
+              <Typography fontSize={"small"} sx={{ color: "white" }}>Rank {props.rank}</Typography>
+            }
+            size="small"
+          />
+        </ListItemSecondaryAction>
         <ListItemText
           primary={
             <React.Fragment>
@@ -31,15 +42,29 @@ const RankingListItem = (props) => {
           }
           secondary={
             <React.Fragment>
-              <Typography
-                sx={{ display: 'inline' }}
-                component="span"
-                variant="body2"
-                color="text.primary"
-              >
-                Ali Connors
+              <div style={{ display: "flex", marginTop: 5 }}>
+                {props.media.release_date}
+                {genres.genres.map((m) => {
+                  if (props.media.genre_ids.find((n) => n === m.id)) {
+                    return ' / ' + m.name
+                  }
+                  else {
+                    return null;
+                  }
+                })}
+              </div>
+              <Typography variant="body2" noWrap mt={"5px"}>
+                {props.media.overview}
               </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
+              <div style={{ display: "flex", marginTop: 5 }}>
+                <Rating value={props.media.vote_average / 2} precision={0.1} readOnly size="small" />
+                <Typography color={yellow[800]} fontSize={"small"} ml={1}>
+                  {props.media.vote_average}
+                </Typography>
+                <Typography fontSize={"small"} ml={1}>
+                  ({props.media.vote_count} users)
+                </Typography>
+              </div>
             </React.Fragment>
           }
         />

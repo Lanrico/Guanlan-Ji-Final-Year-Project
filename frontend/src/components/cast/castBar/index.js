@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { Divider, Grid } from '@mui/material';
+import { Divider } from '@mui/material';
 import CastCard from '../castCard'
 import movieCast from '../../../sampleData/movieCast';
 import { Stack } from '@mui/system';
-
-
 
 const CastBar = (props) => {
   const director_info = movieCast.crew.filter((m) => m.job === 'Director');
