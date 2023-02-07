@@ -270,7 +270,7 @@ const TopRatedMovies = {
       release_date: "2016-02-20",
       title: "Dou kyu sei – Classmates",
       video: false,
-      vote_average: 8.5,
+      vote_average: 8,
       vote_count: 289,
     },
     {
@@ -287,7 +287,7 @@ const TopRatedMovies = {
       release_date: "2020-05-29",
       title: "Gabriel's Inferno",
       video: false,
-      vote_average: 8.5,
+      vote_average: 7.5,
       vote_count: 2323,
     },
     {
@@ -304,7 +304,7 @@ const TopRatedMovies = {
       release_date: "2003-12-01",
       title: "The Lord of the Rings: The Return of the King",
       video: false,
-      vote_average: 8.5,
+      vote_average: 7,
       vote_count: 21038,
     },
     {
@@ -321,7 +321,7 @@ const TopRatedMovies = {
       release_date: "1990-09-12",
       title: "GoodFellas",
       video: false,
-      vote_average: 8.5,
+      vote_average: 6.5,
       vote_count: 10952,
     },
     {
@@ -338,7 +338,7 @@ const TopRatedMovies = {
       release_date: "2020-07-31",
       title: "Gabriel's Inferno: Part II",
       video: false,
-      vote_average: 8.5,
+      vote_average: 6,
       vote_count: 1459,
     },
   ],

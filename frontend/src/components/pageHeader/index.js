@@ -1,10 +1,9 @@
 import React from "react";
-import { styled, alpha, ThemeProvider } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,11 +13,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
 import SimpleLogo from '../../images/SimpleLogo.png';
-import { Avatar, Button, ButtonGroup, Grid } from "@mui/material";
-import { createTheme } from '@mui/material/styles';
+import { Button, ButtonGroup, Grid } from "@mui/material";
 import MenuButton from "../menuButton";
 import { Link } from "react-router-dom";
 
