@@ -1,9 +1,5 @@
 import React from "react";
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import StarsIcon from '@mui/icons-material/Stars';
 import HpRankListItem from "../hpRankListItem";
 const HpRankList = ({ mediasRankingList }) => {
@@ -11,7 +7,7 @@ const HpRankList = ({ mediasRankingList }) => {
     <List
       aria-label="contacts"
     >
-      <HpRankListItem  title="The Shawshank Redemption">
+      <HpRankListItem title="The Shawshank Redemption">
         <StarsIcon color="secondary" />
       </HpRankListItem>
       <HpRankListItem title="The Godfather">

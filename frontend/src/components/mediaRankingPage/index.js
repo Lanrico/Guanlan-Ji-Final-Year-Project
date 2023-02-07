@@ -1,4 +1,4 @@
-import { FormControl, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import PageTemplate from "../pageTemplate"
 import { capitalizeFirstLowercaseRest } from "../../util";
 import RankingList from "../RankingList";
@@ -14,7 +14,6 @@ const MediaRankingPage = (props) => {
             All {media_type}s
           </Typography>
           <RankingList />
-
         </Grid>
         <Grid sx={{ paddingX: 1, paddingY: 5 }} xs={4}>
           <SortCard />

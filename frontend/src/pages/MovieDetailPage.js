@@ -1,9 +1,4 @@
-import { Grid, Typography } from "@mui/material";
-import { useQuery } from "react-query";
-import Spinner from '../components/spinner';
-
 import MediaPageTemplate from "../components/mediaPageTemplate"
-import MediaDataService from "../services/mediaService";
 import movies from "../sampleData/movies";
 import { useParams } from "react-router-dom";
 

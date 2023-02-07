@@ -1,4 +1,4 @@
-import { Button, Checkbox, Chip } from "@mui/material";
+import { Checkbox, Chip } from "@mui/material";
 
 const FilterCardCheckbox = (props) => {
   const label = { inputProps: { 'aria-label': 'Filter checkbox' } };
