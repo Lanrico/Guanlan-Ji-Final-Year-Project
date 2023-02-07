@@ -2,10 +2,8 @@ import React from "react";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { Link, ThemeProvider, useTheme } from "@mui/material";
-import { styled, alpha, createTheme } from '@mui/material/styles';
-import { changeElementColor } from "../../util";
-import zIndex from "@mui/material/styles/zIndex";
+import { Link, useTheme } from "@mui/material";
+import { styled, alpha } from '@mui/material/styles';
 
 
 // A bug to be fixed: Hover background color will be covered if click the button

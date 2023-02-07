@@ -1,16 +1,11 @@
-import { Avatar, Box, Card, CardContent, CardHeader, Divider, Grid, Link, Paper, Typography, useTheme } from "@mui/material";
+import { Avatar, Box, Divider, Grid, Link, Paper, Typography } from "@mui/material";
 import { green, red } from "@mui/material/colors";
-import LaptopMacIcon from '@mui/icons-material/LaptopMac';
-import PhoneIcon from '@mui/icons-material/Phone';
-import TabletIcon from '@mui/icons-material/Tablet';
 import { Doughnut } from 'react-chartjs-2';
-import { ArcElement } from "chart.js";
 import Chart from "chart.js/auto";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 
 const MediaDetailRateBlock = (props) => {
-  const theme = useTheme();
   const scoreConverter = (score) => {
     return Math.ceil(score) / 2;
   }

@@ -1,4 +1,4 @@
-import { Chip, Divider, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography } from "@mui/material"
+import { Chip, Divider, Link, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography } from "@mui/material"
 import { yellow } from "@mui/material/colors"
 import React from "react"
 import genres from "../../sampleData/genres"
@@ -28,7 +28,9 @@ const RankingListItem = (props) => {
           primary={
             <React.Fragment>
               <div style={{ display: "flex" }}>
-                <Typography mr={1}> {props.media.title}</Typography>
+                <Link href={`/medias/movie/${props.media.id}`} underline="none">
+                  <Typography mr={1}> {props.media.title}</Typography>
+                </Link>
                 {
                   props.media.original_title && props.media.original_language !== "en" ? (
                     <Typography color="text.secondary">{props.media.original_title}</Typography>

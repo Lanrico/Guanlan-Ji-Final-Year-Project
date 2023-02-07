@@ -1,5 +1,4 @@
-import { Avatar, Grid, Paper, Typography } from "@mui/material";
-import { deepOrange, green } from "@mui/material/colors";
+import { Grid, Paper, Typography } from "@mui/material";
 import CastBar from "../cast/castBar";
 import MediaActionTabs from "../mediaActionTabs";
 import MediaDetailRateBlock from "../mediaDetailRateBlock";

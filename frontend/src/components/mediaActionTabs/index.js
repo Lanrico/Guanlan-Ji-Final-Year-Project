@@ -8,7 +8,6 @@ import TabContext from '@mui/lab/TabContext';
 import Grid from "@mui/material/Grid";
 
 import ProReviewBar from '../review/proReviewBar'
-import ReviewCard from '../review/reviewCard';
 import ReviewList from '../review/reviewList';
 
 const sampleProReview = [
