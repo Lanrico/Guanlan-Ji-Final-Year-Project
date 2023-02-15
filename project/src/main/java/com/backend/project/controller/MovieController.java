@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.backend.project.model.Movies;
+import com.backend.project.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +30,9 @@ public class MovieController {
     MovieRepository movieRepository;
 
     @GetMapping("/homepage")
-    public ResponseEntity<List<Movies>> getAllTutorials(@RequestParam(required = false) String title) {
+    public ResponseEntity<List<Movie>> getAllTutorials(@RequestParam(required = false) String title) {
         try {
-            List<Movies> movies = new ArrayList<Movies>();
+            List<Movie> movies = new ArrayList<Movie>();
 
             if (title == null)
                 movieRepository.findAll().forEach(movies::add);
@@ -50,8 +50,8 @@ public class MovieController {
     }
 
     @GetMapping("/homepage/{id}")
-    public ResponseEntity<Movies> getTutorialById(@PathVariable("id") long id) {
-        Optional<Movies> movieData = movieRepository.findById(id);
+    public ResponseEntity<Movie> getTutorialById(@PathVariable("id") long id) {
+        Optional<Movie> movieData = movieRepository.findById(id);
 
         if (movieData.isPresent()) {
             return new ResponseEntity<>(movieData.get(), HttpStatus.OK);
@@ -61,26 +61,26 @@ public class MovieController {
     }
 
     @PostMapping("/homepage")
-    public ResponseEntity<Movies> createMovie(@RequestBody Movies movies) {
+    public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
         try {
-            Movies _movies = movieRepository
-                    .save(new Movies(movies.getTitle(), movies.getOverview(), "123123"));
-            return new ResponseEntity<>(_movies, HttpStatus.CREATED);
+            Movie _movie = movieRepository
+                    .save(new Movie());
+            return new ResponseEntity<>(_movie, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/homepage/{id}")
-    public ResponseEntity<Movies> updateTutorial(@PathVariable("id") long id, @RequestBody Movies movies) {
-        Optional<Movies> tutorialData = movieRepository.findById(id);
+    public ResponseEntity<Movie> updateTutorial(@PathVariable("id") long id, @RequestBody Movie movie) {
+        Optional<Movie> tutorialData = movieRepository.findById(id);
 
         if (tutorialData.isPresent()) {
-            Movies _movies = tutorialData.get();
-            _movies.setOverview(movies.getOverview());
-            _movies.setRelease_date(movies.getRelease_date());
-            _movies.setTitle(movies.getTitle());
-            return new ResponseEntity<>(movieRepository.save(_movies), HttpStatus.OK);
+            Movie _movie = tutorialData.get();
+            _movie.setOverview(movie.getOverview());
+            _movie.setReleaseDate(movie.getReleaseDate());
+            _movie.setTitle(movie.getTitle());
+            return new ResponseEntity<>(movieRepository.save(_movie), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
