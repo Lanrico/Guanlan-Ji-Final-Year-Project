@@ -204,7 +204,7 @@ const PageHeader = (props) => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Button variant="contained">
+          <Button variant="contained" href="/login">
             Sign in
           </Button>
           <Button variant="outlined" href="/register">

@@ -21,11 +21,65 @@ public class Media {
   @Column(name = "vote_count")
   private Integer voteCount;
 
+  @Column(name = "recommend")
+  private Integer recommend;
+
+  @Column(name = "unrecommend")
+  private Integer unrecommend;
+
+  @OneToMany(mappedBy = "mid")
+  private Set<PeopleMedia> peopleMedia = new LinkedHashSet<>();
+
+  @ManyToMany
+  @JoinTable(name = "recommendation",
+      joinColumns = @JoinColumn(name = "mid"),
+      inverseJoinColumns = @JoinColumn(name = "uid"))
+  private Set<User> users = new LinkedHashSet<>();
+
+  @ManyToMany
+  @JoinTable(name = "media_collections",
+      joinColumns = @JoinColumn(name = "mid"),
+      inverseJoinColumns = @JoinColumn(name = "cid"))
+  private Set<Collection> collections = new LinkedHashSet<>();
+
   @OneToMany(mappedBy = "mid")
   private Set<Favourite> favourites = new LinkedHashSet<>();
 
+  @ManyToMany
+  @JoinTable(name = "media_countries",
+      joinColumns = @JoinColumn(name = "mid"),
+      inverseJoinColumns = @JoinColumn(name = "iso_3166_1"))
+  private Set<Country> countries = new LinkedHashSet<>();
+
   @OneToOne(mappedBy = "media")
   private Movie movie;
+
+  @ManyToMany
+  @JoinTable(name = "media_languages",
+      joinColumns = @JoinColumn(name = "mid"),
+      inverseJoinColumns = @JoinColumn(name = "iso_639_1"))
+  private Set<Language> languages = new LinkedHashSet<>();
+
+  @ManyToMany
+  @JoinTable(name = "media_companies",
+      joinColumns = @JoinColumn(name = "mid"),
+      inverseJoinColumns = @JoinColumn(name = "cid"))
+  private Set<Company> companies = new LinkedHashSet<>();
+
+  @OneToMany(mappedBy = "mid")
+  private Set<Review> reviews = new LinkedHashSet<>();
+
+  @ManyToMany
+  @JoinTable(name = "media_genre",
+      joinColumns = @JoinColumn(name = "mid"),
+      inverseJoinColumns = @JoinColumn(name = "gid"))
+  private Set<Genre> genres = new LinkedHashSet<>();
+
+  @OneToOne(mappedBy = "media")
+  private DiscussGroup discussGroup;
+
+  @OneToMany(mappedBy = "mid")
+  private Set<History> histories = new LinkedHashSet<>();
 
   public Integer getId() {
     return id;
@@ -59,6 +113,46 @@ public class Media {
     this.voteCount = voteCount;
   }
 
+  public Integer getRecommend() {
+    return recommend;
+  }
+
+  public void setRecommend(Integer recommend) {
+    this.recommend = recommend;
+  }
+
+  public Integer getUnrecommend() {
+    return unrecommend;
+  }
+
+  public void setUnrecommend(Integer unrecommend) {
+    this.unrecommend = unrecommend;
+  }
+
+  public Set<PeopleMedia> getPeopleMedia() {
+    return peopleMedia;
+  }
+
+  public void setPeopleMedia(Set<PeopleMedia> peopleMedia) {
+    this.peopleMedia = peopleMedia;
+  }
+
+  public Set<User> getUsers() {
+    return users;
+  }
+
+  public void setUsers(Set<User> users) {
+    this.users = users;
+  }
+
+  public Set<Collection> getCollections() {
+    return collections;
+  }
+
+  public void setCollections(Set<Collection> collections) {
+    this.collections = collections;
+  }
+
   public Set<Favourite> getFavourites() {
     return favourites;
   }
@@ -67,12 +161,68 @@ public class Media {
     this.favourites = favourites;
   }
 
+  public Set<Country> getCountries() {
+    return countries;
+  }
+
+  public void setCountries(Set<Country> countries) {
+    this.countries = countries;
+  }
+
   public Movie getMovie() {
     return movie;
   }
 
   public void setMovie(Movie movie) {
     this.movie = movie;
+  }
+
+  public Set<Language> getLanguages() {
+    return languages;
+  }
+
+  public void setLanguages(Set<Language> languages) {
+    this.languages = languages;
+  }
+
+  public Set<Company> getCompanies() {
+    return companies;
+  }
+
+  public void setCompanies(Set<Company> companies) {
+    this.companies = companies;
+  }
+
+  public Set<Review> getReviews() {
+    return reviews;
+  }
+
+  public void setReviews(Set<Review> reviews) {
+    this.reviews = reviews;
+  }
+
+  public Set<Genre> getGenres() {
+    return genres;
+  }
+
+  public void setGenres(Set<Genre> genres) {
+    this.genres = genres;
+  }
+
+  public DiscussGroup getDiscussGroup() {
+    return discussGroup;
+  }
+
+  public void setDiscussGroup(DiscussGroup discussGroup) {
+    this.discussGroup = discussGroup;
+  }
+
+  public Set<History> getHistories() {
+    return histories;
+  }
+
+  public void setHistories(Set<History> histories) {
+    this.histories = histories;
   }
 
 }
