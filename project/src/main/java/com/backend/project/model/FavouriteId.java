@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Embeddable
 public class FavouriteId implements Serializable {
-  private static final long serialVersionUID = -7231660443660037943L;
+  private static final long serialVersionUID = 6210568898629056310L;
   @Column(name = "mid", nullable = false)
   private Integer mid;
 

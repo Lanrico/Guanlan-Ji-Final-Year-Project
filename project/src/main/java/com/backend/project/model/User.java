@@ -34,8 +34,26 @@ public class User {
   @Column(name = "birthday")
   private LocalDate birthday;
 
+  @ManyToMany
+  @JoinTable(name = "recommendation",
+      joinColumns = @JoinColumn(name = "uid"),
+      inverseJoinColumns = @JoinColumn(name = "mid"))
+  private Set<Media> media = new LinkedHashSet<>();
+
   @OneToMany(mappedBy = "uid")
   private Set<Favourite> favourites = new LinkedHashSet<>();
+
+  @OneToMany(mappedBy = "uid")
+  private Set<Discuss> discusses = new LinkedHashSet<>();
+
+  @OneToMany(mappedBy = "uid")
+  private Set<ProfessionalRequest> professionalRequests = new LinkedHashSet<>();
+
+  @OneToMany(mappedBy = "uid")
+  private Set<Review> reviews = new LinkedHashSet<>();
+
+  @OneToMany(mappedBy = "uid")
+  private Set<History> histories = new LinkedHashSet<>();
 
   public Integer getId() {
     return id;
@@ -101,12 +119,52 @@ public class User {
     this.birthday = birthday;
   }
 
+  public Set<Media> getMedia() {
+    return media;
+  }
+
+  public void setMedia(Set<Media> media) {
+    this.media = media;
+  }
+
   public Set<Favourite> getFavourites() {
     return favourites;
   }
 
   public void setFavourites(Set<Favourite> favourites) {
     this.favourites = favourites;
+  }
+
+  public Set<Discuss> getDiscusses() {
+    return discusses;
+  }
+
+  public void setDiscusses(Set<Discuss> discusses) {
+    this.discusses = discusses;
+  }
+
+  public Set<ProfessionalRequest> getProfessionalRequests() {
+    return professionalRequests;
+  }
+
+  public void setProfessionalRequests(Set<ProfessionalRequest> professionalRequests) {
+    this.professionalRequests = professionalRequests;
+  }
+
+  public Set<Review> getReviews() {
+    return reviews;
+  }
+
+  public void setReviews(Set<Review> reviews) {
+    this.reviews = reviews;
+  }
+
+  public Set<History> getHistories() {
+    return histories;
+  }
+
+  public void setHistories(Set<History> histories) {
+    this.histories = histories;
   }
 
 }

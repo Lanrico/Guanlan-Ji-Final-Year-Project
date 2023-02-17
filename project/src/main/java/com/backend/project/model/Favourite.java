@@ -1,6 +1,7 @@
 package com.backend.project.model;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 @Table(name = "favourite")
@@ -20,6 +21,9 @@ public class Favourite {
 
   @Column(name = "`describe`", length = 1000)
   private String describe;
+
+  @Column(name = "time", nullable = false)
+  private Instant time;
 
   public FavouriteId getId() {
     return id;
@@ -51,6 +55,14 @@ public class Favourite {
 
   public void setDescribe(String describe) {
     this.describe = describe;
+  }
+
+  public Instant getTime() {
+    return time;
+  }
+
+  public void setTime(Instant time) {
+    this.time = time;
   }
 
 }

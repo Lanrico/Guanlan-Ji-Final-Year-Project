@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Card, CardContent, CardHeader, Divider, Typography } from '@mui/material';
-
+import CustomShadows from './../themes/shadows';
 // project import
 import Highlighter from './third-party/Highlighter';
 
@@ -13,7 +13,6 @@ const headerSX = {
     p: 2.5,
     '& .MuiCardHeader-action': { m: '0px auto', alignSelf: 'center' }
 };
-
 // ==============================|| CUSTOM - MAIN CARD ||============================== //
 
 const MainCard = forwardRef(
@@ -38,6 +37,7 @@ const MainCard = forwardRef(
     ) => {
         const theme = useTheme();
         boxShadow = theme.palette.mode === 'dark' ? boxShadow || true : boxShadow;
+        const themeCustomShadows = useMemo(() => CustomShadows(theme), [theme]);
 
         return (
             <Card
@@ -49,9 +49,9 @@ const MainCard = forwardRef(
                     border: border ? '1px solid' : 'none',
                     borderRadius: 2,
                     borderColor: theme.palette.mode === 'dark' ? theme.palette.divider : theme.palette.grey.A800,
-                    boxShadow: boxShadow && (!border || theme.palette.mode === 'dark') ? shadow || theme.customShadows.z1 : 'inherit',
+                    boxShadow: boxShadow && (!border || theme.palette.mode === 'dark') ? shadow || themeCustomShadows.z1 : 'inherit',
                     ':hover': {
-                        boxShadow: boxShadow ? shadow || theme.customShadows.z1 : 'inherit'
+                        boxShadow: boxShadow ? shadow || themeCustomShadows.z1 : 'inherit'
                     },
                     '& pre': {
                         m: 0,

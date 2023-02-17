@@ -12,11 +12,10 @@ import SignUpPage from "./pages/signUpPage";
 import MediaRankPage from "./pages/movieRankPage";
 import UserPage from "./pages/userProfilePage";
 import Paperbase from "./examplePages/paperbase/Paperbase";
-import ThemeRoutes from './components/userProfileInfo/routes';
-import MainRoutes from "./components/userProfileInfo/routes/MainRoutes";
 import MainLayout from "./components/userProfileInfo/layout/MainLayout";
 import { Provider } from "react-redux";
 import { store } from './components/userProfileInfo/store';
+import LoginPage from "./pages/loginPage";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -57,6 +56,7 @@ const App = () => {
               <Route path="/medias/movie/:id" element={<MovieDetailPage />} />
               <Route path="/add" element={<AddMedia />} />
               <Route path="/user/:user_id" element={<UserPage />} />
+              <Route path="/login" element={<LoginPage />} />
               <Route path="/example/paperbase" element={<Paperbase />} />
               <Route path="/example/123" element={<MainLayout />} />
               {/* <Route path="/medias/:id" element={<Media />} /> */}
