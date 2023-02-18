@@ -51,8 +51,8 @@ public class Media {
       inverseJoinColumns = @JoinColumn(name = "iso_3166_1"))
   private Set<Country> countries = new LinkedHashSet<>();
 
-  @OneToOne(mappedBy = "media")
-  private Movie movie;
+//  @OneToOne(mappedBy = "media")
+//  private Movie movie;
 
   @ManyToMany
   @JoinTable(name = "media_languages",
@@ -80,6 +80,18 @@ public class Media {
 
   @OneToMany(mappedBy = "mid")
   private Set<History> histories = new LinkedHashSet<>();
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "original_language")
+  private Language originalLanguage;
+
+  public Language getOriginalLanguage() {
+    return originalLanguage;
+  }
+
+  public void setOriginalLanguage(Language originalLanguage) {
+    this.originalLanguage = originalLanguage;
+  }
 
   public Integer getId() {
     return id;
@@ -169,13 +181,13 @@ public class Media {
     this.countries = countries;
   }
 
-  public Movie getMovie() {
-    return movie;
-  }
-
-  public void setMovie(Movie movie) {
-    this.movie = movie;
-  }
+//  public Movie getMovie() {
+//    return movie;
+//  }
+//
+//  public void setMovie(Movie movie) {
+//    this.movie = movie;
+//  }
 
   public Set<Language> getLanguages() {
     return languages;

@@ -16,6 +16,7 @@ import MainLayout from "./components/userProfileInfo/layout/MainLayout";
 import { Provider } from "react-redux";
 import { store } from './components/userProfileInfo/store';
 import LoginPage from "./pages/loginPage";
+import AdminPage from "./pages/adminPage";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -58,8 +59,9 @@ const App = () => {
               <Route path="/user/:user_id" element={<UserPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/example/paperbase" element={<Paperbase />} />
-              <Route path="/example/123" element={<MainLayout />} />
+              {/* <Route path="/example/123" element={<MainLayout />} /> */}
               {/* <Route path="/medias/:id" element={<Media />} /> */}
+              <Route path="/admin/movie" element={<AdminPage />} />
             </Routes>
           </BrowserRouter>
         </Provider>

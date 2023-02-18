@@ -29,8 +29,8 @@ public class MovieController {
     @Autowired
     MovieRepository movieRepository;
 
-    @GetMapping("/homepage")
-    public ResponseEntity<List<Movie>> getAllTutorials(@RequestParam(required = false) String title) {
+    @GetMapping("/movie/all")
+    public ResponseEntity<List<Movie>> getAllMovies(@RequestParam(required = false) String title) {
         try {
             List<Movie> movies = new ArrayList<Movie>();
 
@@ -49,8 +49,8 @@ public class MovieController {
         }
     }
 
-    @GetMapping("/homepage/{id}")
-    public ResponseEntity<Movie> getTutorialById(@PathVariable("id") long id) {
+    @GetMapping("/movie/{id}")
+    public ResponseEntity<Movie> getMovieById(@PathVariable("id") long id) {
         Optional<Movie> movieData = movieRepository.findById(id);
 
         if (movieData.isPresent()) {
@@ -60,23 +60,23 @@ public class MovieController {
         }
     }
 
-    @PostMapping("/homepage")
+    @PostMapping("/movie")
     public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
         try {
             Movie _movie = movieRepository
-                    .save(new Movie());
+                    .save(movie);
             return new ResponseEntity<>(_movie, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping("/homepage/{id}")
-    public ResponseEntity<Movie> updateTutorial(@PathVariable("id") long id, @RequestBody Movie movie) {
-        Optional<Movie> tutorialData = movieRepository.findById(id);
+    @PutMapping("/movie/{id}")
+    public ResponseEntity<Movie> updateMovie(@PathVariable("id") long id, @RequestBody Movie movie) {
+        Optional<Movie> movieData = movieRepository.findById(id);
 
-        if (tutorialData.isPresent()) {
-            Movie _movie = tutorialData.get();
+        if (movieData.isPresent()) {
+            Movie _movie = movieData.get();
             _movie.setOverview(movie.getOverview());
             _movie.setReleaseDate(movie.getReleaseDate());
             _movie.setTitle(movie.getTitle());
@@ -86,8 +86,8 @@ public class MovieController {
         }
     }
 
-    @DeleteMapping("/homepage/{id}")
-    public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") long id) {
+    @DeleteMapping("/movie/{id}")
+    public ResponseEntity<HttpStatus> deleteMovie(@PathVariable("id") long id) {
         try {
             movieRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -96,15 +96,15 @@ public class MovieController {
         }
     }
 
-    @DeleteMapping("/homepage")
-    public ResponseEntity<HttpStatus> deleteAllTutorials() {
-        try {
-            movieRepository.deleteAll();
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
+//    @DeleteMapping("/movie")
+//    public ResponseEntity<HttpStatus> deleteAllMovies() {
+//        try {
+//            movieRepository.deleteAll();
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//
+//    }
 
 }

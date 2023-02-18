@@ -17,6 +17,7 @@ public class Language {
   @Column(name = "name", nullable = false, length = 20)
   private String name;
 
+
   @ManyToMany
   @JoinTable(name = "media_languages",
       joinColumns = @JoinColumn(name = "iso_639_1"),

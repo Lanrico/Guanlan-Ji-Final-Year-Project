@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import MediaDataService from "../services/mediaService";
+import MovieDataService from "../api/movieService";
 
 export default class AddMedia extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ export default class AddMedia extends Component {
     this.state = {
       id: null,
       title: "",
-      overview: "", 
+      overview: "",
       release_date: "",
       poster_path: "",
 
@@ -54,7 +54,7 @@ export default class AddMedia extends Component {
       poster_path: this.state.poster_path
     };
 
-    MediaDataService.create(data)
+    MovieDataService.create(data)
       .then(response => {
         this.setState({
           id: response.data.id,
