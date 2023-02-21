@@ -1,4 +1,10 @@
 package com.backend.project.repository;
 
-public interface CollectionRepository extends org.springframework.data.jpa.repository.JpaRepository<com.backend.project.model.Collection, java.lang.Integer> {
+import com.backend.project.model.Collection;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface CollectionRepository extends JpaRepository<Collection, Integer> {
+  Optional<Collection> findByTmdbId(int tmdb_id);
 }

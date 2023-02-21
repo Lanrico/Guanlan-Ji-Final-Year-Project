@@ -1,5 +1,7 @@
 package com.backend.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -11,10 +13,11 @@ public class Genre {
   @Column(name = "id", nullable = false)
   private Integer id;
 
-  @Column(name = "name", nullable = false, length = 10)
+  @Column(name = "name", nullable = false, length = 100)
   private String name;
 
   @ManyToMany
+  @JsonIgnore
   @JoinTable(name = "media_genre",
       joinColumns = @JoinColumn(name = "gid"),
       inverseJoinColumns = @JoinColumn(name = "mid"))

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.backend.project.model.Media;
 import com.backend.project.model.Movie;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,81 +22,142 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.project.repository.MovieRepository;
+import com.backend.project.repository.MediaRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class MovieController {
 
-    @Autowired
-    MovieRepository movieRepository;
+  @Autowired
+  MovieRepository movieRepository;
+  @GetMapping("/movie/all")
+  public ResponseEntity<List<Movie>> getAllMovies(@RequestParam(required = false) String originalTitle) {
+    try {
+      List<Movie> movies = new ArrayList<Movie>();
 
-    @GetMapping("/movie/all")
-    public ResponseEntity<List<Movie>> getAllMovies(@RequestParam(required = false) String title) {
-        try {
-            List<Movie> movies = new ArrayList<Movie>();
+      if (originalTitle == null)
+        movieRepository.findAll().forEach(movies::add);
+      else
+        movieRepository.findByOriginalTitleContaining(originalTitle).forEach(movies::add);
 
-            if (title == null)
-                movieRepository.findAll().forEach(movies::add);
-            else
-                movieRepository.findByTitleContaining(title).forEach(movies::add);
+      if (movies.isEmpty()) {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      }
 
-            if (movies.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(movies, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+      return new ResponseEntity<>(movies, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
 
-    @GetMapping("/movie/{id}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable("id") long id) {
-        Optional<Movie> movieData = movieRepository.findById(id);
+  @GetMapping("/movie/{id}")
+  public ResponseEntity<Movie> getMovieById(@PathVariable("id") int id) {
+    Optional<Movie> movieData = movieRepository.findById(id);
 
+    if (movieData.isPresent()) {
+      return new ResponseEntity<>(movieData.get(), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
+
+//    @PostMapping("/movie")
+//    public ResponseEntity<List<Movie>> createMovie(@RequestBody List<Movie> movieList) {
+//        try {
+//            for (Movie m: movieList) {
+//                Optional<Movie> movieData = movieRepository.findById(Long.valueOf(m.getId()));
+//                if(movieData.isPresent()){
+//                    Movie _movie = movieData.get();
+//                    _movie.setAdult(m.getAdult());
+//                    _movie.setId(m.getId());
+//                    _movie.setVideo(m.getVideo());
+//                    _movie.setTmdbId(m.getTmdbId());
+//                    _movie.setOriginalTitle(m.getOriginalTitle());
+//                    _movie.setMedia(m.getMedia());
+//                    Movie __movie = movieRepository.save(_movie);
+//                }else {
+//                    Movie _movie = movieRepository
+//                        .save(m);
+//                }
+//            }
+//
+//            return new ResponseEntity<>(movieList, HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+
+
+  @PostMapping("/movie")
+  public List<Movie> createMovies(@RequestBody List<Movie> movieList) {
+//        try {
+    for (Movie m : movieList) {
+        Optional<Movie> movieData = movieRepository.findByTmdbId(m.getTmdbId());
         if (movieData.isPresent()) {
-            return new ResponseEntity<>(movieData.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+          Movie _movie = movieData.get();
+          int mid = _movie.getMedia().getId();
+//          System.out.println(mid);
+//          Optional<Media> mediaData = Optional.ofNullable(mediaRepository.findById(122));
+          System.out.println("Modify");
+//          Media _media = mediaData.get();
+          _movie.setImdbId(m.getImdbId());
+          _movie.setOverview(m.getOverview());
+          _movie.setReleaseDate(m.getReleaseDate());
+          _movie.setPosterPath(m.getPosterPath());
+          _movie.setBudget(m.getBudget());
+          _movie.setHomepage(m.getHomepage());
+          _movie.setOriginalLanguage(m.getOriginalLanguage());
+          _movie.setTitle(m.getTitle());
+          _movie.setTagline(m.getTagline());
+          _movie.setStatus(m.getStatus());
+          _movie.setRuntime(m.getRuntime());
+          _movie.setRevenue(m.getRevenue());
+          _movie.setAdult(m.getAdult());
+          _movie.setVideo(m.getVideo());
+          _movie.setOriginalTitle(m.getOriginalTitle());
+//          _movie.setMedia(m.getMedia());
+//          _media.setType(m.getMedia().getType());
+
+          Movie __movie = movieRepository.save(_movie);
         }
+       else {
+        Movie _movie = movieRepository
+            .save(m);
+      }
     }
 
-    @PostMapping("/movie")
-    public ResponseEntity<Movie> createMovie(@RequestBody Movie movie) {
-        try {
-            Movie _movie = movieRepository
-                    .save(movie);
-            return new ResponseEntity<>(_movie, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    return movieList;
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+  }
 
-    @PutMapping("/movie/{id}")
-    public ResponseEntity<Movie> updateMovie(@PathVariable("id") long id, @RequestBody Movie movie) {
-        Optional<Movie> movieData = movieRepository.findById(id);
+  @PutMapping("/movie/{id}")
+  public ResponseEntity<Movie> updateMovie(@PathVariable("id") int id, @RequestBody Movie movie) {
+    Optional<Movie> movieData = movieRepository.findById(id);
 
-        if (movieData.isPresent()) {
-            Movie _movie = movieData.get();
-            _movie.setOverview(movie.getOverview());
-            _movie.setReleaseDate(movie.getReleaseDate());
-            _movie.setTitle(movie.getTitle());
-            return new ResponseEntity<>(movieRepository.save(_movie), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    if (movieData.isPresent()) {
+      Movie _movie = movieData.get();
+//            _movie.setOverview(movie.getOverview());
+//            _movie.setReleaseDate(movie.getReleaseDate());
+//            _movie.setTitle(movie.getTitle());
+      return new ResponseEntity<>(movieRepository.save(_movie), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+  }
 
-    @DeleteMapping("/movie/{id}")
-    public ResponseEntity<HttpStatus> deleteMovie(@PathVariable("id") long id) {
-        try {
-            movieRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+  @DeleteMapping("/movie/{id}")
+  public ResponseEntity<HttpStatus> deleteMovie(@PathVariable("id") int id) {
+    try {
+      movieRepository.deleteById(id);
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
 
 //    @DeleteMapping("/movie")
 //    public ResponseEntity<HttpStatus> deleteAllMovies() {

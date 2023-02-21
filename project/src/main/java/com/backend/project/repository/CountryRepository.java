@@ -1,4 +1,7 @@
 package com.backend.project.repository;
 
-public interface CountryRepository extends org.springframework.data.jpa.repository.JpaRepository<com.backend.project.model.Country, java.lang.String> {
+import com.backend.project.model.Country;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CountryRepository extends JpaRepository<Country, String> {
 }

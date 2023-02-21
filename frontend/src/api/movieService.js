@@ -2,7 +2,7 @@ import http from "../http-common";
 
 class MovieDataService {
   getAll() {
-    return http.get("/movie");
+    return http.get("/movie/all");
   }
 
   get(id) {

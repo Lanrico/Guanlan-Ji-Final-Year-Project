@@ -1,4 +1,7 @@
 package com.backend.project.repository;
 
-public interface GenreRepository extends org.springframework.data.jpa.repository.JpaRepository<com.backend.project.model.Genre, java.lang.Integer> {
+import com.backend.project.model.Genre;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GenreRepository extends JpaRepository<Genre, Integer> {
 }
