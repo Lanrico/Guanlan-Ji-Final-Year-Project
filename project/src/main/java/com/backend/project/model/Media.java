@@ -60,7 +60,7 @@ public class Media {
   private Set<Country> countries = new LinkedHashSet<>();
 
   @OneToOne(mappedBy = "media")
-  @JsonIgnore
+//  @JsonIgnore
   private Movie movie;
 
   @ManyToMany

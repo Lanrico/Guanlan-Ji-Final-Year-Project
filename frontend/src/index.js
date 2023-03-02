@@ -17,6 +17,7 @@ import { Provider } from "react-redux";
 import { store } from './components/userProfileInfo/store';
 import LoginPage from "./pages/loginPage";
 import AdminPage from "./pages/adminPage";
+import MediaContextProvider from "./context/MediaContextProvider";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -49,20 +50,22 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/homepage" element={<HomePage />} />
-              <Route path="/ranking/:media_type" element={<MediaRankPage />} />
-              <Route path="/register" element={<SignUpPage />} />
-              <Route path="/medias/movie/:id" element={<MovieDetailPage />} />
-              <Route path="/add" element={<AddMedia />} />
-              <Route path="/user/:user_id" element={<UserPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/example/paperbase" element={<Paperbase />} />
-              {/* <Route path="/example/123" element={<MainLayout />} /> */}
-              {/* <Route path="/medias/:id" element={<Media />} /> */}
-              <Route path="/admin/movie" element={<AdminPage />} />
-            </Routes>
+            <MediaContextProvider>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/homepage" element={<HomePage />} />
+                <Route path="/ranking/:media_type/:page/:filter?" element={<MediaRankPage />} />
+                <Route path="/register" element={<SignUpPage />} />
+                <Route path="/medias/movie/:id" element={<MovieDetailPage />} />
+                <Route path="/add" element={<AddMedia />} />
+                <Route path="/user/:user_id" element={<UserPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/example/paperbase" element={<Paperbase />} />
+                {/* <Route path="/example/123" element={<MainLayout />} /> */}
+                {/* <Route path="/medias/:id" element={<Media />} /> */}
+                <Route path="/admin/movie" element={<AdminPage />} />
+              </Routes>
+            </MediaContextProvider>
           </BrowserRouter>
         </Provider>
       </ThemeProvider>

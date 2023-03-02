@@ -1,5 +1,5 @@
-import { Grid, Link, Typography, useTheme } from "@mui/material";
-import React, { useState } from "react";
+import { Button, Grid, Link, Typography, useTheme } from "@mui/material";
+import React, { useContext, useState } from "react";
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,6 +7,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import { useQuery } from "react-query";
 
 import Poster from '../images/WebsiteLogo300-removebg.png';
 import LoginBlock from "../components/loginBlock";
@@ -14,27 +15,34 @@ import PageTemplate from "../components/pageTemplate";
 import MediasBar from "../components/mediasBar";
 import HpRankList from "../components/hpRankList";
 import movies from "../sampleData/movies";
+import movieService from "../api/movieService";
+import Spinner from "../components/spinner";
+import { MediaContext } from "../context/MediaContextProvider";
 const HomePage = (props) => {
+  const movieContext = useContext(MediaContext);
   const [value, setValue] = useState('1');
   const theme = useTheme();
-  // const { data, error, isLoading, isError } = useQuery(
-  //   "medias", MediaDataService.getAll
-  // )
-  // if (isLoading) {
-  //   return <Spinner />
-  // }
-  // if (isError) {
-  //   return <h1>{error.message}</h1>
-  // }
-  // const medias = data.data;
-  const medias = movies.slice(0, 4);
+  const { data, error, isLoading, isError } = useQuery(
+    ["trendingMovie4", { pageSize: 4, page: 0 }], movieService.getTopTrending
+  )
+  if (isLoading) {
+    return <Spinner />
+  }
+  if (isError) {
+    return <h1>{error.message}</h1>
+  }
+  const medias = data.data.content;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const handleSubmitButton1 = () => {
+    console.log(movieContext.movieFilter)
+  }
   return (
     <PageTemplate>
+      <Button fullWidth onClick={handleSubmitButton1} >context checker</Button>
+
       <Card sx={{ display: 'flex', height: 330 }} elevation={1}>
         <CardMedia
           component="img"

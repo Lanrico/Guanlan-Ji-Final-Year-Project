@@ -9,6 +9,8 @@ const MediaDetailRateBlock = (props) => {
   const scoreConverter = (score) => {
     return Math.ceil(score) / 2;
   }
+  const recommend = 1230 //props.media.recommend;
+  const unrecommend = 237 //props.media.unrecommend;
   const labels = {
     0.5: 'Terrible',
     1: 'Terrible+',
@@ -25,7 +27,7 @@ const MediaDetailRateBlock = (props) => {
   const data = {
     datasets: [
       {
-        data: [63, 37],
+        data: [recommend, unrecommend],
         backgroundColor: [green[500], red[500]],
         borderWidth: 8,
         borderColor: '#FFFFFF',
@@ -49,13 +51,13 @@ const MediaDetailRateBlock = (props) => {
   const recommendRate = [
     {
       title: 'Good',
-      value: 63,
+      value: (recommend * 100 / (recommend + unrecommend)).toFixed(0),
       icon: ThumbUpOffAltIcon,
       color: green[500]
     },
     {
       title: 'Bad',
-      value: 37,
+      value: (unrecommend * 100 / (recommend + unrecommend)).toFixed(0),
       icon: ThumbDownOffAltIcon,
       color: red[500]
     }
@@ -65,9 +67,9 @@ const MediaDetailRateBlock = (props) => {
   return (
     <Paper sx={{ height: "250px", padding: "10%" }} >
       <Grid sx={{ display: "flex", justifyContent: "center" }}>
-        <Avatar sx={{ bgcolor: green[500], width: 50, height: 50 }}>{props.media.vote_average.toFixed(1)}</Avatar>
+        <Avatar sx={{ bgcolor: green[500], width: 50, height: 50 }}>{props.media.rate.toFixed(1)}</Avatar>
         <Grid>
-          <Typography variant={"h5"} sx={{ padding: "10px 0 0 10px" }}>{labels[scoreConverter(props.media.vote_average + 0.001)]}</Typography>
+          <Typography variant={"h5"} sx={{ padding: "10px 0 0 10px" }}>{labels[scoreConverter(props.media.rate + 0.001)]}</Typography>
         </Grid>
       </Grid>
       <Grid pt={1}>
@@ -81,7 +83,7 @@ const MediaDetailRateBlock = (props) => {
           align="right"
           fontSize={1}
           color="text.secondary">
-          Voted by {props.media.vote_count} users
+          Voted by {props.media.voteCount} users
         </Typography>
       </Grid>
       <Divider></Divider>

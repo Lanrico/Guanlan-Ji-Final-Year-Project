@@ -13,7 +13,7 @@ public class Movie {
   private Integer id;
 
   @MapsId
-//  @JsonIgnore
+  @JsonIgnore
   @OneToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "mid", nullable = false)
   private Media media;

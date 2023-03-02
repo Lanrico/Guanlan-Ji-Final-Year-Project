@@ -3,16 +3,16 @@ import React from "react";
 
 const MediasBarCard = ({ item }) => {
 
-
+  console.log(item)
   return (
-    <Grid key={item.id} item xs={3}>
-      <Link href={`/medias/movie/${item.id}`}>
-        <ImageListItem key={item.id} style={{ width: "90%" }}>
+    <Grid key={item.movie.id} item xs={3}>
+      <Link href={`/medias/movie/${item.movie.id}`}>
+        <ImageListItem key={item.movie.id} style={{ width: "90%" }}>
           <img
             src={
-              item.poster_path
-                ? `https://image.tmdb.org/t/p/w500/${item.poster_path}`
-                : `../images/film-poster-placeholder.png`
+              item.movie.posterPath
+                ? `https://image.tmdb.org/t/p/w500/${item.movie.posterPath}`
+                : `../../images/film-poster-placeholder.png`
             }
             alt={item.title}
             loading="lazy"
@@ -23,12 +23,12 @@ const MediasBarCard = ({ item }) => {
                 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, ' +
                 'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
             }}
-            title={item.title}
+            title={item.movie.title}
             position="bottom"
             actionIcon={
               <IconButton
                 sx={{ color: 'white' }}
-                aria-label={`star ${item.title}`}
+                aria-label={`star ${item.movie.title}`}
               >
               </IconButton>
             }

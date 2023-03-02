@@ -1,13 +1,20 @@
 package com.backend.project.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.backend.project.model.Media;
 import com.backend.project.model.Movie;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,26 +39,87 @@ public class MediaController {
   @Autowired
   MediaRepository mediaRepository;
 
-  @GetMapping("/media")
-  public Media getMedia() {
-//        try {
-    Optional<Media> mediaData = Optional.ofNullable(mediaRepository.findById(130));
-    return mediaData.get();
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
+  @GetMapping("/media/{id}")
+  public ResponseEntity<Media> getMediaById(@PathVariable("id") Integer id) {
+    try {
+      Optional<Media> mediaData = mediaRepository.findById(id);
+      if (mediaData.isPresent()) {
+        return new ResponseEntity<>(mediaData.get(), HttpStatus.OK);
+      }
+      else {
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+      }
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
   }
 
-  public String updateMedia(int mid, String type) {
-    Optional<Media> mediaData = Optional.ofNullable(mediaRepository.findById(122));
-    if (mediaData.isPresent()){
-      Media _media = mediaData.get();
-      _media.setType(type);
-      return "success";
+  @GetMapping("/media/top/{property}/{type}")
+  public ResponseEntity<Page<Media>> findTrendingMedia(
+      @PathVariable("type") String type,
+      @PathVariable("property") String property,
+      @RequestParam(required = false) String pageSize,
+      @RequestParam(required = false) String page,
+      @RequestParam(required = false) String order,
+      @RequestParam(required = false) String genres,
+      @RequestParam(required = false) String startDate,
+      @RequestParam(required = false) String endDate,
+      @RequestParam(required = false) String language,
+      @RequestParam(required = false) Double minRate,
+      @RequestParam(required = false) Double maxRate,
+      @RequestParam(required = false) Integer minRuntime,
+      @RequestParam(required = false) Integer maxRuntime
+  ) {
+    try {
+      int size = pageSize == null ? 20 : Integer.parseInt(pageSize);
+      int pageNumber = page == null ? 0 : Integer.parseInt(page);
+      String typeCode;
+      Pageable pageable;
+      List<Integer> genresList = new ArrayList<>();
+      if(genres != null) {
+        List<String> tmp = Arrays.asList(genres.split("and"));
+        genresList = tmp.stream().map(Integer::parseInt).collect(Collectors.toList());
+      }
+    LocalDate startDate1 = startDate != null ? LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd-MM-yyyy")) : null;
+    LocalDate endDate1 = endDate != null ? LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd-MM-yyyy")) : null;
+    System.out.println(startDate);
+//    Sort sort = new Sort("qwe");
+      if (order == null) {
+        pageable = PageRequest.of(pageNumber, size, Sort.by(property).descending());
+      } else {
+        switch (order) {
+          case "asc":
+            pageable = PageRequest.of(pageNumber, size, Sort.by(property).ascending());
+            break;
+          case "desc":
+            pageable = PageRequest.of(pageNumber, size, Sort.by(property).descending());
+            break;
+          default:
+            pageable = PageRequest.of(pageNumber, size, Sort.by(property).descending());
+            break;
+        }
+      }
+      if (type == null) {
+        typeCode = "0";
+      } else {
+        switch (type) {
+          case "game":
+            typeCode = "1";
+            break;
+          case "music":
+            typeCode = "2";
+            break;
+          default:
+            typeCode = "0";
+            break;
+        }
+      }
+    Specification<Media> spec = MediaSpecification.findMovieByCriteria(genresList, startDate1, endDate1, language, minRate, maxRate, minRuntime, maxRuntime, typeCode);
+//    return new ResponseEntity<>(mediaRepository.findAllByType(pageable, typeCode, spec), HttpStatus.OK);
+    return new ResponseEntity<>(mediaRepository.findAll(spec, pageable), HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
-    else {
-      return "fail";
-    }
-
   }
+
 }

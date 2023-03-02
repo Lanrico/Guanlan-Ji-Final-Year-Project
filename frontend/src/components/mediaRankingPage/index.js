@@ -3,9 +3,12 @@ import PageTemplate from "../pageTemplate"
 import { capitalizeFirstLowercaseRest } from "../../util";
 import RankingList from "../RankingList";
 import SortCard from "../sort/sortCard";
-import FilterCard from "../filterCard";
+import SortAndFilterCard from "../sortAndFilterCard";
+import { useParams } from "react-router-dom";
 const MediaRankingPage = (props) => {
   const media_type = capitalizeFirstLowercaseRest(props.media_type)
+  const { page } = useParams();
+
   return (
     <PageTemplate>
       <Grid container spacing={1}>
@@ -13,11 +16,11 @@ const MediaRankingPage = (props) => {
           <Typography variant="h5" mt={2} ml={2}>
             All {media_type}s
           </Typography>
-          <RankingList />
+          <RankingList page={page} />
         </Grid>
         <Grid sx={{ paddingX: 1, paddingY: 5 }} xs={4}>
-          <SortCard />
-          <FilterCard />
+          {/* <SortCard /> */}
+          <SortAndFilterCard media_type={media_type} />
         </Grid>
       </Grid>
     </PageTemplate >

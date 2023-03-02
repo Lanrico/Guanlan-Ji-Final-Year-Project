@@ -6,7 +6,7 @@ import MediaInfoList from "../mediaInfoList";
 import PageTemplate from "../pageTemplate"
 
 const MediaPageTemplate = (props) => {
-
+  console.log(props.media)
   return (
     <PageTemplate>
       {props.media_type === "movie" ? (
@@ -35,8 +35,8 @@ const MediaPageTemplate = (props) => {
           }}>
             <Paper>
               <img
-                src={`https://image.tmdb.org/t/p/w500/${props.media.poster_path}`}
-                alt={props.media.title}
+                src={`https://image.tmdb.org/t/p/w500/${props.media[props.media_type].posterPath}`}
+                alt={props.media.movie.title}
                 loading="lazy"
                 width={'99%'}
               />
@@ -52,7 +52,7 @@ const MediaPageTemplate = (props) => {
           <Grid container spacing={1}>
             <Grid item xs={9}>
               <Typography variant="body1" component="p">
-                {props.media.overview}
+                {props.media[props.media_type].overview}
               </Typography>
             </Grid>
             <Grid item xs={3}>

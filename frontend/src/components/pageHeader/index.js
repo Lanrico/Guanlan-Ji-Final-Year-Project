@@ -177,7 +177,7 @@ const PageHeader = (props) => {
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <MyButtonGroup variant="text" color="inherit" style={{ color: 'grey' }}>
               <MenuButton title="Game" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["/ranking/game", "", ""]} />
-              <MenuButton title="Movie" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["/ranking/movie", "", ""]} />
+              <MenuButton title="Movie" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["/ranking/movie/1", "", ""]} />
               <MenuButton title="Music" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["/ranking/music", "", ""]} />
             </MyButtonGroup>
           </Box>

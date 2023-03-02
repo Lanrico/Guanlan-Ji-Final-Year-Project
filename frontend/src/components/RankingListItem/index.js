@@ -2,6 +2,7 @@ import { Chip, Divider, Link, ListItem, ListItemAvatar, ListItemSecondaryAction,
 import { yellow } from "@mui/material/colors"
 import React from "react"
 import genres from "../../sampleData/genres"
+import placeholder from "../../images/film-poster-placeholder.png"
 
 const RankingListItem = (props) => {
   return (
@@ -9,8 +10,8 @@ const RankingListItem = (props) => {
       <ListItem alignItems="flex-start">
         <ListItemAvatar sx={{ marginRight: 1 }}>
           <img
-            src={`https://image.tmdb.org/t/p/w500/${props.media.poster_path}`}
-            alt={props.media.title}
+            src={props.media.movie.posterPath ? `https://image.tmdb.org/t/p/w500/${props.media.movie.posterPath}` : placeholder}
+            alt={props.media.movie.title}
             loading="lazy"
             width={80}
           />
@@ -29,11 +30,11 @@ const RankingListItem = (props) => {
             <React.Fragment>
               <div style={{ display: "flex" }}>
                 <Link href={`/medias/movie/${props.media.id}`} underline="none">
-                  <Typography mr={1}> {props.media.title}</Typography>
+                  <Typography noWrap mr={1}> {props.media.movie.title}</Typography>
                 </Link>
                 {
-                  props.media.original_title && props.media.original_language !== "en" ? (
-                    <Typography color="text.secondary">{props.media.original_title}</Typography>
+                  props.media.movie.originalTitle && props.media.movie.originalLanguage !== "en" ? (
+                    <Typography noWrap color="text.secondary">{props.media.movie.originalTitle}</Typography>
                   ) : (
                     null
                   )
@@ -45,9 +46,9 @@ const RankingListItem = (props) => {
           secondary={
             <React.Fragment>
               <div style={{ display: "flex", marginTop: 5 }}>
-                {props.media.release_date}
+                {props.media.movie.releaseDate}
                 {genres.genres.map((m) => {
-                  if (props.media.genre_ids.find((n) => n === m.id)) {
+                  if (props.media.genres.find((n) => n.id === m.id)) {
                     return ' / ' + m.name
                   }
                   else {
@@ -56,15 +57,15 @@ const RankingListItem = (props) => {
                 })}
               </div>
               <Typography variant="body2" noWrap mt={"5px"}>
-                {props.media.overview}
+                {props.media.movie.overview}
               </Typography>
               <div style={{ display: "flex", marginTop: 5 }}>
-                <Rating value={props.media.vote_average / 2} precision={0.1} readOnly size="small" />
+                <Rating value={props.media.rate / 2} precision={0.1} readOnly size="small" />
                 <Typography color={yellow[800]} fontSize={"small"} ml={1}>
-                  {props.media.vote_average}
+                  {props.media.rate}
                 </Typography>
                 <Typography fontSize={"small"} ml={1}>
-                  ({props.media.vote_count} users)
+                  ({props.media.voteCount} users)
                 </Typography>
               </div>
             </React.Fragment>

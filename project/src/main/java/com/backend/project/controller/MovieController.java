@@ -8,6 +8,9 @@ import com.backend.project.model.Media;
 import com.backend.project.model.Movie;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,6 +34,9 @@ public class MovieController {
 
   @Autowired
   MovieRepository movieRepository;
+  @Autowired
+  private MediaRepository mediaRepository;
+
   @GetMapping("/movie/all")
   public ResponseEntity<List<Movie>> getAllMovies(@RequestParam(required = false) String originalTitle) {
     try {
@@ -169,5 +175,7 @@ public class MovieController {
 //        }
 //
 //    }
+
+
 
 }

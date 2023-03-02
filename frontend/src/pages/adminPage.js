@@ -3,7 +3,7 @@ import PageTemplate from "../components/pageTemplate";
 import { useQuery } from "react-query";
 import { getAllMovies, getMovies } from "../api/tmdb-api";
 import { useState } from "react";
-import allMovies from './../sampleData/movie_ids_02_18_2023.json'
+// import allMovies from './../sampleData/movie_ids_02_18_2023.json'
 // import allCollections from './../sampleData/collection_ids_02_18_2023.json'
 // import allCompanies from './../sampleData/production_company_ids_02_18_2023.json'
 import movieService from "../api/movieService";
@@ -29,7 +29,7 @@ const AdminPage = (props) => {
   //   return <h1>{error.message}</h1>;
   // }
   const AddMovieButton = () => {
-    addMovieDetailedListByMovieList(cleanMovieData(allMovies))
+    // addMovieDetailedListByMovieList(cleanMovieData(allMovies))
   }
 
   const ImportMovieButton = () => {

@@ -19,6 +19,9 @@ const FilterCardCheckbox = (props) => {
     // />
     <Checkbox
       {...label}
+      value={props.value}
+      // defaultChecked={props.checked}
+      onChange={props.onChange}
       icon={
         <Chip variant="outlined" label={props.text} />
       } checkedIcon={
