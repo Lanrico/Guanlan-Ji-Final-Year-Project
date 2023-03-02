@@ -7,7 +7,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import HomePage from "./pages/homePage";
-import MovieDetailPage from "./pages/movieDetailPage";
+import MovieDetailPage from "./pages/MovieDetailPage";
 import SignUpPage from "./pages/signUpPage";
 import MediaRankPage from "./pages/movieRankPage";
 import UserPage from "./pages/userProfilePage";
