@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import com.backend.project.model.Media;
 import com.backend.project.model.Movie;
 
+import com.backend.project.model.Review;
+import com.backend.project.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,6 +46,8 @@ public class MediaController {
     try {
       Optional<Media> mediaData = mediaRepository.findById(id);
       if (mediaData.isPresent()) {
+        Media media = mediaData.get();
+        media.setReviews(null);
         return new ResponseEntity<>(mediaData.get(), HttpStatus.OK);
       }
       else {
@@ -116,7 +120,11 @@ public class MediaController {
       }
     Specification<Media> spec = MediaSpecification.findMovieByCriteria(genresList, startDate1, endDate1, language, minRate, maxRate, minRuntime, maxRuntime, typeCode);
 //    return new ResponseEntity<>(mediaRepository.findAllByType(pageable, typeCode, spec), HttpStatus.OK);
-    return new ResponseEntity<>(mediaRepository.findAll(spec, pageable), HttpStatus.OK);
+      Page<Media> mediaList = mediaRepository.findAll(spec, pageable);
+      for (Media m:mediaList) {
+        m.setReviews(null);
+      }
+      return new ResponseEntity<>(mediaList, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }

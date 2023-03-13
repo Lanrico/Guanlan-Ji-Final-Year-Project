@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -14,28 +14,32 @@ import { purple } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import { Snackbar } from '@mui/material';
 import Alert from "@mui/material/Alert";
+
+import { AuthContext } from "../../context/authContext";
+import userService from "../../api/userService";
+import { auth } from "../../firebase";
+
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function LoginBlock() {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openFail, setOpenFail] = useState(false);
-  const [login, setLogin] = useState(false);
   const [userName, setUserName] = useState("");
   const theme = useTheme();
-  const firebaseConfig = {
-    apiKey: "AIzaSyB_opQz9NSfRrPLhwc9yvckrDv4mSinUxI",
-    authDomain: "final-year-project-jgl.firebaseapp.com",
-    projectId: "final-year-project-jgl",
-    storageBucket: "final-year-project-jgl.appspot.com",
-    messagingSenderId: "1082745032013",
-    appId: "1:1082745032013:web:01781659139f87f093fb04",
-    measurementId: "G-0E0943XPMF"
-  };
+  // const firebaseConfig = {
+  //   apiKey: "AIzaSyB_opQz9NSfRrPLhwc9yvckrDv4mSinUxI",
+  //   authDomain: "final-year-project-jgl.firebaseapp.com",
+  //   projectId: "final-year-project-jgl",
+  //   storageBucket: "final-year-project-jgl.appspot.com",
+  //   messagingSenderId: "1082745032013",
+  //   appId: "1:1082745032013:web:01781659139f87f093fb04",
+  //   measurementId: "G-0E0943XPMF"
+  // };
 
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  // const app = initializeApp(firebaseConfig);
+  // const auth = getAuth(app);
+  const context = useContext(AuthContext);
   const handleSubmit = (event) => {
     const data = new FormData(event.currentTarget);
     signInWithEmailAndPassword(auth, data.get('email'), data.get('password'))
@@ -44,8 +48,12 @@ export default function LoginBlock() {
         const user = userCredential.user;
         console.log(user)
         setOpenSuccess(true);
-        setLogin(true);
         setUserName(user.email);
+        userService.getByEmail(user.email)
+          .then((response) => {
+            console.log(response.data)
+            context.signIn(response.data)
+          })
         // ...
       })
       .catch((error) => {
@@ -58,7 +66,7 @@ export default function LoginBlock() {
     setOpenSuccess(false);
   };
   const handleLogout = (event) => {
-    setLogin(false);
+    context.signOut()
   };
   const handleFailSnackClose = (event) => {
     setOpenFail(false);
@@ -102,7 +110,7 @@ export default function LoginBlock() {
           </Typography>
         </Alert>
       </Snackbar>
-      <Container component="main" maxWidth="xs" sx={login ? { display: "none" } : null}>
+      <Container component="main" maxWidth="xs" sx={context.isAuthenticated ? { display: "none" } : null}>
         <CssBaseline />
         <Box
           sx={{
@@ -138,7 +146,7 @@ export default function LoginBlock() {
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me for 30 days"
+              label="Keep me sign in"
             />
             <ColorButton
               type="submit"
@@ -158,7 +166,7 @@ export default function LoginBlock() {
           </Box>
         </Box>
       </Container>
-      <Container sx={login ? null : { display: "none" }} >
+      <Container sx={context.isAuthenticated ? null : { display: "none" }} >
         <Typography textAlign={'center'} variant="h4" >
           Welcome,
           <br></br>
@@ -168,7 +176,7 @@ export default function LoginBlock() {
           fullWidth
           onClick={handleLogout}
           variant="contained"
-          sx={{ mt: 3, mb: 2, bgcolor: purple[500] }}
+          sx={{ mt: 3, mb: 2 }}
         >
           Logout
         </ColorButton>

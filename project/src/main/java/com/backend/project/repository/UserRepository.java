@@ -1,4 +1,10 @@
 package com.backend.project.repository;
 
-public interface UserRepository extends org.springframework.data.jpa.repository.JpaRepository<com.backend.project.model.User, java.lang.Integer> {
+import com.backend.project.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
+  Optional<User> findByEmail(String email);
 }

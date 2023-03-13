@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -14,9 +14,14 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import SimpleLogo from '../../images/SimpleLogo.png';
-import { Button, ButtonGroup, Grid } from "@mui/material";
+import { Avatar, Button, ButtonGroup, Grid } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import MenuButton from "../menuButton";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
+import AvatarDemo from "../../images/AvatarDemo.jpg"
+import MyButtonMenu from "../myButtonMenu";
 
 const MyButtonGroup = styled(ButtonGroup)(({ theme }) => ({
   // color: theme.palette.grey,
@@ -67,10 +72,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 const PageHeader = (props) => {
-
+  const authContext = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  const [avatarMenuOpen, setAvatarMenuOpen] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -80,6 +85,14 @@ const PageHeader = (props) => {
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
+  };
+
+  const handleAvatarClick = (event) => {
+    setAvatarMenuOpen(event.currentTarget);
+  };
+
+  const handleAvatarClose = () => {
+    setAvatarMenuOpen(null);
   };
 
   const handleMenuClose = () => {
@@ -204,12 +217,44 @@ const PageHeader = (props) => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Button variant="contained" href="/login">
-            Sign in
-          </Button>
-          <Button variant="outlined" href="/register">
-            Sign up
-          </Button>
+          {
+            authContext.isAuthenticated ? (
+              <>
+                {/* <IconButton onClick={handleAvatarClick}>
+                  <Avatar src={AvatarDemo}>
+                  </Avatar>
+                </IconButton>
+                <Menu
+                  anchorEl={avatarMenuOpen}
+                  keepMounted
+                  open={Boolean(avatarMenuOpen)}
+                  onClose={handleAvatarClose}
+                >
+                  <MenuItem color="primary" onClick={handleAvatarClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleAvatarClose}>My account</MenuItem>
+                  <MenuItem onClick={handleAvatarClose}>Logout</MenuItem>
+                </Menu> */}
+                <MyButtonMenu items={[
+                  { title: "Profile", link: `/user/${authContext.userProfile.id}` },
+                  { title: "Logout", link: `` }
+                ]}>
+                  <Avatar src={authContext.userAvatar} />
+                </MyButtonMenu>
+                {/* <Button href={`/user/${authContext.userProfile.id}`}></Button> */}
+              </>
+            ) : (
+              <>
+                <Button variant="contained" href="/login">
+                  Sign in
+                </Button>
+                <Button variant="outlined" href="/register">
+                  Sign up
+                </Button>
+
+              </>
+            )
+          }
+
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

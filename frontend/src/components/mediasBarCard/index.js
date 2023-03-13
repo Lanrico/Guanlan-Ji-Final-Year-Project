@@ -3,7 +3,6 @@ import React from "react";
 
 const MediasBarCard = ({ item }) => {
 
-  console.log(item)
   return (
     <Grid key={item.movie.id} item xs={3}>
       <Link href={`/medias/movie/${item.movie.id}`}>

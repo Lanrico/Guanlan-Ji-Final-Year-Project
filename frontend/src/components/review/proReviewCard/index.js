@@ -8,11 +8,18 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+import { green, red, yellow } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import { dateTimeFormatter } from '../../../util';
+import { Rating } from '@mui/material';
+import { display } from '@mui/system';
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from '../../../firebase';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -27,17 +34,23 @@ const ExpandMore = styled((props) => {
 
 const ProReviewCard = (props) => {
   const [expanded, setExpanded] = React.useState(false);
-
+  const [avatarUrl, setAvartarUrl] = React.useState('');
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+  const storageRef = ref(storage, 'avatars/' + props.review.uid.id + ".jpg")
+  getDownloadURL(storageRef).then((url) => {
+    setAvartarUrl(url)
+  }).catch((error) => {
+    console.error(error);
+  });
+  console.log(props.review.isRecommend)
   return (
     <Card>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {props.review.author.split([''])[0]}
+          <Avatar src={avatarUrl} sx={{ width: 56, height: 56 }} aria-label="recipe">
+            {/* {props.review.uid.name.split([''])[0]} */}
           </Avatar>
         }
         action={
@@ -45,8 +58,23 @@ const ProReviewCard = (props) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={props.review.author}
-        subheader={props.review.date}
+        title={props.review.uid.name}
+        subheader={
+          <React.Fragment>
+            {dateTimeFormatter(props.review.time)}
+            <br></br>
+            <div style={{ display: "flex" }}>
+              <Rating value={props.review.rate / 2} precision={0.1} readOnly size="small" />
+              <Typography mr={2} color={yellow[800]} fontSize={"small"} ml={1}>
+                {props.review.rate}
+              </Typography>
+              {props.review.isRecommend ? (
+                <ThumbUpAltIcon fontSize="small" color="primary" />
+              ) : (
+                <ThumbDownAltIcon fontSize="small" color="error" />
+              )}
+            </div>
+          </React.Fragment>}
       />
       <CardContent>
         <Typography variant="body2">
@@ -55,11 +83,13 @@ const ProReviewCard = (props) => {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="thumb up">
-          <ThumbUpAltIcon />
+          <ThumbUpOffAltIcon />
         </IconButton>
+        <Typography mr={1} color={'gray'} variant="body2">{props.review.like}</Typography>
         <IconButton aria-label="thumb down">
-          <ThumbDownAltIcon />
+          <ThumbDownOffAltIcon />
         </IconButton>
+        <Typography color={'gray'} variant="body2">{props.review.unlike}</Typography>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -69,7 +99,7 @@ const ProReviewCard = (props) => {
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Reviews:</Typography>
           <Typography paragraph>
@@ -77,7 +107,7 @@ const ProReviewCard = (props) => {
             aside for 10 minutes.
           </Typography>
         </CardContent>
-      </Collapse>
+      </Collapse> */}
     </Card>
   )
 }

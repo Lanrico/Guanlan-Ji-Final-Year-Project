@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 import PageTemplate from '../components/pageTemplate';
+import Register from '../components/userProfileInfo/pages/authentication/Register';
 
 export default function SignUpPage() {
   const theme = useTheme();
@@ -28,7 +29,7 @@ export default function SignUpPage() {
   return (
     <PageTemplate>
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
+        {/* <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
             sx={{
@@ -112,7 +113,9 @@ export default function SignUpPage() {
               </Grid>
             </Box>
           </Box>
-        </Container>
+
+        </Container> */}
+        <Register></Register>
       </ThemeProvider>
     </PageTemplate>
   );

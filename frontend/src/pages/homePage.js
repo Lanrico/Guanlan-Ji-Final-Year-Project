@@ -17,9 +17,12 @@ import HpRankList from "../components/hpRankList";
 import movies from "../sampleData/movies";
 import movieService from "../api/movieService";
 import Spinner from "../components/spinner";
-import { MediaContext } from "../context/MediaContextProvider";
+
+import { MediaContext } from "../context/mediaContextProvider";
+import { AuthContext } from "../context/authContext";
 const HomePage = (props) => {
   const movieContext = useContext(MediaContext);
+  const authContext = useContext(AuthContext);
   const [value, setValue] = useState('1');
   const theme = useTheme();
   const { data, error, isLoading, isError } = useQuery(
@@ -41,7 +44,7 @@ const HomePage = (props) => {
   }
   return (
     <PageTemplate>
-      <Button fullWidth onClick={handleSubmitButton1} >context checker</Button>
+      {/* <Button fullWidth onClick={handleSubmitButton1} >context checker</Button> */}
 
       <Card sx={{ display: 'flex', height: 330 }} elevation={1}>
         <CardMedia

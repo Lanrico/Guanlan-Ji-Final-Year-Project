@@ -9,6 +9,11 @@ import Grid from "@mui/material/Grid";
 
 import ProReviewBar from '../review/proReviewBar'
 import ReviewList from '../review/reviewList';
+import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import reviewService from '../../api/reviewService';
+import Spinner from '../spinner';
+import ReviewPanel from '../reviewsPanel';
 
 const sampleProReview = [
   {
@@ -77,7 +82,6 @@ export default function MediaActionTabs() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <Box sx={{ width: '100%' }}>
       <TabContext value={value}>
@@ -89,13 +93,9 @@ export default function MediaActionTabs() {
           <StyledTab label="Reviews" value="1" />
           <StyledTab label="Discussion" value="2" />
         </StyledTabs>
-        <Box sx={{ p: 3 }} >
+        <Box sx={{ py: 3 }} >
           <TabPanel value="1" style={{ padding: "0" }}>
-            <Grid container spacing={2} mb={1}>
-              <ProReviewBar list={sampleProReview}></ProReviewBar>
-            </Grid>
-            <ReviewList list={sampleReview}>
-            </ReviewList>
+            <ReviewPanel ></ReviewPanel>
           </TabPanel>
           <TabPanel value="2" style={{ padding: "0" }}>
             456

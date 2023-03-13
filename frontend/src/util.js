@@ -140,3 +140,17 @@ export const dateFormatter = (dateInput) => {
   }
   return `${date}-${month}-${year}`
 }
+
+// input is 2021-01-10T21:40:01Z format
+export const dateTimeFormatter = (input) => {
+  let date = new Date(input);
+
+  let day = date.getUTCDate().toString().padStart(2, '0');
+  let month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+  let year = date.getUTCFullYear().toString();
+  let hours = date.getUTCHours().toString().padStart(2, '0');
+  let minutes = date.getUTCMinutes().toString().padStart(2, '0');
+
+  let output = day + '-' + month + '-' + year + ' ' + hours + ':' + minutes;
+  return output;
+}

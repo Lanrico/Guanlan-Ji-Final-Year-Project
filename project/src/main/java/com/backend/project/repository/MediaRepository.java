@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface MediaRepository extends JpaRepository<Media, Integer>, JpaSpecificationExecutor {
-  Media findById(int id);
+  Optional<Media> findById(int id);
 
 //  Page<Media> findAllByType(Pageable pageable, String type, Specification<Media> spec);
   Page<Media> findAll(Pageable pageable);

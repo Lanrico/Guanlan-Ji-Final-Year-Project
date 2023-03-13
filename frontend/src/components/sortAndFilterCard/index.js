@@ -11,7 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SortIcon from '@mui/icons-material/Sort';
 import languages from "../../sampleData/languages";
-import { MediaContext } from "../../context/MediaContextProvider";
+import { MediaContext } from "../../context/mediaContextProvider";
 import { dateFormatter, filterStringEncoder } from "../../util";
 
 const SortAndFilterCard = (props) => {
