@@ -154,3 +154,11 @@ export const dateTimeFormatter = (input) => {
   let output = day + '-' + month + '-' + year + ' ' + hours + ':' + minutes;
   return output;
 }
+
+// Output is 2021-01-10T21:40:01Z format
+export const currentTime = () => {
+  const now = new Date();
+  const isoString = now.toISOString();
+  const formattedString = isoString.substring(0, isoString.length - 5) + "Z";
+  return formattedString;
+}

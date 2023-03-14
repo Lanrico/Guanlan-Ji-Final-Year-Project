@@ -15,9 +15,9 @@ class ReviewDataService {
     return http.get(`/review/${argsQuery.media}?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}&orderBy=${argsQuery.orderBy}&type=${argsQuery.type}`)
   }
 
-  create(data) {
+  addReviewToMedia(id, data) {
     console.log(data)
-    return http.post("/review/create", data);
+    return http.post(`/review/${id}`, data);
   }
 
   update(id, data) {

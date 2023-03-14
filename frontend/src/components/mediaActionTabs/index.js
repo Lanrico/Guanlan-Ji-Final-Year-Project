@@ -9,11 +9,13 @@ import Grid from "@mui/material/Grid";
 
 import ProReviewBar from '../review/proReviewBar'
 import ReviewList from '../review/reviewList';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import reviewService from '../../api/reviewService';
 import Spinner from '../spinner';
 import ReviewPanel from '../reviewsPanel';
+import { AuthContext } from '../../context/authContext';
+import { useTheme } from '@emotion/react';
 
 const sampleProReview = [
   {
@@ -78,7 +80,8 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 
 export default function MediaActionTabs() {
   const [value, setValue] = React.useState('1');
-
+  const authContext = React.useContext(AuthContext);
+  const theme = useTheme();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -95,7 +98,7 @@ export default function MediaActionTabs() {
         </StyledTabs>
         <Box sx={{ py: 3 }} >
           <TabPanel value="1" style={{ padding: "0" }}>
-            <ReviewPanel ></ReviewPanel>
+            <ReviewPanel />
           </TabPanel>
           <TabPanel value="2" style={{ padding: "0" }}>
             456

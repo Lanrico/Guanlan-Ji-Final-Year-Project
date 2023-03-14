@@ -4,7 +4,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -21,6 +20,7 @@ import { auth } from "../../firebase";
 
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { Link } from "react-router-dom";
 
 export default function LoginBlock() {
   const [openSuccess, setOpenSuccess] = useState(false);
@@ -158,9 +158,12 @@ export default function LoginBlock() {
             </ColorButton>
             <Grid container>
               <Grid item sx={{ justifyContent: 'center', margin: 'auto' }}>
-                <Link href='/register' variant="body2">
-                  {"Sign Up"}
-                </Link>
+                <Typography variant="body2" color={"primary"}>
+                  <Link to='/register' style={{ textDecoration: "none" }} color={"primary"}>
+                    {"Sign Up"}
+                  </Link>
+                </Typography>
+
               </Grid>
             </Grid>
           </Box>

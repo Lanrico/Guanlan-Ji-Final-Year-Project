@@ -2,8 +2,9 @@ import React from "react";
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { Link, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { styled, alpha } from '@mui/material/styles';
+import { Link } from "react-router-dom";
 
 
 // A bug to be fixed: Hover background color will be covered if click the button
@@ -78,7 +79,7 @@ const MenuButton = ({ title, textList, linkList }) => {
         {tllist.map((i) => {
           return (
             <StyledMenuItem onClick={handleClose} key={i.text}>
-              <Link underline="none" href={i.link} color={"inherit"}>{i.text}</Link>
+              <Link style={{ textDecoration: "none", color: "black" }} to={i.link} >{i.text}</Link>
             </StyledMenuItem>
           )
         })}

@@ -1,4 +1,4 @@
-import { Button, Grid, Link, Typography, useTheme } from "@mui/material";
+import { Button, Grid, Typography, useTheme } from "@mui/material";
 import React, { useContext, useState } from "react";
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -20,6 +20,7 @@ import Spinner from "../components/spinner";
 
 import { MediaContext } from "../context/mediaContextProvider";
 import { AuthContext } from "../context/authContext";
+import { Link } from "react-router-dom";
 const HomePage = (props) => {
   const movieContext = useContext(MediaContext);
   const authContext = useContext(AuthContext);
@@ -63,20 +64,20 @@ const HomePage = (props) => {
           <Typography variant={"h4"}>What's popular</Typography>
           <MediasBar mb={3} medias={medias}>
             <Box mb={0.5} container width={"98%"} style={{ flexDirection: "row", justifyContent: "space-between", display: "flex" }}>
-              <Link href="">Game</Link>
-              <Link href="">more</Link>
+              <Link to="" style={{ color: theme.palette.primary.main }}>Game</Link>
+              <Link to="" style={{ color: theme.palette.primary.main }}>more</Link>
             </Box>
           </MediasBar>
           <MediasBar mb={3} medias={medias}>
             <Box mb={0.5} container width={"98%"} style={{ flexDirection: "row", justifyContent: "space-between", display: "flex" }}>
-              <Link href="">Movie</Link>
-              <Link href="">more</Link>
+              <Link to="/ranking/movie/1" style={{ color: theme.palette.primary.main }}>Movie</Link>
+              <Link to="/ranking/Movie/1/sort=popularity&order=desc&genres=&releasedate=to&language=&rate=0to10&runtime=0to400" style={{ color: theme.palette.primary.main }}>more</Link>
             </Box>
           </MediasBar>
           <MediasBar mb={2} medias={medias}>
             <Box mb={0.5} container width={"98%"} style={{ flexDirection: "row", justifyContent: "space-between", display: "flex" }}>
-              <Link href="">Music</Link>
-              <Link href="">more</Link>
+              <Link to="" style={{ color: theme.palette.primary.main }}>Music</Link>
+              <Link to="" style={{ color: theme.palette.primary.main }}>more</Link>
             </Box>
           </MediasBar>
         </Grid>

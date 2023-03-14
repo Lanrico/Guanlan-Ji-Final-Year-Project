@@ -103,7 +103,7 @@ const AuthRegister = () => {
                     console.log(response.data)
                     context.signIn(response.data)
                   })
-                // navigate("/homepage")
+                navigate("/homepage")
                 // ...
               })
               .catch((error) => {
@@ -247,6 +247,7 @@ const AuthRegister = () => {
                     id="confirm-signup"
                     value={values.confirm}
                     name="confirm"
+                    type='password'
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="Enter password again"
@@ -259,18 +260,6 @@ const AuthRegister = () => {
                   )}
                 </Stack>
               </Grid>
-              {/* <Grid item xs={12}>
-                                <Typography variant="body2">
-                                    By Signing up, you agree to our &nbsp;
-                                    <Link variant="subtitle2" component={RouterLink} to="#">
-                                        Terms of Service
-                                    </Link>
-                                    &nbsp; and &nbsp;
-                                    <Link variant="subtitle2" component={RouterLink} to="#">
-                                        Privacy Policy
-                                    </Link>
-                                </Typography>
-                            </Grid> */}
               {errors.submit && (
                 <Grid item xs={12}>
                   <FormHelperText error>{errors.submit}</FormHelperText>

@@ -179,8 +179,8 @@ const PageHeader = (props) => {
   );
 
   return (
-    <Grid container mb={1} spacing={1} sx={{ flexGrow: 1 }}>
-      <AppBar elevation={1} position="static" color="default">
+    <Grid container mb={1} spacing={1} sx={{ display: "flex", flexGrow: 1, alignItems: "center" }}>
+      <AppBar elevation={1} position="static" color="default" sx={{ paddingTop: 1 }} >
         <Toolbar>
           <Box sx={{ flexGrow: 1 }} />
           <Link to={`/homepage`}>

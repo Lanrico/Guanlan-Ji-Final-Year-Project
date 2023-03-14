@@ -1,11 +1,12 @@
-import { Grid, IconButton, ImageListItem, ImageListItemBar, Link } from "@mui/material";
+import { Grid, IconButton, ImageListItem, ImageListItemBar } from "@mui/material";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const MediasBarCard = ({ item }) => {
 
   return (
     <Grid key={item.movie.id} item xs={3}>
-      <Link href={`/medias/movie/${item.movie.id}`}>
+      <Link to={`/medias/movie/${item.movie.id}`}>
         <ImageListItem key={item.movie.id} style={{ width: "90%" }}>
           <img
             src={

@@ -1,8 +1,9 @@
-import { Chip, Divider, Link, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography } from "@mui/material"
+import { Chip, Divider, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography } from "@mui/material"
 import { yellow } from "@mui/material/colors"
 import React from "react"
 import genres from "../../sampleData/genres"
 import placeholder from "../../images/film-poster-placeholder.png"
+import { Link } from "react-router-dom"
 
 const RankingListItem = (props) => {
   return (
@@ -29,7 +30,7 @@ const RankingListItem = (props) => {
           primary={
             <React.Fragment>
               <div style={{ display: "flex" }}>
-                <Link href={`/medias/movie/${props.media.id}`} underline="none">
+                <Link href={`/medias/movie/${props.media.id}`} style={{ textDecoration: "none" }}>
                   <Typography noWrap mr={1}> {props.media.movie.title}</Typography>
                 </Link>
                 {

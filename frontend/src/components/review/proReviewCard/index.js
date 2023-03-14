@@ -20,6 +20,7 @@ import { Rating } from '@mui/material';
 import { display } from '@mui/system';
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from '../../../firebase';
+import LikeDislikeBlock from '../../likeDislikeBlock';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -82,14 +83,15 @@ const ProReviewCard = (props) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="thumb up">
+        <LikeDislikeBlock likeNumber={props.review.like} disLikeNumber={props.review.dislike} likeOrNot={""} />
+        {/* <IconButton aria-label="thumb up">
           <ThumbUpOffAltIcon />
         </IconButton>
         <Typography mr={1} color={'gray'} variant="body2">{props.review.like}</Typography>
         <IconButton aria-label="thumb down">
           <ThumbDownOffAltIcon />
         </IconButton>
-        <Typography color={'gray'} variant="body2">{props.review.unlike}</Typography>
+        <Typography color={'gray'} variant="body2">{props.review.dislike}</Typography> */}
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}

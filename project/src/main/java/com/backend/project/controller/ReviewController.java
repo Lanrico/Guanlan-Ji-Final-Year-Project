@@ -32,9 +32,23 @@ public class ReviewController {
   public ResponseEntity<Review> addMediaReview(@PathVariable("media") int media, @RequestBody Review review) {
     Optional<Media> mediaData = mediaRepository.findById(media);
     if (mediaData.isPresent()) {
-      review.setMid(mediaData.get());
-      Review _review = reviewRepository.save(review);
-      return new ResponseEntity<>(HttpStatus.OK);
+      Optional<Review> reviewData = reviewRepository.findReviewByMidAndUid(review.getMid(),review.getUid());
+      if (reviewData.isPresent()){
+        Review _review = reviewData.get();
+        System.out.println("Modify");
+        _review.setContent(review.getContent());
+        _review.setLike(0);
+        _review.setDislike(0);
+        _review.setRate(review.getRate());
+        _review.setIsAudited(false);
+        _review.setIsRecommend(review.getIsRecommend());
+        Review __review = reviewRepository.save(_review);
+        return new ResponseEntity<>(HttpStatus.OK);
+      }else {
+        review.setMid(mediaData.get());
+        Review _review = reviewRepository.save(review);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+      }
     }
     else {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

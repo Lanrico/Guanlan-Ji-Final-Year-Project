@@ -39,8 +39,8 @@ public class Review {
   @Column(name = "`like`")
   private Integer like;
 
-  @Column(name = "unlike")
-  private Integer unlike;
+  @Column(name = "dislike")
+  private Integer dislike;
 
   public Integer getId() {
     return id;
@@ -114,12 +114,12 @@ public class Review {
     this.like = like;
   }
 
-  public Integer getUnlike() {
-    return unlike;
+  public Integer getDislike() {
+    return dislike;
   }
 
-  public void setUnlike(Integer unlike) {
-    this.unlike = unlike;
+  public void setDislike(Integer dislike) {
+    this.dislike = dislike;
   }
 
 }

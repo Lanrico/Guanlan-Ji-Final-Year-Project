@@ -35,18 +35,22 @@ const AuthContextProvider = (props) => {
   //   const result = await signup(username, password);
   //   return (result.code === 201) ? true : false;
   // };
-  const signIn = (user) => {
-    // setToken('');
-    // setAuthToken("123123");
-    // setTimeout(() => setIsAuthenticated(false), 100);
-    setIsAuthenticated(true);
-    const storageRef = ref(storage, 'avatars/' + user.id + ".jpg")
+  const setUserAvatarFromFirebase = () => {
+    const storageRef = ref(storage, 'avatars/' + userProfile.id + ".jpg")
     getDownloadURL(storageRef).then((url) => {
       setUserAvatar(url);
       console.log(url)
     }).catch((error) => {
       console.error(error);
     });
+  }
+
+  const signIn = (user) => {
+    // setToken('');
+    // setAuthToken("123123");
+    // setTimeout(() => setIsAuthenticated(false), 100);
+    setIsAuthenticated(true);
+    setUserAvatarFromFirebase()
     setUserProfile(user)
 
   }
@@ -68,7 +72,8 @@ const AuthContextProvider = (props) => {
         signOut,
         // setRecommendMovies,
         userProfile,
-        userAvatar
+        userAvatar,
+        setUserAvatarFromFirebase
         // recommendMovies
       }}
     >

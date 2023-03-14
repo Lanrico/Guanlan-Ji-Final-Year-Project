@@ -43,6 +43,7 @@ const SettingDialog = (props) => {
         .then((snapshot) => {
           console.log('Uploaded a avatar: avatars/' + authContext.userProfile.id + "." + selectedFile.name.split(".")[1]);
           setUpLoading(false)
+          authContext.setUserAvatarFromFirebase();
         })
         .catch((error) => {
           console.error(error);

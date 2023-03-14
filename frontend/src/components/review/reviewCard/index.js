@@ -15,6 +15,7 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from '../../../firebase';
 import { dateTimeFormatter } from '../../../util';
 import { yellow } from '@mui/material/colors';
+import LikeDislikeBlock from '../../likeDislikeBlock';
 export default function ReviewCard(props) {
   const [avatarUrl, setAvartarUrl] = React.useState('');
 
@@ -65,7 +66,9 @@ export default function ReviewCard(props) {
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 {dateTimeFormatter(props.review.time)}
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <IconButton aria-label="thumb up" sx={{ marginLeft: 1 }}>
+                  <LikeDislikeBlock likeNumber={props.review.like} disLikeNumber={props.review.dislike} likeOrNot={""} />
+
+                  {/* <IconButton aria-label="thumb up" sx={{ marginLeft: 1 }}>
                     <ThumbUpOffAltIcon fontSize="small" />
                   </IconButton>
                   <Typography mr={1} color={'gray'} variant="body2">{props.review.like}</Typography>
@@ -73,7 +76,7 @@ export default function ReviewCard(props) {
                   <IconButton aria-label="thumb down">
                     <ThumbDownOffAltIcon fontSize="small" />
                   </IconButton>
-                  <Typography color={'gray'} variant="body2">{props.review.unlike}</Typography>
+                  <Typography color={'gray'} variant="body2">{props.review.dislike}</Typography> */}
                 </div>
               </div>
             </React.Fragment>
