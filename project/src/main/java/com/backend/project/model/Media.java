@@ -90,6 +90,17 @@ public class Media {
   @OneToMany(mappedBy = "mid")
   private Set<History> histories = new LinkedHashSet<>();
 
+  @Column(name = "final_rate")
+  private Double finalRate;
+
+  public Double getFinalRate() {
+    return finalRate;
+  }
+
+  public void setFinalRate(Double finalRate) {
+    this.finalRate = finalRate;
+  }
+
   public Integer getId() {
     return id;
   }

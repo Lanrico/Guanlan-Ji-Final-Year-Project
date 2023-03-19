@@ -50,7 +50,6 @@ const SettingDialog = (props) => {
           setUpLoading(false)
         });
     }
-
   };
   return (
     <Dialog onClose={handleClose} open={open}>

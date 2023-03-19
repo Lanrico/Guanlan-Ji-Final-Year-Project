@@ -27,7 +27,7 @@ const HomePage = (props) => {
   const [value, setValue] = useState('1');
   const theme = useTheme();
   const { data, error, isLoading, isError } = useQuery(
-    ["trendingMovie4", { pageSize: 4, page: 0 }], movieService.getTopTrending
+    ["trendingMovie4", { pageSize: 12, page: 0 }], movieService.getTopTrending
   )
   if (isLoading) {
     return <Spinner />
@@ -36,6 +36,9 @@ const HomePage = (props) => {
     return <h1>{error.message}</h1>
   }
   const medias = data.data.content;
+  const medias1 = medias.slice(0, 4)
+  const medias2 = medias.slice(4, 8)
+  const medias3 = medias.slice(8, 12)
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -62,19 +65,19 @@ const HomePage = (props) => {
       <Grid container spacing={2} mt={1}>
         <Grid item xs={8} borderRight={1} borderColor={theme.palette.primary.main}>
           <Typography variant={"h4"}>What's popular</Typography>
-          <MediasBar mb={3} medias={medias}>
+          <MediasBar mb={3} medias={medias1}>
             <Box mb={0.5} container width={"98%"} style={{ flexDirection: "row", justifyContent: "space-between", display: "flex" }}>
               <Link to="" style={{ color: theme.palette.primary.main }}>Game</Link>
               <Link to="" style={{ color: theme.palette.primary.main }}>more</Link>
             </Box>
           </MediasBar>
-          <MediasBar mb={3} medias={medias}>
+          <MediasBar mb={3} medias={medias2}>
             <Box mb={0.5} container width={"98%"} style={{ flexDirection: "row", justifyContent: "space-between", display: "flex" }}>
               <Link to="/ranking/movie/1" style={{ color: theme.palette.primary.main }}>Movie</Link>
               <Link to="/ranking/Movie/1/sort=popularity&order=desc&genres=&releasedate=to&language=&rate=0to10&runtime=0to400" style={{ color: theme.palette.primary.main }}>more</Link>
             </Box>
           </MediasBar>
-          <MediasBar mb={2} medias={medias}>
+          <MediasBar mb={2} medias={medias3}>
             <Box mb={0.5} container width={"98%"} style={{ flexDirection: "row", justifyContent: "space-between", display: "flex" }}>
               <Link to="" style={{ color: theme.palette.primary.main }}>Music</Link>
               <Link to="" style={{ color: theme.palette.primary.main }}>more</Link>

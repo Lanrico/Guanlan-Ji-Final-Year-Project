@@ -20,6 +20,8 @@ import AdminPage from "./pages/adminPage";
 import MediaContextProvider from "./context/mediaContextProvider";
 import AuthContext from "./context/authContext";
 import ForgetPasswordPage from "./pages/forgetPasswordPage";
+import PaymentPage from "./pages/paymentPage";
+import Stripe from "./components/stripe";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -62,10 +64,11 @@ const App = () => {
                   <Route path="/medias/movie/:id" element={<MovieDetailPage />} />
                   <Route path="/add" element={<AddMedia />} />
                   <Route path="/user/:user_id" element={<UserPage />} />
+                  <Route path="/user/payment/:step?" element={<PaymentPage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/forgetPassword" element={<ForgetPasswordPage />} />
                   <Route path="/example/paperbase" element={<Paperbase />} />
-                  {/* <Route path="/example/123" element={<MainLayout />} /> */}
+                  <Route path="/example/123" element={<Stripe />} />
                   {/* <Route path="/medias/:id" element={<Media />} /> */}
                   <Route path="/admin/movie" element={<AdminPage />} />
                 </Routes>

@@ -1,11 +1,12 @@
 // material-ui
-import { Button, CardMedia, Link, Stack, Typography } from '@mui/material';
+import { Button, CardMedia, Stack, Typography } from '@mui/material';
 
 // project import
 import MainCard from '../../../../components/MainCard.js';
 // assets
 import avatar from '../../../../../../images/SimpleLogo.png';
 import AnimateButton from '../../../../components/@extended/AnimateButton';
+import { Link } from 'react-router-dom';
 
 // ==============================|| DRAWER CONTENT - NAVIGATION CARD ||============================== //
 
@@ -20,7 +21,7 @@ const NavCard = () => (
                 </Typography>
             </Stack>
             <AnimateButton>
-                <Button component={Link} target="_blank" href="https://mantisdashboard.io" variant="contained" color="success" size="small">
+                <Button component={Link} to="/user/payment" variant="contained" color="primary" size="small">
                     Pro
                 </Button>
             </AnimateButton>

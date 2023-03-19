@@ -1,4 +1,4 @@
-import { Chip, Divider, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography } from "@mui/material"
+import { Chip, Divider, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography, useTheme } from "@mui/material"
 import { yellow } from "@mui/material/colors"
 import React from "react"
 import genres from "../../sampleData/genres"
@@ -6,6 +6,7 @@ import placeholder from "../../images/film-poster-placeholder.png"
 import { Link } from "react-router-dom"
 
 const RankingListItem = (props) => {
+  const theme = useTheme();
   return (
     <>
       <ListItem alignItems="flex-start">
@@ -30,7 +31,7 @@ const RankingListItem = (props) => {
           primary={
             <React.Fragment>
               <div style={{ display: "flex" }}>
-                <Link href={`/medias/movie/${props.media.id}`} style={{ textDecoration: "none" }}>
+                <Link to={`/medias/movie/${props.media.id}`} style={{ textDecoration: "none", color: theme.palette.primary.main }}>
                   <Typography noWrap mr={1}> {props.media.movie.title}</Typography>
                 </Link>
                 {
