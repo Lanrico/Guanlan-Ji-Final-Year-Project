@@ -8,6 +8,7 @@ import movieService from '../../api/movieService';
 import Spinner from '../spinner';
 import { useParams } from 'react-router-dom';
 import { filterStringDecoder } from '../../util';
+import { Link } from "react-router-dom"
 
 export default function RankingList(props) {
   var rank = 1;
@@ -37,7 +38,7 @@ export default function RankingList(props) {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Pagination count={10} page={page} color={'primary'}
           renderItem={(item) => (
-            <PaginationItem component={Button} href={`/ranking/movie/${item.page}`} {...item} />
+            <PaginationItem component={Link} to={`/ranking/movie/${item.page}`} {...item} />
           )}
         />
       </div>

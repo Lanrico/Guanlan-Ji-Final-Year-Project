@@ -4,8 +4,22 @@ import { Doughnut } from 'react-chartjs-2';
 import Chart from "chart.js/auto";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import { useQuery } from "react-query";
+import movieService from "../../api/movieService";
+import Spinner from "../spinner";
 
 const MediaDetailRateBlock = (props) => {
+  const { data, error, isLoading, isError } = useQuery(
+    ["MovieRank", { id: props.media.id }], movieService.getRank
+  )
+  if (isLoading) {
+    return <Spinner />
+  }
+  if (isError) {
+    return <h1>{error.message}</h1>
+  }
+  console.log(props.media.id)
+  const rank = data.data;
   const scoreConverter = (score) => {
     return Math.ceil(score) / 2;
   }
@@ -24,7 +38,7 @@ const MediaDetailRateBlock = (props) => {
     5: 'Excellent+',
   };
   Chart.overrides['doughnut'].plugins.legend.display = false;
-  const data = {
+  const data1 = {
     datasets: [
       {
         data: [recommend, unrecommend],
@@ -34,7 +48,7 @@ const MediaDetailRateBlock = (props) => {
         hoverBorderColor: '#FFFFFF'
       }
     ],
-    labels: ['Good', 'Bad']
+    labels: ['Like', 'Unlike']
   };
 
   const options = {
@@ -67,9 +81,9 @@ const MediaDetailRateBlock = (props) => {
   return (
     <Paper sx={{ height: "250px", padding: "10%" }} >
       <Grid sx={{ display: "flex", justifyContent: "center" }}>
-        <Avatar sx={{ bgcolor: green[500], width: 50, height: 50 }}>{props.media.rate.toFixed(1)}</Avatar>
+        <Avatar sx={{ bgcolor: green[500], width: 50, height: 50 }}>{props.media.finalRate.toFixed(1)}</Avatar>
         <Grid>
-          <Typography variant={"h5"} sx={{ padding: "10px 0 0 10px" }}>{labels[scoreConverter(props.media.rate + 0.001)]}</Typography>
+          <Typography variant={"h5"} sx={{ padding: "10px 0 0 10px" }}>{labels[scoreConverter(props.media.finalRate + 0.001)]}</Typography>
         </Grid>
       </Grid>
       <Grid pt={1}>
@@ -77,13 +91,13 @@ const MediaDetailRateBlock = (props) => {
           align="right"
           fontSize={1}
           color="text.secondary">
-          ILI movie ranked:<Link underline="none" href="">#10</Link>
+          ILI movie ranked:<Link underline="none" href="">#{rank}</Link>
         </Typography>
         <Typography
           align="right"
           fontSize={1}
           color="text.secondary">
-          Voted by {props.media.voteCount} users
+          Voted by {props.media.finalVoteCount} users
         </Typography>
       </Grid>
       <Divider></Divider>
@@ -97,7 +111,7 @@ const MediaDetailRateBlock = (props) => {
           }}
         >
           <Doughnut
-            data={data}
+            data={data1}
             options={options}
           />
         </Box>

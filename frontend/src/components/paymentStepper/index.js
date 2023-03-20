@@ -15,19 +15,48 @@ import { AuthContext } from '../../context/authContext';
 import { storage } from '../../firebase';
 import { ref, uploadBytes } from 'firebase/storage';
 import Stripe from '../stripe';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import userService from '../../api/userService';
 
 const steps = ['Describe your job', 'Submit your identification', 'Make payment'];
 
 export default function PaymentStepper() {
+  // const params = useParams();
+
   const { step } = useParams();
-  console.log(step)
   const [activeStep, setActiveStep] = React.useState(parseInt(step));
   const [skipped, setSkipped] = React.useState(new Set());
   const [selectedFile, setSelectedFile] = React.useState(null);
   const [upLoading, setUpLoading] = React.useState(false);
   const [upLoadSuccess, setUpLoadSuccess] = React.useState(false);
-  const authContext = React.useContext(AuthContext)
+  const authContext = React.useContext(AuthContext);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const storedAuthToken = localStorage.getItem('authToken');
+    console.log(storedAuthToken)
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const redirectStatus = searchParams.get('redirect_status');
+
+    if (storedAuthToken && !authContext.isAuthenticated) {
+      userService.getByEmail(storedAuthToken)
+        .then((response) => {
+          console.log(response.data)
+          authContext.signIn(response.data)
+        })
+    }
+
+
+    console.log(redirectStatus);
+    if (redirectStatus === "succeeded" && storedAuthToken) {
+      userService.update(authContext.userProfile.id, "type", "1")
+      // .then((response1) => {
+      //   console.log("changed")
+      // })    
+    }
+
+  }, [authContext])
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -98,6 +127,11 @@ export default function PaymentStepper() {
     setActiveStep(0);
   };
 
+  const handleBackToUserProfile = () => {
+    var link = "/user/" + authContext.userProfile.id;
+    navigate(link)
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
@@ -121,12 +155,13 @@ export default function PaymentStepper() {
       </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
+          <Typography sx={{ mt: 4, mb: 1 }} textAlign={"left"}>
+            All steps completed - Your identification has been submitted for review. Once it is successfully reviewed, you will become our professional user. If it fails, you will receive a full refund of the payment made.
           </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
+          <Box sx={{ display: 'flex', justifyContent: "center", flexDirection: 'row', pt: 2 }}>
+            {/* <Box sx={{ flex: '1 1 auto' }} /> */}
+            {/* <Button onClick={handleReset}>Reset</Button> */}
+            <Button onClick={handleBackToUserProfile}>Back to user profile</Button>
           </Box>
         </React.Fragment>
       ) :

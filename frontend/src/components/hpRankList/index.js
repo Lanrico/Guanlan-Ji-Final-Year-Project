@@ -2,27 +2,40 @@ import React from "react";
 import List from '@mui/material/List';
 import StarsIcon from '@mui/icons-material/Stars';
 import HpRankListItem from "../hpRankListItem";
-const HpRankList = ({ mediasRankingList }) => {
+import { useQuery } from "react-query";
+import movieService from "../../api/movieService";
+import Spinner from "../spinner";
+const HpRankList = (props) => {
+  const { data, error, isLoading, isError } = useQuery(
+    ["topMovieRanking", { pageSize: 10, page: props.page, filter: {} }], movieService.getFilteredTopRated
+  )
+  if (isLoading) {
+    return <Spinner />
+  }
+  if (isError) {
+    return <h1>{error.message}</h1>
+  }
+  const medias = data.data.content;
   return (
     <List
       aria-label="contacts"
     >
-      <HpRankListItem title="The Shawshank Redemption">
+      <HpRankListItem media={medias[0]}>
         <StarsIcon color="secondary" />
       </HpRankListItem>
-      <HpRankListItem title="The Godfather">
+      <HpRankListItem media={medias[1]}>
         <StarsIcon color="primary" />
       </HpRankListItem>
-      <HpRankListItem title="The Dark Knight">
+      <HpRankListItem media={medias[2]}>
         <StarsIcon />
       </HpRankListItem>
-      <HpRankListItem title="The Godfather Part II" />
-      <HpRankListItem title="12 Angry Men" />
-      <HpRankListItem title="Schindler's List" />
-      <HpRankListItem title="The Lord of the Rings" />
-      <HpRankListItem title="Pulp Fiction" />
-      <HpRankListItem title="The Lord of the Rings" />
-      <HpRankListItem title="The Good, the Bad and the Ugly" />
+      <HpRankListItem media={medias[3]} />
+      <HpRankListItem media={medias[4]} />
+      <HpRankListItem media={medias[5]} />
+      <HpRankListItem media={medias[6]} />
+      <HpRankListItem media={medias[7]} />
+      <HpRankListItem media={medias[8]} />
+      <HpRankListItem media={medias[9]} />
     </List>
   );
 };

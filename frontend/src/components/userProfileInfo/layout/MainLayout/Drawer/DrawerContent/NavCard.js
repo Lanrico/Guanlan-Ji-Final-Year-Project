@@ -21,7 +21,7 @@ const NavCard = () => (
                 </Typography>
             </Stack>
             <AnimateButton>
-                <Button component={Link} to="/user/payment" variant="contained" color="primary" size="small">
+                <Button component={Link} to="/user/payment/0" variant="contained" color="primary" size="small">
                     Pro
                 </Button>
             </AnimateButton>

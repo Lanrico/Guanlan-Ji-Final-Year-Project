@@ -4,15 +4,15 @@ import ListItemText from '@mui/material/ListItemText';
 import { ListItem, ListItemButton } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const HpRankListItem = ({ title, link, children }) => {
+const HpRankListItem = ({ media, children }) => {
   return (
     <ListItem disablePadding>
-      <Link to={`/medias/movie/602211`} style={{ textDecoration: 'none', color: 'black' }}>
+      <Link to={`/medias/movie/${media.id}`} style={{ textDecoration: 'none', color: 'black', width: '100%' }}>
         <ListItemButton>
           <ListItemIcon style={{ minWidth: 40 }}>
             {children}
           </ListItemIcon>
-          <ListItemText primary={title} />
+          <ListItemText primary={media.movie.title} />
         </ListItemButton>
       </Link>
     </ListItem>

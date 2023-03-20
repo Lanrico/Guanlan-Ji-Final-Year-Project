@@ -3,7 +3,7 @@ export const MediaContext = React.createContext(null);
 
 const MediaContextProvider = (props) => {
   const [movieFilter, setMovieFilter0] = useState({
-    sort: 'rate',
+    sort: 'finalRate',
     order: 'desc',
     startDate: null,
     endDate: null,

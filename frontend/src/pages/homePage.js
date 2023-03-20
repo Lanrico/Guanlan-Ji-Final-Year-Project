@@ -90,19 +90,19 @@ const HomePage = (props) => {
             <TabContext value={value}>
               <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
                 <TabList onChange={handleChange} aria-label="lab API tabs example" variant="fullWidth">
-                  <Tab label="Game" value="1" />
-                  <Tab label="Movie" value="2" />
+                  <Tab label="Movie" value="1" />
+                  <Tab label="Game" value="2" />
                   <Tab label="Music" value="3" />
                 </TabList>
               </Box>
               <TabPanel value="1" style={{ padding: "0" }}>
-                <HpRankList />
+                <HpRankList page={0} />
               </TabPanel>
               <TabPanel value="2" style={{ padding: "0" }}>
-                <HpRankList />
+                <HpRankList page={1} />
               </TabPanel>
               <TabPanel value="3" style={{ padding: "0" }}>
-                <HpRankList />
+                <HpRankList page={2} />
               </TabPanel>
             </TabContext>
           </Box>

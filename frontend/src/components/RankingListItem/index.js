@@ -4,9 +4,22 @@ import React from "react"
 import genres from "../../sampleData/genres"
 import placeholder from "../../images/film-poster-placeholder.png"
 import { Link } from "react-router-dom"
+import { useQuery } from "react-query"
+import movieService from "../../api/movieService"
+import Spinner from "../spinner"
 
 const RankingListItem = (props) => {
   const theme = useTheme();
+  const { data, error, isLoading, isError } = useQuery(
+    ["topMovieRanking", { id: props.media.id }], movieService.getRank
+  )
+  if (isLoading) {
+    return <Spinner />
+  }
+  if (isError) {
+    return <h1>{error.message}</h1>
+  }
+  const rank = data.data;
   return (
     <>
       <ListItem alignItems="flex-start">
@@ -19,13 +32,18 @@ const RankingListItem = (props) => {
           />
         </ListItemAvatar>
         <ListItemSecondaryAction sx={{ top: "20%" }}>
-          <Chip
-            color='primary'
-            label={
-              <Typography fontSize={"small"} sx={{ color: "white" }}>Rank {props.rank}</Typography>
-            }
-            size="small"
-          />
+          {
+            rank > 10000 ? (null) : (
+              <Chip
+                color='primary'
+                label={
+                  <Typography fontSize={"small"} sx={{ color: "white" }}>Rank {rank}</Typography>
+                }
+                size="small"
+              />
+            )
+          }
+
         </ListItemSecondaryAction>
         <ListItemText
           primary={
@@ -62,12 +80,12 @@ const RankingListItem = (props) => {
                 {props.media.movie.overview}
               </Typography>
               <div style={{ display: "flex", marginTop: 5 }}>
-                <Rating value={props.media.rate / 2} precision={0.1} readOnly size="small" />
+                <Rating value={props.media.finalRate / 2} precision={0.1} readOnly size="small" />
                 <Typography color={yellow[800]} fontSize={"small"} ml={1}>
-                  {props.media.rate}
+                  {props.media.finalRate.toFixed(3)}
                 </Typography>
                 <Typography fontSize={"small"} ml={1}>
-                  ({props.media.voteCount} users)
+                  ({props.media.finalVoteCount} users)
                 </Typography>
               </div>
             </React.Fragment>

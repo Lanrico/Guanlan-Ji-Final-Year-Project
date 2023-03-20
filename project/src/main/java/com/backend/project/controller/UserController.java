@@ -65,4 +65,23 @@ public class UserController {
       return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED);
     }
   }
+
+  @PutMapping("/user/{userId}/update/{column}")
+  public ResponseEntity<User> updateColumn(@RequestBody String newData, @PathVariable("userId") Integer userId, @PathVariable("column") String column) {
+    Optional<User> userData = userRepository.findById(userId);
+    if (userData.isPresent()){
+      User _user = userData.get();
+
+      switch (column){
+        case "type":
+          _user.setType(Integer.valueOf(newData));break;
+        default:
+      }
+      userRepository.save(_user);
+      return new ResponseEntity<>(HttpStatus.OK);
+    }
+    else {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+  }
 }

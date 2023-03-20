@@ -1,6 +1,9 @@
+import { useContext } from "react";
+import { AuthContext } from "../context/authContext";
 import http from "../http-common";
 
 class UserDataService {
+
   getAll() {
     return http.get("/user/all");
   }
@@ -18,8 +21,8 @@ class UserDataService {
     return http.post("/user/create", data);
   }
 
-  update(id, data) {
-    return http.put(`/user/${id}`, data);
+  update(id, column, data) {
+    return http.put(`/user/${id}/update/${column}`, data);
   }
 
   delete(id) {

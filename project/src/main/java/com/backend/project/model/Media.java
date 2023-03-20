@@ -93,6 +93,17 @@ public class Media {
   @Column(name = "final_rate")
   private Double finalRate;
 
+  @Column(name = "final_vote_count")
+  private Integer finalVoteCount;
+
+  public Integer getFinalVoteCount() {
+    return finalVoteCount;
+  }
+
+  public void setFinalVoteCount(Integer finalVoteCount) {
+    this.finalVoteCount = finalVoteCount;
+  }
+
   public Double getFinalRate() {
     return finalRate;
   }

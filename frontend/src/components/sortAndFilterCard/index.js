@@ -40,26 +40,6 @@ const SortAndFilterCard = (props) => {
     setRuntime(newValue);
   };
 
-  // const handleSubmitButton = (e) => {
-  // e.preventDefault();
-  //   movieContext.setMovieFilter({
-  //     sort: sort,
-  //     startDate: dateFormatter(startDate),
-  //     endDate: dateFormatter(endDate),
-  //     language: language,
-  //     rate: rate,
-  //     runtime: runtime,
-  //     order: order,
-  //     genresChecked: genresChecked
-  //   })
-  //   console.log(movieContext.movieFilter)
-
-  // }
-
-  // const handleSubmitButton1 = () => {
-  //   console.log(movieContext.movieFilter)
-  // }
-
   return (
     <>
       <Card sx={{ padding: 2 }}>
@@ -77,7 +57,7 @@ const SortAndFilterCard = (props) => {
             onChange={handleSortChange}
             defaultValue={sort}
           >
-            <MenuItem value={"rate"}>Rate</MenuItem>
+            <MenuItem value={"finalRate"}>Rate</MenuItem>
             <MenuItem value={"popularity"}>Popularity</MenuItem>
             <MenuItem value={"releaseDate"}>Release Date</MenuItem>
           </Select>

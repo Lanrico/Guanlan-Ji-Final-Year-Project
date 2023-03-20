@@ -12,14 +12,20 @@ class MovieDataService {
     return http.get(`/media/top/popularity/movie?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`);
   }
 
+  getRank(args) {
+    const [, argsQuery] = args.queryKey
+    console.log(argsQuery)
+    return http.get(`/media/rank/${argsQuery.id}`);
+  }
+
   getTopRated(args) {
     const [, argsQuery] = args.queryKey
-    return http.get(`/media/top/rate/movie?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`);
+    return http.get(`/media/top/finalRate/movie?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`);
   }
 
   getFilteredTopRated(args) {
     const [, argsQuery] = args.queryKey
-    var sort = argsQuery.filter.sort ? argsQuery.filter.sort : "rate"
+    var sort = argsQuery.filter.sort ? argsQuery.filter.sort : "finalRate"
     sort = argsQuery.filter.sort === "releaseDate" ? "movie_releaseDate" : sort
     console.log(`/media/top/${sort}/movie?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}${filterAPIEncoder(argsQuery.filter)}`)
     return http.get(`/media/top/${sort}/movie?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}${filterAPIEncoder(argsQuery.filter)}`);

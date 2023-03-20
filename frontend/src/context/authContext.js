@@ -49,6 +49,7 @@ const AuthContextProvider = (props) => {
     // setToken('');
     // setAuthToken("123123");
     // setTimeout(() => setIsAuthenticated(false), 100);
+    localStorage.setItem('authToken', user.email);//以后可能换成token
     setIsAuthenticated(true);
     setUserAvatarFromFirebase()
     setUserProfile(user)
@@ -59,6 +60,7 @@ const AuthContextProvider = (props) => {
     // setToken('');
     // setAuthToken("123123");
     // setTimeout(() => setIsAuthenticated(false), 100);
+    localStorage.removeItem('authToken');
     setIsAuthenticated(false);
   }
 

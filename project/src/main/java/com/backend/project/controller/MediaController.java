@@ -41,6 +41,29 @@ public class MediaController {
   @Autowired
   MediaRepository mediaRepository;
 
+  @GetMapping("/media/all")
+  public ResponseEntity<List<Media>> getAllMedia() {
+    try {
+      List<Media> mediaList = new ArrayList<Media>();
+
+
+      List<Media> ml = mediaRepository.findAll();//.forEach(mediaList::add);
+      for (Media m:ml) {
+        m.setMovie(null);
+        m.setUsers(null);
+        m.setReviews(null);
+        mediaList.add(m);
+      }
+
+      if (mediaList.isEmpty()) {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      }
+
+      return new ResponseEntity<>(mediaList, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
   @GetMapping("/media/{id}")
   public ResponseEntity<Media> getMediaById(@PathVariable("id") Integer id) {
     try {
@@ -49,6 +72,24 @@ public class MediaController {
         Media media = mediaData.get();
         media.setReviews(null);
         return new ResponseEntity<>(mediaData.get(), HttpStatus.OK);
+      }
+      else {
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+      }
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @GetMapping("/media/rank/{id}")
+  public ResponseEntity<Integer> getMediaRank(@PathVariable("id") Integer id) {
+    try {
+      Optional<Media> mediaData = mediaRepository.findById(id);
+      if (mediaData.isPresent()) {
+        Media media = mediaData.get();
+        media.setReviews(null);
+        int rank = mediaRepository.getMediaRank(media.getFinalRate()) + 1;
+        return new ResponseEntity<>(rank, HttpStatus.OK);
       }
       else {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
