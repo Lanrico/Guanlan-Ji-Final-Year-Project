@@ -21,9 +21,8 @@ public interface MediaRepository extends JpaRepository<Media, Integer>, JpaSpeci
 
   @Query("SELECT COUNT(m) FROM Media m WHERE m.finalRate > :finalRate")
   int getMediaRank(@Param("finalRate") double finalRate);
-  @Query("SELECT AVG(e.rate) FROM Media e")
+  @Query("SELECT AVG(e.finalRate) FROM Media e")
   Double findRateAverage();
-
-  @Query("SELECT AVG(e.voteCount) FROM Media e")
+  @Query("SELECT AVG(e.voteCount + e.finalVoteCount) FROM Media e")
   Double findVoteCountAverage();
 }

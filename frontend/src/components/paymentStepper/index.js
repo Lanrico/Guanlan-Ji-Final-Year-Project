@@ -17,6 +17,7 @@ import { ref, uploadBytes } from 'firebase/storage';
 import Stripe from '../stripe';
 import { useNavigate, useParams } from 'react-router-dom';
 import userService from '../../api/userService';
+import HCaptchaBlock from '../hCaptchaBlock';
 
 const steps = ['Describe your job', 'Submit your identification', 'Make payment'];
 
@@ -30,6 +31,8 @@ export default function PaymentStepper() {
   const [upLoading, setUpLoading] = React.useState(false);
   const [upLoadSuccess, setUpLoadSuccess] = React.useState(false);
   const authContext = React.useContext(AuthContext);
+  const [captchaToken, setCaptchaToken] = React.useState('');
+
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -61,6 +64,9 @@ export default function PaymentStepper() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file);
+  };
+  const handleGetCaptchaToken = (token) => {
+    setCaptchaToken(token);
   };
 
   const handleUpload = () => {
@@ -256,7 +262,7 @@ export default function PaymentStepper() {
                           onChange={handleChange}
                           placeholder="Write a brief description of your job responsibilities."
                           multiline
-                          minRows={3}
+                          minRows={2}
                         />
                         {touched.jobDescription && errors.jobDescription && (
                           <FormHelperText error id="standard-weight-helper-text-jobDescription">
@@ -270,22 +276,10 @@ export default function PaymentStepper() {
                         <FormHelperText error>{errors.submit}</FormHelperText>
                       </Grid>
                     )}
+                    <Grid item sx={{ margin: "auto" }}>
+                      <HCaptchaBlock getToken={handleGetCaptchaToken} />
+                    </Grid>
                   </Grid>
-                  {/* <Grid item xs={12}>
-                    <AnimateButton>
-                      <Button
-                        disableElevation
-                        disabled={isSubmitting}
-                        fullWidth
-                        size="large"
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                      >
-                        Login
-                      </Button>
-                    </AnimateButton>
-                  </Grid> */}
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                     <Button
                       color="inherit"
@@ -302,7 +296,7 @@ export default function PaymentStepper() {
                       </Button>
                     )}
 
-                    <Button type="submit" disabled={values.company === '' || values.job === '' || values.jobDescription === ''}>
+                    <Button type="submit" disabled={values.company === '' || values.job === '' || values.jobDescription === '' || !captchaToken}>
                       {'Next'}
                     </Button>
                   </Box>

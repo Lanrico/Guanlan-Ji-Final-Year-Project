@@ -29,24 +29,15 @@ import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import userService from '../../../../../api/userService';
+import HCaptchaBlock from '../../../../hCaptchaBlock';
 
 const AuthRegister = () => {
   const [level, setLevel] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const context = useContext(AuthContext);
+  const [captchaToken, setCaptchaToken] = useState('');
 
-  // const firebaseConfig = {
-  //   apiKey: "AIzaSyB_opQz9NSfRrPLhwc9yvckrDv4mSinUxI",
-  //   authDomain: "final-year-project-jgl.firebaseapp.com",
-  //   projectId: "final-year-project-jgl",
-  //   storageBucket: "final-year-project-jgl.appspot.com",
-  //   messagingSenderId: "1082745032013",
-  //   appId: "1:1082745032013:web:01781659139f87f093fb04",
-  //   measurementId: "G-0E0943XPMF"
-  // };
-  // const app = initializeApp(firebaseConfig);
-  // const auth = getAuth(app);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -58,6 +49,10 @@ const AuthRegister = () => {
   const changePassword = (value) => {
     const temp = strengthIndicator(value);
     setLevel(strengthColor(temp));
+  };
+
+  const handleGetCaptchaToken = (token) => {
+    setCaptchaToken(token);
   };
 
   useEffect(() => {
@@ -122,7 +117,7 @@ const AuthRegister = () => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <Grid container spacing={1.5}>
+            <Grid container spacing={1}>
               <Grid item xs={12} md={12}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="username-signup">User Name*</InputLabel>
@@ -144,28 +139,6 @@ const AuthRegister = () => {
                   )}
                 </Stack>
               </Grid>
-              {/* <Grid item xs={12} md={6}>
-                <Stack spacing={1}>
-                  <InputLabel htmlFor="lastname-signup">Last Name*</InputLabel>
-                  <OutlinedInput
-                    fullWidth
-                    error={Boolean(touched.lastname && errors.lastname)}
-                    id="lastname-signup"
-                    type="lastname"
-                    value={values.lastname}
-                    name="lastname"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    placeholder="Doe"
-                    inputProps={{}}
-                  />
-                  {touched.lastname && errors.lastname && (
-                    <FormHelperText error id="helper-text-lastname-signup">
-                      {errors.lastname}
-                    </FormHelperText>
-                  )}
-                </Stack>
-              </Grid> */}
               <Grid item xs={12}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="email-signup">Email Address*</InputLabel>
@@ -264,12 +237,14 @@ const AuthRegister = () => {
                 <Grid item xs={12}>
                   <FormHelperText error>{errors.submit}</FormHelperText>
                 </Grid>
-              )}
+              )}<Grid item sx={{ margin: "auto" }}>
+                <HCaptchaBlock getToken={handleGetCaptchaToken} />
+              </Grid>
               <Grid item xs={12}>
                 <AnimateButton>
                   <Button
                     disableElevation
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !captchaToken}
                     fullWidth
                     size="large"
                     type="submit"

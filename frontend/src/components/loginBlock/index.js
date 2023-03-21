@@ -158,12 +158,11 @@ export default function LoginBlock() {
             </ColorButton>
             <Grid container>
               <Grid item sx={{ justifyContent: 'center', margin: 'auto' }}>
-                <Typography variant="body2" color={"primary"}>
-                  <Link to='/register' style={{ textDecoration: "none" }} color={"primary"}>
+                <Typography variant="body2">
+                  <Link to='/register' style={{ textDecoration: "none", color: theme.palette.primary.main }}>
                     {"Sign Up"}
                   </Link>
                 </Typography>
-
               </Grid>
             </Grid>
           </Box>

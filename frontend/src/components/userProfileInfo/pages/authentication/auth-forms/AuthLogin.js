@@ -20,8 +20,7 @@ import { useNavigate } from "react-router-dom";
 
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 import FirebaseSocial from './FirebaseSocial';
 import AnimateButton from '../../../components/@extended/AnimateButton';
@@ -30,24 +29,16 @@ import { AuthContext } from '../../../../../context/authContext.js'
 import { auth } from '../../../../../firebase';
 
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import HCaptchaBlock from '../../../../hCaptchaBlock';
 
 const AuthLogin = () => {
   const [checked, setChecked] = React.useState(false);
   const [openFail, setOpenFail] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
+  const [captchaToken, setCaptchaToken] = React.useState('');
   const navigate = useNavigate();
   const context = useContext(AuthContext);
-  // const firebaseConfig = {
-  //   apiKey: "AIzaSyB_opQz9NSfRrPLhwc9yvckrDv4mSinUxI",
-  //   authDomain: "final-year-project-jgl.firebaseapp.com",
-  //   projectId: "final-year-project-jgl",
-  //   storageBucket: "final-year-project-jgl.appspot.com",
-  //   messagingSenderId: "1082745032013",
-  //   appId: "1:1082745032013:web:01781659139f87f093fb04",
-  //   measurementId: "G-0E0943XPMF"
-  // };
-  // const app = initializeApp(firebaseConfig);
-  // const auth = getAuth(app);
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -57,6 +48,9 @@ const AuthLogin = () => {
   };
   const handleFailSnackClose = (event) => {
     setOpenFail(false);
+  };
+  const handleGetCaptchaToken = (token) => {
+    setCaptchaToken(token);
   };
 
   return (
@@ -90,6 +84,7 @@ const AuthLogin = () => {
             setStatus({ success: false });
             setSubmitting(false);
             console.log(values)
+            console.log(captchaToken)
             signInWithEmailAndPassword(auth, values.email, values.password)
               .then((userCredential) => {
                 // Signed in 
@@ -114,7 +109,7 @@ const AuthLogin = () => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <Grid container spacing={3}>
+            <Grid container spacing={1}>
               <Grid item xs={12}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="email-login">Email Address</InputLabel>
@@ -195,11 +190,14 @@ const AuthLogin = () => {
                   <FormHelperText error>{errors.submit}</FormHelperText>
                 </Grid>
               )}
+              <Grid item sx={{ margin: "auto" }}>
+                <HCaptchaBlock getToken={handleGetCaptchaToken} />
+              </Grid>
               <Grid item xs={12}>
                 <AnimateButton>
                   <Button
                     disableElevation
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !captchaToken}
                     fullWidth
                     size="large"
                     type="submit"

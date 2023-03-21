@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://127.0.0.1:8081")
 @RestController
 @RequestMapping("/api")
 public class RegularUpdateController {
@@ -65,10 +65,6 @@ public class RegularUpdateController {
     final double WEIGHT_PRO_USER = 5.0;
     final double WEIGHT_INIT_RATE = 10.0;
 
-    // 后来可能要改的常数们
-    final double CONSTANT_A = 240; //A value shows how many media whose vote_count is bigger than n(has not decided, IMDB is 25000). Here is the average of vote_count
-    final double CONSTANT_X = 5.7; //A value shows the average value of the media (same as above, IMDB is 7.0)
-
     // Record the Initial values
     double init_rate = media.getRate();
     List<Review> reviews_pro = reviewRepository.getReviewsByMidAndUidType(media,1);
@@ -89,8 +85,9 @@ public class RegularUpdateController {
     for (Review review:reviews_pro) {
       base_rate += review.getRate() * WEIGHT_PRO_USER / weight_sum;
     }
-    System.out.println("Init rate: " + init_rate);
-    System.out.println("Base rate: " + base_rate);
+
+    final double CONSTANT_A = mediaRepository.findVoteCountAverage(); //A value shows how many media whose vote_count is bigger than n(has not decided, IMDB is 25000). Here is the average of vote_count
+    final double CONSTANT_X = mediaRepository.findRateAverage(); //A value shows the average value of the media (same as above, IMDB is 7.0)
 
     //Compute final rate
     double final_rate = (base_rate * total_vote_count + CONSTANT_X * CONSTANT_A) / (total_vote_count + CONSTANT_A);
