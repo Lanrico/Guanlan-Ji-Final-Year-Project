@@ -59,7 +59,7 @@ const MediaPageTemplate = (props) => {
               <MediaDetailRateBlock media={props.media} />
             </Grid>
           </Grid>
-          <CastBar />
+          <CastBar media={props.media} />
           <MediaActionTabs />
         </Grid>
       </Grid>

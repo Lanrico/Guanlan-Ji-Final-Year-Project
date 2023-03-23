@@ -18,7 +18,7 @@ import { Avatar, Button, ButtonGroup, Grid } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import MenuButton from "../menuButton";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import AvatarDemo from "../../images/AvatarDemo.jpg"
 import MyButtonMenu from "../myButtonMenu";
@@ -48,7 +48,7 @@ const Search = styled('div')(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: '100%',
   position: 'absolute',
@@ -63,7 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(${theme.spacing(0)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -76,8 +76,10 @@ const PageHeader = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [avatarMenuOpen, setAvatarMenuOpen] = React.useState(null);
+  const [searchText, setSearchText] = React.useState('');
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const navigate = useNavigate()
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -102,6 +104,15 @@ const PageHeader = (props) => {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleSearchButton = (event) => {
+    navigate(`/search/Movie/${searchText}/1`)
+  };
+
+  const handleSearchTFChange = (event) => {
+    setSearchText(event.target.value)
+    console.log(searchText)
   };
 
   const menuId = 'primary-search-account-menu';
@@ -209,38 +220,26 @@ const PageHeader = (props) => {
 
           <Box sx={{ flexGrow: 1 }} />
           <Search>
-            <SearchIconWrapper>
+            <IconButton sx={{ marginLeft: 1 }} onClick={handleSearchButton}>
+              {/* <SearchIconWrapper onClick={handleSearchButton}> */}
               <SearchIcon />
-            </SearchIconWrapper>
+              {/* </SearchIconWrapper> */}
+            </IconButton>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleSearchTFChange}
             />
           </Search>
           {
             authContext.isAuthenticated ? (
               <>
-                {/* <IconButton onClick={handleAvatarClick}>
-                  <Avatar src={AvatarDemo}>
-                  </Avatar>
-                </IconButton>
-                <Menu
-                  anchorEl={avatarMenuOpen}
-                  keepMounted
-                  open={Boolean(avatarMenuOpen)}
-                  onClose={handleAvatarClose}
-                >
-                  <MenuItem color="primary" onClick={handleAvatarClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleAvatarClose}>My account</MenuItem>
-                  <MenuItem onClick={handleAvatarClose}>Logout</MenuItem>
-                </Menu> */}
                 <MyButtonMenu items={[
                   { title: "Profile", link: `/user/${authContext.userProfile.id}` },
                   { title: "Logout", link: `` }
                 ]}>
                   <Avatar src={authContext.userAvatar} />
                 </MyButtonMenu>
-                {/* <Button href={`/user/${authContext.userProfile.id}`}></Button> */}
               </>
             ) : (
               <>

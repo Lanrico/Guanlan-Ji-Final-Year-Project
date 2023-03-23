@@ -22,6 +22,7 @@ import AuthContext from "./context/authContext";
 import ForgetPasswordPage from "./pages/forgetPasswordPage";
 import PaymentPage from "./pages/paymentPage";
 import Stripe from "./components/stripe";
+import MovieSearchPage from "./pages/movieSearchPage";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -60,6 +61,7 @@ const App = () => {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/homepage" element={<HomePage />} />
                   <Route path="/ranking/:media_type/:page/:filter?" element={<MediaRankPage />} />
+                  <Route path="/search/:media_type/:searchString/:page/:filter?" element={<MovieSearchPage />} />
                   <Route path="/register" element={<SignUpPage />} />
                   <Route path="/medias/movie/:id" element={<MovieDetailPage />} />
                   <Route path="/add" element={<AddMedia />} />

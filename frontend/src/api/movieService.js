@@ -31,6 +31,14 @@ class MovieDataService {
     return http.get(`/media/top/${sort}/movie?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}${filterAPIEncoder(argsQuery.filter)}`);
   }
 
+  getSearchMovies(args) {
+    const [, argsQuery] = args.queryKey
+    var sort = argsQuery.sort ? argsQuery.sort : "finalRate"
+    sort = argsQuery.sort === "releaseDate" ? "movie_releaseDate" : sort
+    console.log(`/media/search/${sort}/movie?title=${argsQuery.title}&pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`)
+    return http.get(`/media/search/${sort}/movie?title=${argsQuery.title}&pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`);
+  }
+
   get(args) {
     const [, argsQuery] = args.queryKey
     console.log(argsQuery)

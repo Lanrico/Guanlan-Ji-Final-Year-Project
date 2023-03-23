@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import { filterStringDecoder } from '../../util';
 import { Link } from "react-router-dom"
 
-export default function RankingList(props) {
+export default function SearchList(props) {
   var rank = 1;
   const page = parseInt(props.page)
   const filterString = useParams().filter
@@ -19,7 +19,8 @@ export default function RankingList(props) {
   console.log(filterString)
   console.log(searchString)
   const { data, error, isLoading, isError } = useQuery(
-    ["topMovieRanking", { pageSize: 20, page: props.page - 1, filter: filterStringDecoder(filterString) }], movieService.getFilteredTopRated
+    ["searchMovie", { pageSize: 20, page: props.page - 1, title: searchString }],
+    movieService.getSearchMovies
   )
 
 
@@ -44,7 +45,7 @@ export default function RankingList(props) {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Pagination count={10} page={page} color={'primary'}
           renderItem={(item) => (
-            <PaginationItem component={Link} to={`/ranking/movie/${item.page}`} {...item} />
+            <PaginationItem component={Link} to={`/search/Movie/${searchString}/${item.page}`} {...item} />
           )}
         />
       </div>

@@ -5,7 +5,8 @@ import RankingList from "../RankingList";
 import SortCard from "../sort/sortCard";
 import SortAndFilterCard from "../sortAndFilterCard";
 import { useParams } from "react-router-dom";
-const MediaRankingPage = (props) => {
+import SearchList from "../searchList";
+const MediaSearchPage = (props) => {
   const media_type = capitalizeFirstLowercaseRest(props.media_type)
   const { page } = useParams();
 
@@ -16,7 +17,7 @@ const MediaRankingPage = (props) => {
           <Typography variant="h5" mt={2} ml={2}>
             {media_type}s
           </Typography>
-          <RankingList page={page} />
+          <SearchList page={page} />
         </Grid>
         <Grid sx={{ paddingX: 1, paddingY: 5 }} xs={4}>
           {/* <SortCard /> */}
@@ -26,4 +27,4 @@ const MediaRankingPage = (props) => {
     </PageTemplate >
   )
 }
-export default MediaRankingPage;
+export default MediaSearchPage;

@@ -3,7 +3,7 @@ import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 const CastCard = (props) => {
   return (
     <Grid width={120} mr={1.3} ml={1.3}>
-      <Card elevation={0}>
+      <Card elevation={0} sx={{ height: 264 }}>
         <CardMedia
           sx={{ height: 170, width: 120 }}
           image={`https://image.tmdb.org/t/p/w500/${props.person.profile_path}`}
