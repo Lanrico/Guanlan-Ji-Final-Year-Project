@@ -46,6 +46,7 @@ const HomePage = (props) => {
   const handleSubmitButton1 = () => {
     console.log(movieContext.movieFilter)
   }
+
   return (
     <PageTemplate>
       {/* <Button fullWidth onClick={handleSubmitButton1} >context checker</Button> */}

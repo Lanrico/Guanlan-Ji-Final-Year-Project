@@ -106,7 +106,7 @@ public class MediaController {
       String typeCode;
       Pageable pageable;
       List<Integer> genresList = new ArrayList<>();
-      if(genres != null) {
+      if (genres != null) {
         List<String> tmp = Arrays.asList(genres.split("and"));
         genresList = tmp.stream().map(Integer::parseInt).collect(Collectors.toList());
       }
@@ -146,104 +146,103 @@ public class MediaController {
       Specification<Media> spec = MediaSpecification.findMovieByCriteria(genresList, startDate1, endDate1, language, minRate, maxRate, minRuntime, maxRuntime, typeCode);
 //    return new ResponseEntity<>(mediaRepository.findAllByType(pageable, typeCode, spec), HttpStatus.OK);
       Page<Media> mediaList = mediaRepository.findByMovieTitleContaining(title, pageable);
-      for (Media m: mediaList) {
+      for (Media m : mediaList) {
         m.setReviews(null);
       }
       return new ResponseEntity<>(mediaList, HttpStatus.OK);
-//    }
-    catch (Exception e) {
-      return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-  }
-
-  @GetMapping("/media/rank/{id}")
-  public ResponseEntity<Integer> getMediaRank(@PathVariable("id") Integer id) {
-    try {
-      Optional<Media> mediaData = mediaRepository.findById(id);
-      if (mediaData.isPresent()) {
-        Media media = mediaData.get();
-        media.setReviews(null);
-        int rank = mediaRepository.getMediaRank(media.getFinalRate()) + 1;
-        return new ResponseEntity<>(rank, HttpStatus.OK);
-      }
-      else {
+    catch(Exception e){
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
       }
-    } catch (Exception e) {
-      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
-  }
 
-  @GetMapping("/media/top/{property}/{type}")
-  public ResponseEntity<Page<Media>> findTrendingMedia(
-      @PathVariable("type") String type,
-      @PathVariable("property") String property,
-      @RequestParam(required = false) String pageSize,
-      @RequestParam(required = false) String page,
-      @RequestParam(required = false) String order,
-      @RequestParam(required = false) String genres,
-      @RequestParam(required = false) String startDate,
-      @RequestParam(required = false) String endDate,
-      @RequestParam(required = false) String language,
-      @RequestParam(required = false) Double minRate,
-      @RequestParam(required = false) Double maxRate,
-      @RequestParam(required = false) Integer minRuntime,
-      @RequestParam(required = false) Integer maxRuntime
-  ) {
-    try {
-      int size = pageSize == null ? 20 : Integer.parseInt(pageSize);
-      int pageNumber = page == null ? 0 : Integer.parseInt(page);
-      String typeCode;
-      Pageable pageable;
-      List<Integer> genresList = new ArrayList<>();
-      if(genres != null) {
-        List<String> tmp = Arrays.asList(genres.split("and"));
-        genresList = tmp.stream().map(Integer::parseInt).collect(Collectors.toList());
-      }
-    LocalDate startDate1 = startDate != null ? LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd-MM-yyyy")) : null;
-    LocalDate endDate1 = endDate != null ? LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd-MM-yyyy")) : null;
-    System.out.println(startDate);
-//    Sort sort = new Sort("qwe");
-      if (order == null) {
-        pageable = PageRequest.of(pageNumber, size, Sort.by(property).descending());
-      } else {
-        switch (order) {
-          case "asc":
-            pageable = PageRequest.of(pageNumber, size, Sort.by(property).ascending());
-            break;
-          case "desc":
-            pageable = PageRequest.of(pageNumber, size, Sort.by(property).descending());
-            break;
-          default:
-            pageable = PageRequest.of(pageNumber, size, Sort.by(property).descending());
-            break;
+    @GetMapping("/media/rank/{id}")
+    public ResponseEntity<Integer> getMediaRank (@PathVariable("id") Integer id){
+      try {
+        Optional<Media> mediaData = mediaRepository.findById(id);
+        if (mediaData.isPresent()) {
+          Media media = mediaData.get();
+          media.setReviews(null);
+          int rank = mediaRepository.getMediaRank(media.getFinalRate()) + 1;
+          return new ResponseEntity<>(rank, HttpStatus.OK);
+        } else {
+          return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
       }
-      if (type == null) {
-        typeCode = "0";
-      } else {
-        switch (type) {
-          case "game":
-            typeCode = "1";
-            break;
-          case "music":
-            typeCode = "2";
-            break;
-          default:
-            typeCode = "0";
-            break;
-        }
-      }
-    Specification<Media> spec = MediaSpecification.findMovieByCriteria(genresList, startDate1, endDate1, language, minRate, maxRate, minRuntime, maxRuntime, typeCode);
-//    return new ResponseEntity<>(mediaRepository.findAllByType(pageable, typeCode, spec), HttpStatus.OK);
-      Page<Media> mediaList = mediaRepository.findAll(spec, pageable);
-      for (Media m:mediaList) {
-        m.setReviews(null);
-      }
-      return new ResponseEntity<>(mediaList, HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
-  }
+
+    @GetMapping("/media/top/{property}/{type}")
+    public ResponseEntity<Page<Media>> findTrendingMedia (
+        @PathVariable("type") String type,
+        @PathVariable("property") String property,
+        @RequestParam(required = false) String pageSize,
+        @RequestParam(required = false) String page,
+        @RequestParam(required = false) String order,
+        @RequestParam(required = false) String genres,
+        @RequestParam(required = false) String startDate,
+        @RequestParam(required = false) String endDate,
+        @RequestParam(required = false) String language,
+        @RequestParam(required = false) Double minRate,
+        @RequestParam(required = false) Double maxRate,
+        @RequestParam(required = false) Integer minRuntime,
+        @RequestParam(required = false) Integer maxRuntime
+  ){
+      try {
+        int size = pageSize == null ? 20 : Integer.parseInt(pageSize);
+        int pageNumber = page == null ? 0 : Integer.parseInt(page);
+        String typeCode;
+        Pageable pageable;
+        List<Integer> genresList = new ArrayList<>();
+        if (genres != null) {
+          List<String> tmp = Arrays.asList(genres.split("and"));
+          genresList = tmp.stream().map(Integer::parseInt).collect(Collectors.toList());
+        }
+        LocalDate startDate1 = startDate != null ? LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd-MM-yyyy")) : null;
+        LocalDate endDate1 = endDate != null ? LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd-MM-yyyy")) : null;
+        System.out.println(startDate);
+//    Sort sort = new Sort("qwe");
+        if (order == null) {
+          pageable = PageRequest.of(pageNumber, size, Sort.by(property).descending());
+        } else {
+          switch (order) {
+            case "asc":
+              pageable = PageRequest.of(pageNumber, size, Sort.by(property).ascending());
+              break;
+            case "desc":
+              pageable = PageRequest.of(pageNumber, size, Sort.by(property).descending());
+              break;
+            default:
+              pageable = PageRequest.of(pageNumber, size, Sort.by(property).descending());
+              break;
+          }
+        }
+        if (type == null) {
+          typeCode = "0";
+        } else {
+          switch (type) {
+            case "game":
+              typeCode = "1";
+              break;
+            case "music":
+              typeCode = "2";
+              break;
+            default:
+              typeCode = "0";
+              break;
+          }
+        }
+        Specification<Media> spec = MediaSpecification.findMovieByCriteria(genresList, startDate1, endDate1, language, minRate, maxRate, minRuntime, maxRuntime, typeCode);
+//    return new ResponseEntity<>(mediaRepository.findAllByType(pageable, typeCode, spec), HttpStatus.OK);
+        Page<Media> mediaList = mediaRepository.findAll(spec, pageable);
+        for (Media m : mediaList) {
+          m.setReviews(null);
+        }
+        return new ResponseEntity<>(mediaList, HttpStatus.OK);
+      } catch (Exception e) {
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+      }
+    }
 
 }

@@ -1,6 +1,3 @@
-import { useContext } from "react";
-import { AuthContext } from "./context/authContext";
-
 export function changeElementColor(elementId, color, bColor) {
   console.log(elementId)
   var element = document.getElementById(elementId);
