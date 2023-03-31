@@ -8,6 +8,11 @@ class ReviewDataService {
   getById(id) {
     return http.get(`/review/?id=${id}`);
   }
+  getReviewsByMediaAndUser(args) {
+    const [, argsQuery] = args.queryKey
+    console.log(argsQuery)
+    return http.get(`/review/${argsQuery.media}/${argsQuery.user})`)
+  }
 
   getReviewsByMedia(args) {
     const [, argsQuery] = args.queryKey

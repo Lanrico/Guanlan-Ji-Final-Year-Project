@@ -23,6 +23,16 @@ import ForgetPasswordPage from "./pages/forgetPasswordPage";
 import PaymentPage from "./pages/paymentPage";
 import Stripe from "./components/stripe";
 import MovieSearchPage from "./pages/movieSearchPage";
+
+const storedUserProfile = sessionStorage.getItem('userProfile') ? sessionStorage.getItem('userProfile') : localStorage.getItem('userProfile');
+const initialUserProfile = storedUserProfile ? JSON.parse(storedUserProfile) : null;
+
+const storedUserAvatar = sessionStorage.getItem('userAvatar') ? sessionStorage.getItem('userAvatar') : localStorage.getItem('userAvatar');
+const initialUserAvatar = storedUserAvatar ? JSON.parse(storedUserAvatar) : null;
+
+const storedUserFavourite = sessionStorage.getItem('userFavourite') ? sessionStorage.getItem('userFavourite') : localStorage.getItem('userFavourite');
+const initialUserFavourite = storedUserFavourite ? JSON.parse(storedUserFavourite) : null;
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -56,7 +66,7 @@ const App = () => {
         <Provider store={store}>
           <BrowserRouter>
             <MediaContextProvider>
-              <AuthContext>
+              <AuthContext initialUserProfile={initialUserProfile} initialUserAvatar={initialUserAvatar} initialUserFavourite={initialUserFavourite}>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/homepage" element={<HomePage />} />
@@ -65,7 +75,7 @@ const App = () => {
                   <Route path="/register" element={<SignUpPage />} />
                   <Route path="/medias/movie/:id" element={<MovieDetailPage />} />
                   <Route path="/add" element={<AddMedia />} />
-                  <Route path="/user/:user_id" element={<UserPage />} />
+                  <Route path="/user/:user_id/:tab" element={<UserPage />} />
                   <Route path="/user/payment/:step?" element={<PaymentPage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/forgetPassword" element={<ForgetPasswordPage />} />

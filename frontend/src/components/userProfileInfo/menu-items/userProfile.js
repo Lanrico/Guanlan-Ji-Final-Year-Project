@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+
 // assets
 import { BarsOutlined } from '@ant-design/icons';
 
@@ -7,21 +9,20 @@ const icons = {
 };
 
 // ==============================|| MENU ITEMS - DASHBOARD ||============================== //
-
-const trending = {
-    id: 'group-Trending',
-    title: 'Navigation',
+const userProfile = {
+    id: 'group-UserProfile',
+    title: 'Profile',
     type: 'group',
     children: [
         {
-            id: 'Trending',
-            title: 'Trending',
+            id: 'Profile',
+            title: 'My profile',
             type: 'item',
-            // url: '/dashboard/default',
+            url: 'profile',
             icon: icons.BarsOutlined,
             breadcrumbs: false
         }
     ]
 };
 
-export default trending;
+export default userProfile;

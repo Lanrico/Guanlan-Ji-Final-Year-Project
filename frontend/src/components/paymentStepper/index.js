@@ -36,24 +36,27 @@ export default function PaymentStepper() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    const storedAuthToken = localStorage.getItem('authToken');
-    console.log(storedAuthToken)
+    // const storedAuthToken = localStorage.getItem('authToken');
+    // console.log(storedAuthToken)
+    const storedUserProfile = sessionStorage.getItem('userProfile') ? sessionStorage.getItem('userProfile') : localStorage.getItem('userProfile');
+    const initialUserProfile = storedUserProfile ? JSON.parse(storedUserProfile) : null;
 
     const searchParams = new URLSearchParams(window.location.search);
     const redirectStatus = searchParams.get('redirect_status');
 
-    if (storedAuthToken && !authContext.isAuthenticated) {
-      userService.getByEmail(storedAuthToken)
-        .then((response) => {
-          console.log(response.data)
-          authContext.signIn(response.data)
-        })
-    }
+    // if (storedAuthToken && !authContext.isAuthenticated) {
+    //   userService.getByEmail(storedAuthToken)
+    //     .then((response) => {
+    //       console.log(response.data)
+    //       authContext.signIn(response.data)
+    //     })
+    // }
 
 
     console.log(redirectStatus);
-    if (redirectStatus === "succeeded" && storedAuthToken) {
-      userService.update(authContext.userProfile.id, "type", "1")
+    if (redirectStatus === "succeeded") {
+      console.log(initialUserProfile)
+      userService.update(initialUserProfile.id, "type", "1")
       // .then((response1) => {
       //   console.log("changed")
       // })    
@@ -134,7 +137,7 @@ export default function PaymentStepper() {
   };
 
   const handleBackToUserProfile = () => {
-    var link = "/user/" + authContext.userProfile.id;
+    var link = "/user/" + authContext.userProfile.id + "/profile";
     navigate(link)
   }
 

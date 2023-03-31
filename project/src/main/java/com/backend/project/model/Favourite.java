@@ -1,5 +1,7 @@
 package com.backend.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.Instant;
 
@@ -16,6 +18,7 @@ public class Favourite {
 
   @MapsId("uid")
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JsonIgnore
   @JoinColumn(name = "uid", nullable = false)
   private User uid;
 

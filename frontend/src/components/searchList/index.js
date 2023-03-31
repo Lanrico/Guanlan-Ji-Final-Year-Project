@@ -43,7 +43,7 @@ export default function SearchList(props) {
         }
       </List>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Pagination count={10} page={page} color={'primary'}
+        <Pagination count={medias.totalPage} page={page} color={'primary'}
           renderItem={(item) => (
             <PaginationItem component={Link} to={`/search/Movie/${searchString}/${item.page}`} {...item} />
           )}

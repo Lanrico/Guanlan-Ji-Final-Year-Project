@@ -51,6 +51,7 @@ public class Media {
   private Set<Collection> collections = new LinkedHashSet<>();
 
   @OneToMany(mappedBy = "mid")
+  @JsonIgnore
   private Set<Favourite> favourites = new LinkedHashSet<>();
 
   @ManyToMany

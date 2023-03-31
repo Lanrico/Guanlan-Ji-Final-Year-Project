@@ -2,14 +2,18 @@ import { getDownloadURL, ref } from "firebase/storage";
 import React, { useState, createContext } from "react";
 // import { getUserRecommend, login, signup } from "../api/web-api";
 import { storage } from "../firebase";
+import favouriteService from "../api/favouriteService";
+
 export const AuthContext = createContext(null);
 
 const AuthContextProvider = (props) => {
   // const existingToken = localStorage.getItem("token");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(props.initialUserProfile ? true : false);
+  console.log(props)
   // const [authToken, setAuthToken] = useState(existingToken);
-  const [userProfile, setUserProfile] = useState({});
-  const [userAvatar, setUserAvatar] = useState("");
+  const [userProfile, setUserProfile] = useState(props.initialUserProfile ? props.initialUserProfile : {});
+  const [userAvatar, setUserAvatar] = useState(props.initialUserAvatar ? props.initialUserAvatar : "");
+  const [favouriteList, setFavouriteList] = useState(props.initialUserFavourite ? props.initialUserFavourite : []);
   // const [recommendMovies, setRecommendMovies] = useState([]);
 
   //Function to put JWT token in local storage.
@@ -35,34 +39,75 @@ const AuthContextProvider = (props) => {
   //   const result = await signup(username, password);
   //   return (result.code === 201) ? true : false;
   // };
-  const setUserAvatarFromFirebase = () => {
-    const storageRef = ref(storage, 'avatars/' + userProfile.id + ".jpg")
+  const setUserAvatarFromFirebase = (id, rm) => {
+    const storageRef = ref(storage, "avatars/" + id + ".jpg")
     getDownloadURL(storageRef).then((url) => {
       setUserAvatar(url);
       console.log(url)
+      if (rm) {
+        localStorage.setItem("userAvatar", JSON.stringify(url));
+      }
+      else {
+        sessionStorage.setItem("userAvatar", JSON.stringify(url));
+      }
     }).catch((error) => {
       console.error(error);
     });
   }
 
-  const signIn = (user) => {
+  const signIn = (user, rm) => {
     // setToken('');
     // setAuthToken("123123");
     // setTimeout(() => setIsAuthenticated(false), 100);
-    localStorage.setItem('authToken', user.email);//以后可能换成token
-    setIsAuthenticated(true);
-    setUserAvatarFromFirebase()
-    setUserProfile(user)
+    if (rm) {
+      localStorage.setItem('userProfile', JSON.stringify(user));
+    }
+    else {
+      sessionStorage.setItem('userProfile', JSON.stringify(user));
+    }
 
+    setIsAuthenticated(true);
+
+    setUserProfile(user)
+    setUserAvatarFromFirebase(user.id, rm)
+    favouriteService.getAllFavourte(user.id)
+      .then((response) => {
+        var mediaList = response.data.map((item) => item.id.mid);
+        console.log(mediaList)
+        setFavouriteList(mediaList);
+        if (rm) {
+          localStorage.setItem("userFavourite", JSON.stringify(mediaList));
+        }
+        else {
+          sessionStorage.setItem("userFavourite", JSON.stringify(mediaList));
+        }
+      })
   }
 
   const signOut = () => {
     // setToken('');
     // setAuthToken("123123");
     // setTimeout(() => setIsAuthenticated(false), 100);
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('userProfile');
+    localStorage.removeItem('userFavourite');
+    localStorage.removeItem('userAvatar');
+    sessionStorage.removeItem('userProfile');
+    sessionStorage.removeItem('userFavourite');
+    sessionStorage.removeItem('userAvatar');
     setIsAuthenticated(false);
   }
+
+  const addFavourite = (media) => {
+    const newFavouriteList = [...favouriteList, media];
+    setFavouriteList(newFavouriteList);
+    localStorage.setItem("favouriteList", JSON.stringify(newFavouriteList));
+  };
+
+  const removeFavourite = (media) => {
+    const newFavouriteList = favouriteList.filter((item) => item !== media.id);
+    setFavouriteList(newFavouriteList);
+    localStorage.setItem("favouriteList", JSON.stringify(newFavouriteList));
+  };
 
   return (
     <AuthContext.Provider
@@ -75,7 +120,10 @@ const AuthContextProvider = (props) => {
         // setRecommendMovies,
         userProfile,
         userAvatar,
-        setUserAvatarFromFirebase
+        setUserAvatarFromFirebase,
+        favouriteList,
+        addFavourite,
+        removeFavourite
         // recommendMovies
       }}
     >

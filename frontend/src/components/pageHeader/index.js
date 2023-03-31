@@ -235,7 +235,7 @@ const PageHeader = (props) => {
             authContext.isAuthenticated ? (
               <>
                 <MyButtonMenu items={[
-                  { title: "Profile", link: `/user/${authContext.userProfile.id}` },
+                  { title: "Profile", link: `/user/${authContext.userProfile.id}/profile` },
                   { title: "Logout", link: `` }
                 ]}>
                   <Avatar src={authContext.userAvatar} />

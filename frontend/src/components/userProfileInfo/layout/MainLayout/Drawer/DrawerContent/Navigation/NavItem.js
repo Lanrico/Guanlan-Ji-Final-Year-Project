@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { forwardRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { forwardRef, useContext, useEffect } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
@@ -9,10 +9,11 @@ import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography } 
 
 // project import
 import { activeItem } from '../../../../../store/reducers/menu';
-
+import { AuthContext } from '../../../../../../../context/authContext';
 // ==============================|| NAVIGATION - LIST ITEM ||============================== //
 
 const NavItem = ({ item, level }) => {
+    const authContext = useContext(AuthContext);
     const theme = useTheme();
     const dispatch = useDispatch();
     const menu = useSelector((state) => state.menu);
@@ -25,7 +26,7 @@ const NavItem = ({ item, level }) => {
         itemTarget = '_blank';
     }
 
-    let listItemProps = { component: forwardRef((props, ref) => <Link ref={ref} {...props} to={item.url} target={itemTarget} />) };
+    let listItemProps = { component: forwardRef((props, ref) => <NavLink ref={ref} {...props} to={`/user/${authContext.userProfile.id}/${item.url}`} target={itemTarget} />) };
     if (item?.external) {
         listItemProps = { component: 'a', href: item.url, target: itemTarget };
     }

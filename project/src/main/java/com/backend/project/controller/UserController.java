@@ -1,5 +1,7 @@
 package com.backend.project.controller;
 
+import com.backend.project.model.Favourite;
+import com.backend.project.model.Media;
 import com.backend.project.model.Movie;
 import com.backend.project.model.User;
 import com.backend.project.repository.UserRepository;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @CrossOrigin(origins = "http://127.0.0.1:8081")
 @RestController
@@ -28,6 +31,7 @@ public class UserController {
       Optional<User> _user = userRepository.findById(Integer.valueOf(id));
       if (_user.isPresent()) {
         _user.get().setReviews(null);
+        _user.get().setFavourites(null);
         return new ResponseEntity<>(_user, HttpStatus.OK);
       }
       else {
@@ -38,6 +42,7 @@ public class UserController {
       Optional<User> _user = userRepository.findByEmail(email);
       if (_user.isPresent()) {
         _user.get().setReviews(null);
+        _user.get().setFavourites(null);
         return new ResponseEntity<>(_user, HttpStatus.OK);
       }
       else {
@@ -84,4 +89,5 @@ public class UserController {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
+
 }

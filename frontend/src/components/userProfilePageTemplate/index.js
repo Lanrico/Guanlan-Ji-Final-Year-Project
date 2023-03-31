@@ -15,9 +15,13 @@ import Navigation from "../userProfileInfo/layout/MainLayout/Drawer/DrawerConten
 import DrawerContent from "../userProfileInfo/layout/MainLayout/Drawer/DrawerContent";
 import SettingDialog from "../settingDialog";
 import { AuthContext } from "../../context/authContext";
+import { useParams } from "react-router-dom";
+import Favourite from "../userProfileTabs/favourite";
 
 const UserPageTemplete = (props) => {
   const theme = useTheme();
+  const { tab } = useParams();
+  console.log(tab);
   const { drawerOpen } = useSelector((state) => state.menu);
   const authContext = useContext(AuthContext);
 
@@ -87,7 +91,6 @@ const UserPageTemplete = (props) => {
               />
             </Paper>
           </Paper>
-
         </Paper>
         <Paper elevation={0} sx={{ borderRadius: 0 }}>
           <Grid container  >
@@ -98,7 +101,30 @@ const UserPageTemplete = (props) => {
               <StyledHeader open={open} handleDrawerToggle={handleDrawerToggle} />
               <StyledDrawer open={open} handleDrawerToggle={handleDrawerToggle} />
             </div> */}
-            <Grid xs={9}>
+            <Grid xs={9} p={3}>
+              {
+                tab === "profile" ?
+                  (<>
+                    profile
+                  </>) :
+                  tab === "history" ?
+                    (<>history
+                    </>) :
+                    tab === "favourite" ?
+                      (
+                        <Favourite />
+                      ) :
+                      tab === "recommendation" ?
+                        (<>recommendation
+                        </>) :
+                        tab === "accountConfig" ?
+                          (<>accountConfig
+                          </>) :
+                          tab === "interestConfig" ?
+                            (<>interestConfig
+                            </>) :
+                            null
+              }
             </Grid>
           </Grid>
         </Paper>

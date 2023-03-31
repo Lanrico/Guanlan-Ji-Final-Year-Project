@@ -1,11 +1,23 @@
-import { Grid, Paper, Typography } from "@mui/material";
+import { Grid, IconButton, Paper, Typography } from "@mui/material";
 import CastBar from "../cast/castBar";
 import MediaActionTabs from "../mediaActionTabs";
 import MediaDetailRateBlock from "../mediaDetailRateBlock";
 import MediaInfoList from "../mediaInfoList";
 import PageTemplate from "../pageTemplate"
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useState } from "react";
 
 const MediaPageTemplate = (props) => {
+  const [isFavourite, setIsFavourite] = useState(false);
+
+  const handleSetFavourite = () => {
+    setIsFavourite(true);
+  }
+
+  const handleSetUnfavourite = () => {
+    setIsFavourite(false);
+  }
   console.log(props.media)
   return (
     <PageTemplate>
@@ -33,6 +45,21 @@ const MediaPageTemplate = (props) => {
             flexWrap: "wrap",
             justifyContent: "space-around",
           }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {
+                !isFavourite ? (
+                  <IconButton onClick={handleSetFavourite}>
+                    <FavoriteBorderIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton onClick={handleSetUnfavourite}>
+                    <FavoriteIcon color="secondary" />
+                  </IconButton>
+                )
+              }
+
+              <Typography variant="h6">{props.media.movie.originalTitle}</Typography>
+            </div>
             <Paper>
               <img
                 src={`https://image.tmdb.org/t/p/w500/${props.media[props.media_type].posterPath}`}

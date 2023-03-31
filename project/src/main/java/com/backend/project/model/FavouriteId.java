@@ -9,12 +9,21 @@ import java.util.Objects;
 
 @Embeddable
 public class FavouriteId implements Serializable {
+  public FavouriteId(Integer mid, Integer uid) {
+    this.mid = mid;
+    this.uid = uid;
+  }
+
   private static final long serialVersionUID = 6210568898629056310L;
   @Column(name = "mid", nullable = false)
   private Integer mid;
 
   @Column(name = "uid", nullable = false)
   private Integer uid;
+
+  public FavouriteId() {
+
+  }
 
   public Integer getMid() {
     return mid;

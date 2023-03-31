@@ -23,9 +23,11 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 
 export default function LoginBlock() {
+  const authContext = useContext(AuthContext);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openFail, setOpenFail] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState(authContext.userProfile.name);
+  const [rememberMe, setRememberMe] = useState(false);
   const theme = useTheme();
   // const firebaseConfig = {
   //   apiKey: "AIzaSyB_opQz9NSfRrPLhwc9yvckrDv4mSinUxI",
@@ -46,13 +48,12 @@ export default function LoginBlock() {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        console.log(user)
         setOpenSuccess(true);
-        setUserName(user.email);
+        // setUserName(user.email);
         userService.getByEmail(user.email)
           .then((response) => {
             console.log(response.data)
-            context.signIn(response.data)
+            context.signIn(response.data, data.get('rm'))
           })
         // ...
       })
@@ -70,6 +71,10 @@ export default function LoginBlock() {
   };
   const handleFailSnackClose = (event) => {
     setOpenFail(false);
+  };
+
+  const handleRememberMe = (event) => {
+    setRememberMe(event.target.checked);
   };
 
   const ColorButton = styled(Button)(({ theme }) => ({
@@ -145,8 +150,9 @@ export default function LoginBlock() {
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox value={rememberMe} onClick={handleRememberMe} color="primary" />}
               label="Keep me sign in"
+              name="rm"
             />
             <ColorButton
               type="submit"

@@ -73,6 +73,7 @@ const AuthLogin = () => {
         initialValues={{
           email: '',
           password: '',
+          rememberMe: checked,
           submit: null
         }}
         validationSchema={Yup.object().shape({
@@ -91,7 +92,7 @@ const AuthLogin = () => {
                 const user = userCredential.user;
                 userService.getByEmail(user.email)
                   .then((response) => {
-                    context.signIn(response.data)
+                    context.signIn(response.data, values.rememberMe)
                     navigate('/homepage')
                   })
               })
@@ -171,9 +172,9 @@ const AuthLogin = () => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={checked}
-                        onChange={(event) => setChecked(event.target.checked)}
-                        name="checked"
+                        checked={values.rememberMe}
+                        onChange={handleChange}
+                        name="rememberMe"
                         color="primary"
                         size="small"
                       />

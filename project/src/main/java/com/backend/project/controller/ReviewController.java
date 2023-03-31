@@ -6,6 +6,7 @@ import com.backend.project.model.Review;
 import com.backend.project.model.User;
 import com.backend.project.repository.MediaRepository;
 import com.backend.project.repository.ReviewRepository;
+import com.backend.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
@@ -27,7 +28,8 @@ public class ReviewController {
   ReviewRepository reviewRepository;
   @Autowired
   MediaRepository mediaRepository;
-
+  @Autowired
+  UserRepository userRepository;
   @PostMapping("/review/{media}")
   public ResponseEntity<Review> addMediaReview(@PathVariable("media") int media, @RequestBody Review review) {
     Optional<Media> mediaData = mediaRepository.findById(media);
@@ -81,6 +83,34 @@ public class ReviewController {
         r.setUid(tmpUser);
       }
       return new ResponseEntity<>(reviewList, HttpStatus.OK);
+    }
+    else {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  // get review by user id and media id
+  @GetMapping("/review/{mediaId}/{userId}")
+  public ResponseEntity<Review> getMediaUserReview(
+      @PathVariable("mediaId") int media,
+      @PathVariable("userId") int user
+      ) {
+    Optional<Media> mediaData = mediaRepository.findById(media);
+    Optional<User> userData = userRepository.findById(user);
+    if (mediaData.isPresent() && userData.isPresent()) {
+      Optional<Review> reviewData = reviewRepository.findReviewByMidAndUid(mediaData.get(), userData.get());
+      if (reviewData.isPresent()){
+        Review review = reviewData.get();
+        Media tmpMedia = review.getMid();
+        tmpMedia.setReviews(null);
+        review.setMid(tmpMedia);
+        User tmpUser = review.getUid();
+        tmpUser.setReviews(null);
+        review.setUid(tmpUser);
+        return new ResponseEntity<>(review, HttpStatus.OK);
+      }else {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
     }
     else {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
