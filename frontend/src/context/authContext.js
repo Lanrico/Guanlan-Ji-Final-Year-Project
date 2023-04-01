@@ -3,6 +3,7 @@ import React, { useState, createContext } from "react";
 // import { getUserRecommend, login, signup } from "../api/web-api";
 import { storage } from "../firebase";
 import favouriteService from "../api/favouriteService";
+import { currentTime } from "../util";
 
 export const AuthContext = createContext(null);
 
@@ -100,13 +101,25 @@ const AuthContextProvider = (props) => {
   const addFavourite = (media) => {
     const newFavouriteList = [...favouriteList, media];
     setFavouriteList(newFavouriteList);
-    localStorage.setItem("favouriteList", JSON.stringify(newFavouriteList));
+    favouriteService.addFavourite(userProfile.id, media, { time: currentTime(), describe: "Like" })
+    if (sessionStorage.getItem('userFavourite')) {
+      sessionStorage.setItem("userFavourite", JSON.stringify(newFavouriteList));
+    }
+    if (localStorage.getItem('userFavourite')) {
+      localStorage.setItem("userFavourite", JSON.stringify(newFavouriteList));
+    }
   };
 
   const removeFavourite = (media) => {
-    const newFavouriteList = favouriteList.filter((item) => item !== media.id);
+    const newFavouriteList = favouriteList.filter((item) => item !== media);
     setFavouriteList(newFavouriteList);
-    localStorage.setItem("favouriteList", JSON.stringify(newFavouriteList));
+    favouriteService.removeFavourite(userProfile.id, media)
+    if (sessionStorage.getItem('userFavourite')) {
+      sessionStorage.setItem("userFavourite", JSON.stringify(newFavouriteList));
+    }
+    if (localStorage.getItem('userFavourite')) {
+      localStorage.setItem("userFavourite", JSON.stringify(newFavouriteList));
+    }
   };
 
   return (

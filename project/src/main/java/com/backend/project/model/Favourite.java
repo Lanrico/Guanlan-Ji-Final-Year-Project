@@ -17,8 +17,8 @@ public class Favourite {
   private Media mid;
 
   @MapsId("uid")
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "uid", nullable = false)
   private User uid;
 

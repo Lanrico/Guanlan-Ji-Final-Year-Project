@@ -10,7 +10,7 @@ const Favourite = (props) => {
     <Grid container spacing={2}>
       {authContext.favouriteList.map((id) => {
         return (
-          <Grid item xs={3}>
+          <Grid item xs={6} md={4} lg={4}>
             <MediaCard media={id}></MediaCard>
           </Grid>
         )

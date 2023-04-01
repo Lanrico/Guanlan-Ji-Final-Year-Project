@@ -6,17 +6,21 @@ import MediaInfoList from "../mediaInfoList";
 import PageTemplate from "../pageTemplate"
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/authContext";
 
 const MediaPageTemplate = (props) => {
-  const [isFavourite, setIsFavourite] = useState(false);
+  const authContext = useContext(AuthContext);
+  const [isFavourite, setIsFavourite] = useState(authContext.favouriteList.includes(props.media.id));
 
   const handleSetFavourite = () => {
     setIsFavourite(true);
+    authContext.addFavourite(props.media.id);
   }
 
   const handleSetUnfavourite = () => {
     setIsFavourite(false);
+    authContext.removeFavourite(props.media.id);
   }
   console.log(props.media)
   return (

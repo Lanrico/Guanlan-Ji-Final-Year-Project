@@ -11,7 +11,7 @@ class ReviewDataService {
   getReviewsByMediaAndUser(args) {
     const [, argsQuery] = args.queryKey
     console.log(argsQuery)
-    return http.get(`/review/${argsQuery.media}/${argsQuery.user})`)
+    return http.get(`/review/${argsQuery.media}/${argsQuery.user}`)
   }
 
   getReviewsByMedia(args) {

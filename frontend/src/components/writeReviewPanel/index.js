@@ -23,7 +23,6 @@ const WriteReviewPanel = (props) => {
     setOpenSuccess(false);
   };
   const handleSubmit = (event) => {
-    event.preventDefault();
     setIsSubmitting(true)
     reviewService.addReviewToMedia(
       id,

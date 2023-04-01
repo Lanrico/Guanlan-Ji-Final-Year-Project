@@ -103,7 +103,6 @@ public class FavouriteController {
     favourite.setMid(mediaData.get());
     favourite.setTime(favouriteDandT.getTime());
     favourite.setDescribe(favouriteDandT.getDescribe());
-    System.out.println(favourite.getMid().getId());
     favouriteRepository.save(favourite);
     return new ResponseEntity<>(null, HttpStatus.OK);
   }

@@ -107,7 +107,11 @@ const PageHeader = (props) => {
   };
 
   const handleSearchButton = (event) => {
-    navigate(`/search/Movie/${searchText}/1`)
+    if (searchText === '') {
+    }
+    else {
+      navigate(`/search/Movie/${searchText}/1`)
+    }
   };
 
   const handleSearchTFChange = (event) => {

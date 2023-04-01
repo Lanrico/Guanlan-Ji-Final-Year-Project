@@ -15,7 +15,7 @@ class FavouriteDataService {
   }
 
   addFavourite(user, media, data) {
-    console.log(media)
+    console.log(data)
     return http.post(`/favourite/${user}/add/${media}`, data);
   }
 
@@ -23,7 +23,7 @@ class FavouriteDataService {
     return http.put(`/favourite/${id}`, data);
   }
 
-  delete(user, media) {
+  removeFavourite(user, media) {
     return http.delete(`/favourite/${user}/delete/${media}`);
   }
 

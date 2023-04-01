@@ -80,6 +80,7 @@ public class ReviewController {
         r.setMid(tmpMedia);
         User tmpUser = r.getUid();
         tmpUser.setReviews(null);
+        tmpUser.setFavourites(null);
         r.setUid(tmpUser);
       }
       return new ResponseEntity<>(reviewList, HttpStatus.OK);
@@ -106,6 +107,7 @@ public class ReviewController {
         review.setMid(tmpMedia);
         User tmpUser = review.getUid();
         tmpUser.setReviews(null);
+        tmpUser.setFavourites(null);
         review.setUid(tmpUser);
         return new ResponseEntity<>(review, HttpStatus.OK);
       }else {
