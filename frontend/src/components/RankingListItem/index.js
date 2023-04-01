@@ -1,15 +1,29 @@
-import { Chip, Divider, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography, useTheme } from "@mui/material"
+import { Chip, Divider, IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography, useTheme } from "@mui/material"
 import { yellow } from "@mui/material/colors"
-import React from "react"
+import React, { useContext, useState } from "react"
 import genres from "../../sampleData/genres"
 import placeholder from "../../images/film-poster-placeholder.png"
 import { Link } from "react-router-dom"
 import { useQuery } from "react-query"
 import movieService from "../../api/movieService"
 import Spinner from "../spinner"
-
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { AuthContext } from "../../context/authContext"
 const RankingListItem = (props) => {
   const theme = useTheme();
+  const authContext = useContext(AuthContext);
+  const [isFavourite, setIsFavourite] = useState(authContext.favouriteList.includes(props.media.id));
+
+  const handleSetFavourite = () => {
+    setIsFavourite(true);
+    authContext.addFavourite(props.media.id);
+  }
+
+  const handleSetUnfavourite = () => {
+    setIsFavourite(false);
+    authContext.removeFavourite(props.media.id);
+  }
   const { data, error, isLoading, isError } = useQuery(
     ["topMovieRanking", { id: props.media.id }], movieService.getRank
   )
@@ -32,6 +46,17 @@ const RankingListItem = (props) => {
           />
         </ListItemAvatar>
         <ListItemSecondaryAction sx={{ top: "20%" }}>
+          {
+            !isFavourite ? (
+              <IconButton size="small" onClick={handleSetFavourite}>
+                <FavoriteBorderIcon />
+              </IconButton>
+            ) : (
+              <IconButton size="small" onClick={handleSetUnfavourite}>
+                <FavoriteIcon color="secondary" />
+              </IconButton>
+            )
+          }
           {
             rank > 10000 ? (null) : (
               <Chip
@@ -88,6 +113,7 @@ const RankingListItem = (props) => {
                   ({props.media.finalVoteCount} users)
                 </Typography>
               </div>
+
             </React.Fragment>
           }
         />

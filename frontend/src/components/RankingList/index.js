@@ -42,7 +42,7 @@ export default function RankingList(props) {
         }
       </List>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Pagination count={10} page={page} color={'primary'}
+        <Pagination count={data.data.totalPages} page={page} color={'primary'}
           renderItem={(item) => (
             <PaginationItem component={Link} to={`/ranking/movie/${item.page}`} {...item} />
           )}

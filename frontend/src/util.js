@@ -162,3 +162,12 @@ export const currentTime = () => {
   const formattedString = isoString.substring(0, isoString.length - 5) + "Z";
   return formattedString;
 }
+
+// divide a list into several sublists with size of n
+export const divideList = (list, n) => {
+  var result = []
+  for (var i = 0; i < list.length; i += n) {
+    result.push(list.slice(i, i + n))
+  }
+  return result
+}

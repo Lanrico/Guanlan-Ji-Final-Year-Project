@@ -1,8 +1,9 @@
 import http from "../http-common";
 
 class FavouriteDataService {
-  getAllFavourteByPage(user) {
-    return http.get(`/favourite/${user}/getAllByPage`);
+  getAllFavourteByPage(args) {
+    const [, argsQuery] = args.queryKey
+    return http.get(`/favourite/${argsQuery.user}/getAllByPage?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`);
   }
 
   getAllFavourte(user) {
