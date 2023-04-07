@@ -89,6 +89,7 @@ public class Media {
   private DiscussGroup discussGroup;
 
   @OneToMany(mappedBy = "mid")
+  @JsonIgnore
   private Set<History> histories = new LinkedHashSet<>();
 
   @Column(name = "final_rate")

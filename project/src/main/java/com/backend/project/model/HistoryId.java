@@ -9,6 +9,13 @@ import java.util.Objects;
 
 @Embeddable
 public class HistoryId implements Serializable {
+  public HistoryId(Integer mid, Integer uid) {
+    this.mid = mid;
+    this.uid = uid;
+  }
+  public HistoryId() {
+
+  }
   private static final long serialVersionUID = 1128300342533005769L;
   @Column(name = "uid", nullable = false)
   private Integer uid;
