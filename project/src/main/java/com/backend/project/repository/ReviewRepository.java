@@ -1,5 +1,6 @@
 package com.backend.project.repository;
 
+import com.backend.project.model.History;
 import com.backend.project.model.Media;
 import com.backend.project.model.Review;
 import com.backend.project.model.User;
@@ -15,7 +16,7 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
   Page<Review> getReviewsByMidAndUidType(Media media, Integer type, Pageable pageable);
   List<Review> getReviewsByMidAndUidType(Media media, Integer type);
   Optional<Review> findReviewByMidAndUid(Media media, User user);
-
+  List<Review> findByUidOrderByTimeDesc(User uid);
 
 //  @Query("SELECT MEDIAN(e.voteCount) FROM Media e")
 //  Double findMedian();

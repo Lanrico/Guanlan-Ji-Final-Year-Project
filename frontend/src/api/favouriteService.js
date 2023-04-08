@@ -6,8 +6,9 @@ class FavouriteDataService {
     return http.get(`/favourite/${argsQuery.user}/getAllByPage?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`);
   }
 
-  getAllFavourte(user) {
-    return http.get(`/favourite/${user}/getAll`);
+  getAllFavourte(args) {
+    const [, argsQuery] = args.queryKey
+    return http.get(`/favourite/${argsQuery.user}/getAll`);
   }
 
 

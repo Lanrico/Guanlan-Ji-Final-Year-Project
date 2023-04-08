@@ -15,6 +15,6 @@ import java.util.Optional;
 public interface FavouriteRepository extends JpaRepository<Favourite, FavouriteId> {
   // find all favourite by user id
   Page<Favourite> findByUid(User uid, Pageable pageable);
-  List<Favourite> findByUid(User uid);
+  List<Favourite> findByUidOrderByTimeDesc(User uid);
   Optional<Favourite> findByUidAndMid(User uid, Media mid);
 }

@@ -45,10 +45,10 @@ public class HistoryController {
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
       }
       Page<History> historyData = historyRepository.findByUid(userData.get(),  pageable);
-//      for (History h:historyData) {
-//        h.getMid().setReviews(null);
-//        h.setUid(null);
-//      }
+      for (History h:historyData) {
+        h.getMid().setReviews(null);
+        h.setUid(null);
+      }
       return new ResponseEntity<>(historyData, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -111,7 +111,7 @@ public class HistoryController {
     Optional<History> historyData = historyRepository.findByUidAndMid(userData.get(), mediaData.get());
     if (historyData.isPresent()) {
       historyRepository.delete(historyData.get());
-      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(null, HttpStatus.OK);
     } else {
       return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }

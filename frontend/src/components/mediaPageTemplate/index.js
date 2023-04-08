@@ -6,13 +6,26 @@ import MediaInfoList from "../mediaInfoList";
 import PageTemplate from "../pageTemplate"
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/authContext";
+import historyService from "../../api/historyService";
 
 const MediaPageTemplate = (props) => {
   const authContext = useContext(AuthContext);
   const [isFavourite, setIsFavourite] = useState(authContext.favouriteList.includes(props.media.id));
 
+  // Add to history by api when enter the page
+  useEffect(() => {
+    historyService.create(authContext.userProfile.id, props.media.id)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("history modified")
+        } else if (res.status === 201) {
+          console.log("history created")
+        }
+        console.log(res)
+      })
+  }, [authContext.userProfile.id, props.media.id])
   const handleSetFavourite = () => {
     setIsFavourite(true);
     authContext.addFavourite(props.media.id);

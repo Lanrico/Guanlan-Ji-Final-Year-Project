@@ -5,23 +5,21 @@ class ReviewDataService {
     return http.get("/review/all");
   }
 
-  getById(id) {
-    return http.get(`/review/?id=${id}`);
+  getById(args) {
+    const [, argsQuery] = args.queryKey
+    return http.get(`/review/user/${argsQuery.id}`);
   }
   getReviewsByMediaAndUser(args) {
     const [, argsQuery] = args.queryKey
-    console.log(argsQuery)
     return http.get(`/review/${argsQuery.media}/${argsQuery.user}`)
   }
 
   getReviewsByMedia(args) {
     const [, argsQuery] = args.queryKey
-    console.log(argsQuery)
     return http.get(`/review/${argsQuery.media}?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}&orderBy=${argsQuery.orderBy}&type=${argsQuery.type}`)
   }
 
   addReviewToMedia(id, data) {
-    console.log(data)
     return http.post(`/review/${id}`, data);
   }
 

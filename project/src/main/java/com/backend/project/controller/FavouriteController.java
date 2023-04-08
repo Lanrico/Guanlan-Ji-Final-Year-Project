@@ -68,7 +68,7 @@ public class FavouriteController {
       if(!userData.isPresent()) {
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
       }
-      List<Favourite> favouriteData = favouriteRepository.findByUid(userData.get());
+      List<Favourite> favouriteData = favouriteRepository.findByUidOrderByTimeDesc(userData.get());
       for (Favourite f:favouriteData) {
         f.getMid().setReviews(null);
         f.setUid(null);

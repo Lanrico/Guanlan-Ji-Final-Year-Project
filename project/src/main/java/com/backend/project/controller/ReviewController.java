@@ -118,4 +118,28 @@ public class ReviewController {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
+
+  @GetMapping("/review/user/{user}")
+  public ResponseEntity<List<Review>> getUserReviews(
+      @PathVariable("user") int user
+      ) {
+    Optional<User> userData = userRepository.findById(user);
+    if (userData.isPresent()) {
+      List<Review> reviewList = reviewRepository.findByUidOrderByTimeDesc(userData.get());
+      for (Review r:reviewList) {
+        Media tmpMedia = r.getMid();
+        tmpMedia.setReviews(null);
+        r.setMid(tmpMedia);
+        User tmpUser = r.getUid();
+        tmpUser.setReviews(null);
+        tmpUser.setFavourites(null);
+        tmpUser.setHistories(null);
+        r.setUid(tmpUser);
+      }
+      return new ResponseEntity<>(reviewList, HttpStatus.OK);
+    }
+    else {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+  }
 }

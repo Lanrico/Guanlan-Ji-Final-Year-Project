@@ -17,11 +17,11 @@ import SettingDialog from "../settingDialog";
 import { AuthContext } from "../../context/authContext";
 import { useParams } from "react-router-dom";
 import Favourite from "../userProfileTabs/favourite";
+import History from "../userProfileTabs/history";
 
 const UserPageTemplete = (props) => {
   const theme = useTheme();
   const { tab } = useParams();
-  console.log(tab);
   const { drawerOpen } = useSelector((state) => state.menu);
   const authContext = useContext(AuthContext);
 
@@ -50,7 +50,7 @@ const UserPageTemplete = (props) => {
           <Paper elevation={0} sx={{ display: "flex", justifyContent: "space-between" }}>
             <Paper elevation={0}>
               <Avatar
-                alt="Remy Sharp"
+                alt={props.user.name}
                 src={authContext.userAvatar}
                 sx={{ width: `${avatarSize}px`, height: `${avatarSize}px`, marginTop: `-${avatarSize / 2 + avatarSize / 50}px`, border: "4px solid #fff", position: "absolute" }}
               />
@@ -108,8 +108,9 @@ const UserPageTemplete = (props) => {
                     profile
                   </>) :
                   tab === "history" ?
-                    (<>history
-                    </>) :
+                    (
+                      <History />
+                    ) :
                     tab === "favourite" ?
                       (
                         <Favourite />

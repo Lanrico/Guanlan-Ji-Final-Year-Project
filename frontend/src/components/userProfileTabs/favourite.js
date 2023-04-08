@@ -21,8 +21,6 @@ const Favourite = (props) => {
     return null
   }
 
-
-
   const favouriteList = data.data.content.map((favourite) => favourite.id.mid);
 
   return (
