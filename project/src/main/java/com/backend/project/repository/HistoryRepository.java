@@ -14,4 +14,6 @@ public interface HistoryRepository extends JpaRepository<History, HistoryId> {
   List<History> findByUid(User uid);
   Optional<History> findByUidAndMid(User uid, Media mid);
   List<History> findHistoryRecordsByUidOrderByTimeAsc(User userId);
+
+  Optional<List<History>> findHistoriesByUid(User user);
 }

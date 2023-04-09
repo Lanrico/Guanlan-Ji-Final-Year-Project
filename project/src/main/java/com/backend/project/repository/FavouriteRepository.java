@@ -17,4 +17,6 @@ public interface FavouriteRepository extends JpaRepository<Favourite, FavouriteI
   Page<Favourite> findByUid(User uid, Pageable pageable);
   List<Favourite> findByUidOrderByTimeDesc(User uid);
   Optional<Favourite> findByUidAndMid(User uid, Media mid);
+
+  Optional<List<Favourite>> findFavouritesByUid(User user);
 }

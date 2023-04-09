@@ -18,6 +18,8 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
   Optional<Review> findReviewByMidAndUid(Media media, User user);
   List<Review> findByUidOrderByTimeDesc(User uid);
 
+  Optional<List<Review>> findReviewsByUid(User user);
+
 //  @Query("SELECT MEDIAN(e.voteCount) FROM Media e")
 //  Double findMedian();
 }

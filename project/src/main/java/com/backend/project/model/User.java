@@ -52,6 +52,10 @@ public class User {
   @OneToMany(mappedBy = "uid")
   private Set<History> histories = new LinkedHashSet<>();
 
+  @OneToMany(mappedBy = "uid")
+  @JsonIgnore
+  private Set<InterestScore> interestScores = new LinkedHashSet<>();
+
   public Integer getId() {
     return id;
   }

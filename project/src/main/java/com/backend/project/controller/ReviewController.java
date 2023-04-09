@@ -77,10 +77,13 @@ public class ReviewController {
       for (Review r:reviewList) {
         Media tmpMedia = r.getMid();
         tmpMedia.setReviews(null);
+        tmpMedia.setFavourites(null);
+        tmpMedia.setHistories(null);
         r.setMid(tmpMedia);
         User tmpUser = r.getUid();
         tmpUser.setReviews(null);
         tmpUser.setFavourites(null);
+        tmpUser.setHistories(null);
         r.setUid(tmpUser);
       }
       return new ResponseEntity<>(reviewList, HttpStatus.OK);
@@ -104,10 +107,13 @@ public class ReviewController {
         Review review = reviewData.get();
         Media tmpMedia = review.getMid();
         tmpMedia.setReviews(null);
+        tmpMedia.setFavourites(null);
+        tmpMedia.setHistories(null);
         review.setMid(tmpMedia);
         User tmpUser = review.getUid();
         tmpUser.setReviews(null);
         tmpUser.setFavourites(null);
+        tmpUser.setHistories(null);
         review.setUid(tmpUser);
         return new ResponseEntity<>(review, HttpStatus.OK);
       }else {
