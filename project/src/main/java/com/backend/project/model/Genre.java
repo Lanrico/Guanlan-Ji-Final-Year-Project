@@ -23,6 +23,13 @@ public class Genre {
       inverseJoinColumns = @JoinColumn(name = "mid"))
   private Set<Media> media = new LinkedHashSet<>();
 
+  @ManyToMany
+  @JsonIgnore
+  @JoinTable(name = "preferred_genre",
+      joinColumns = @JoinColumn(name = "gid"),
+      inverseJoinColumns = @JoinColumn(name = "uid"))
+  private Set<User> users = new LinkedHashSet<>();
+
   public Integer getId() {
     return id;
   }

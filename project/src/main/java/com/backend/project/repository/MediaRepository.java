@@ -3,6 +3,7 @@ package com.backend.project.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.backend.project.model.Genre;
 import com.backend.project.model.Media;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,4 +29,10 @@ public interface MediaRepository extends JpaRepository<Media, Integer>, JpaSpeci
   Double findVoteCountAverage();
 
   Page<Media> findByMovieTitleContaining(String title, Pageable pageable);
+
+  List<Media> findTop20ByOrderByPopularityDesc();
+
+  List<Media> findTop20ByOrderByFinalRateDesc();
+
+  List<Media> findTop20ByGenresContainingOrderByFinalRateDesc(Genre genre);
 }

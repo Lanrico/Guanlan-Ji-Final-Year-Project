@@ -56,6 +56,12 @@ public class User {
   @JsonIgnore
   private Set<InterestScore> interestScores = new LinkedHashSet<>();
 
+  @ManyToMany
+  @JoinTable(name = "preferred_genre",
+      joinColumns = @JoinColumn(name = "uid"),
+      inverseJoinColumns = @JoinColumn(name = "gid"))
+  private Set<Genre> genres = new LinkedHashSet<>();
+
   public Integer getId() {
     return id;
   }

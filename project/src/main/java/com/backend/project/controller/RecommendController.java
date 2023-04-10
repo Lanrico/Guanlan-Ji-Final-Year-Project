@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://127.0.0.1:8081")
@@ -34,6 +33,13 @@ public class RecommendController {
   UserRepository userRepository;
   @Autowired
   MovieRepository movieRepository;
+  @Autowired
+  PreferredGenreRepository preferredGenreRepository;
+  @Autowired
+  MediaRepository mediaRepository;
+  @Autowired
+  private RecommendationRepository recommendationRepository;
+
 
   @GetMapping("/recommend/{userId}")
   public ResponseEntity<List<Media>> getRecommend(@PathVariable("userId") int userId) {
@@ -42,8 +48,11 @@ public class RecommendController {
   }
 
   @GetMapping("/recommend/realTime/{userId}")
-  public ResponseEntity<List<MediaTimes>> getRecommendByRealTime(@PathVariable("userId") int userId) {
-    System.out.println(myTmdbKey);
+  public ResponseEntity<List<MediaTimes>> getRecommendByRealTime(
+      @PathVariable("userId") int userId,
+      @RequestParam(required = false) Integer weight
+  ) {
+    int recommendSize = weight == null ? 20 : weight;
     // get user
     Optional<User> userData = userRepository.findById(userId);
     if (!userData.isPresent()) {
@@ -70,10 +79,54 @@ public class RecommendController {
     }
     // calculate real time recommend
     List<MediaTimes> mediaList = RealTimeRecommendCalculator(user, reviewList, historyList, favouriteList);
-    List<MediaTimes> sortedList =  mediaList.stream()
-        .sorted(Comparator.comparingInt(MediaTimes::getTime)
-        .thenComparing(mt -> mt.getMedia().getFinalRate()).reversed())
-        .limit(20)
+    List<MediaTimes> sortedList = mediaList.stream()
+        .sorted(Comparator.comparingDouble(MediaTimes::getTime)
+            .thenComparing(mt -> mt.getMedia().getFinalRate()).reversed())
+        .limit(recommendSize)
+        .collect(Collectors.toList());
+
+    return new ResponseEntity<>(sortedList, HttpStatus.OK);
+  }
+
+  @GetMapping("/recommend/offline/{userId}")
+  public ResponseEntity<List<MediaTimes>> getRecommendByOffline(
+      @PathVariable("userId") int userId,
+      @RequestParam(required = false) Integer weight
+  ) {
+    int recommendSize = weight == null ? 20 : weight;
+    // get user
+    Optional<User> userData = userRepository.findById(userId);
+    if (!userData.isPresent()) {
+      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+    User user = userData.get();
+    List<MediaTimes> mediaList = OfflineRecommendCalculator(user);
+    List<MediaTimes> sortedList = mediaList.stream()
+        .sorted(Comparator.comparingDouble(MediaTimes::getTime)
+            .thenComparing(mt -> mt.getMedia().getFinalRate()).reversed())
+        .limit(recommendSize)
+        .collect(Collectors.toList());
+
+    return new ResponseEntity<>(sortedList, HttpStatus.OK);
+  }
+
+  @GetMapping("/recommend/statistics/{userId}")
+  public ResponseEntity<List<MediaTimes>> getRecommendByStatistics(
+      @PathVariable("userId") int userId,
+      @RequestParam(required = false) Integer weight
+  ) {
+    int recommendSize = weight == null ? 20 : weight;
+    // get user
+    Optional<User> userData = userRepository.findById(userId);
+    if (!userData.isPresent()) {
+      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+    User user = userData.get();
+    List<MediaTimes> mediaList = StatisticsRecommendCalculator(user);
+    List<MediaTimes> sortedList = mediaList.stream()
+        .sorted(Comparator.comparingDouble(MediaTimes::getTime)
+            .thenComparing(mt -> mt.getMedia().getFinalRate()).reversed())
+        .limit(recommendSize)
         .collect(Collectors.toList());
 
     return new ResponseEntity<>(sortedList, HttpStatus.OK);
@@ -145,58 +198,17 @@ public class RecommendController {
     for (InterestScore interestScore : interestScoreList) {
       try {
         List<Integer> similarList = tmdbController.getIdsFromTMDB(interestScore.getMid().getMovie().getImdbId(), "similar", myTmdbKey);
-        for (Integer id : similarList) {
-          Optional<Movie> movieData = movieRepository.findByTmdbId(id);
-          if (movieData.isPresent()) {
-            int index = -1;
-            for (MediaTimes mediaTimes : recommendMediaList) {
-              if (mediaTimes.getMedia().getId().equals(movieData.get().getId())) {
-                index = recommendMediaList.indexOf(mediaTimes);
-                break;
-              }
-            }
-            if (index == -1) {
-              Media tmpMedia = movieData.get().getMedia();
-              tmpMedia.setFavourites(null);
-              tmpMedia.setHistories(null);
-              tmpMedia.setReviews(null);
-              recommendMediaList.add(new MediaTimes(tmpMedia, 1));
-            } else {
-              recommendMediaList.get(index).setTime(recommendMediaList.get(index).getTime() + 1);
-            }
-          }
-        }
+        recommendMediaList = (ArrayList<MediaTimes>) mediaTimesListGeneratorById(similarList, recommendMediaList, 1);
       } catch (IOException e) {
         System.out.println(e.getMessage());
         throw new RuntimeException(e);
       }
     }
 
-    for (InterestScore interestScore : notInterestScoreList){
+    for (InterestScore interestScore : notInterestScoreList) {
       try {
         List<Integer> similarList = tmdbController.getIdsFromTMDB(interestScore.getMid().getMovie().getImdbId(), "similar", myTmdbKey);
-        for (Integer id : similarList) {
-          Optional<Movie> movieData = movieRepository.findByTmdbId(id);
-          if (movieData.isPresent()) {
-            int index = -1;
-            for (MediaTimes mediaTimes : recommendMediaList) {
-              if (mediaTimes.getMedia().getId().equals(movieData.get().getId())) {
-                index = recommendMediaList.indexOf(mediaTimes);
-                break;
-              }
-            }
-            if (index == -1) {
-              Media tmpMedia = movieData.get().getMedia();
-              tmpMedia.setFavourites(null);
-              tmpMedia.setHistories(null);
-              tmpMedia.setReviews(null);
-              recommendMediaList.add(new MediaTimes(tmpMedia, -1));
-            } else {
-              recommendMediaList.get(index).setTime(recommendMediaList.get(index).getTime() - 1);
-            }
-          }
-        }
-
+        recommendMediaList = (ArrayList<MediaTimes>) mediaTimesListGeneratorById(similarList, recommendMediaList, -1);
       } catch (IOException e) {
         System.out.println(e.getMessage());
         throw new RuntimeException(e);
@@ -204,6 +216,7 @@ public class RecommendController {
     }
     return recommendMediaList;
   }
+
   public double calculateInterestScore(double userRating, Boolean userLikesMovie, Instant dayBrowsed, Instant dayRated, Instant dayFavourited, boolean isFavourite) {
     double ratingWeight = 0.6;
     double reviewWeight = 0.3;
@@ -216,11 +229,12 @@ public class RecommendController {
 //    double ratingScore = ((Math.pow(userRating - 5, 3)) / 125);
     double ratingScore = (userRating - 6) * 10;
 
-    double reviewScore = userLikesMovie == null ? 0 : userLikesMovie?  10 : -10;
+    double reviewScore = userLikesMovie == null ? 0 : userLikesMovie ? 10 : -10;
     double favouriteScore = isFavourite ? 30 : 0;
 
     double browseHistoryDecayRate = 0.01;
-    double browseHistoryScore = 10 * Math.exp(-browseHistoryDecayRate * daysSinceBrowsed);;
+    double browseHistoryScore = 10 * Math.exp(-browseHistoryDecayRate * daysSinceBrowsed);
+    ;
 
     double decayRate = 0.01;
     double favouriteDecayRate = 0.005;
@@ -238,25 +252,197 @@ public class RecommendController {
     return interestScore;
   }
 
-  class MediaTimes {
-    private Media media;
-    private Integer time;
+  public ArrayList<MediaTimes> OfflineRecommendCalculator(User user) {
+    List<User> userList = userRepository.findAllByIdNot(user.getId());
+    List<Double> similarityList = new ArrayList<>();
+    for (User userN : userList) {
+      double similarity = calculateSimilarity(user, userN);
+      similarityList.add(similarity);
+    }
+    // find the top 5 similar users
+    List<User> top5SimilarUsers = new ArrayList<>();
+    for (int i = 0; i < 5; i++) {
+      int maxIndex = similarityList.indexOf(Collections.max(similarityList));
+      top5SimilarUsers.add(userList.get(maxIndex));
+      similarityList.set(maxIndex, -1.0);
+    }
+    ArrayList<MediaTimes> recommendMediaList = new ArrayList<MediaTimes>();
 
-    public MediaTimes(Media media, Integer time) {
+    for (User userN : top5SimilarUsers) {
+      System.out.println(userN.getId());
+      Optional<List<Recommendation>> similarRecommendationList = recommendationRepository.findMediasByUid(userN);
+      if (!similarRecommendationList.isPresent()) {
+        continue;
+      }
+      List<Media> similarMediaList = new ArrayList<>();
+      for (Recommendation recommendation : similarRecommendationList.get()) {
+        similarMediaList.add(recommendation.getMid());
+      }
+      recommendMediaList = (ArrayList<MediaTimes>) mediaTimesListGeneratorByMedia(similarMediaList, recommendMediaList, 1);
+    }
+    return recommendMediaList;
+  }
+
+  public double calculateSimilarity(User user1, User user2) {
+    // get user preferred genres' id as a list
+    List<Integer> user1GenreList = new ArrayList<>();
+    List<Integer> user2GenreList = new ArrayList<>();
+    Optional<List<PreferredGenre>> user1GenreListData = preferredGenreRepository.findPreferredGenresByUid(user1);
+    Optional<List<PreferredGenre>> user2GenreListData = preferredGenreRepository.findPreferredGenresByUid(user2);
+    if (user1GenreListData.isPresent() && user2GenreListData.isPresent()) {
+      for (PreferredGenre preferredGenre : user1GenreListData.get()) {
+        user1GenreList.add(preferredGenre.getGid().getId());
+      }
+      for (PreferredGenre preferredGenre : user2GenreListData.get()) {
+        user2GenreList.add(preferredGenre.getGid().getId());
+      }
+    }
+
+    // Get user attributes
+    String country1 = user1.getCountry() == null ? "unknown1" : user1.getCountry().getId();
+    LocalDate birthday1 = user1.getBirthday();
+    String language1 = "en"; // 以后改为用户偏好的语言
+
+    String country2 = user2.getCountry() == null ? "unknown2" : user2.getCountry().getId();
+    LocalDate birthday2 = user2.getBirthday();
+    String language2 = "cn";
+
+    // Convert attributes to numerical values
+    double countrySimilarity = country1.equals(country2) ? 1.0 : 0.0;
+    double languageSimilarity = language1.equals(language2) ? 1.0 : 0.0;
+    int age1 = birthday1 == null? 100 : Period.between(birthday1, LocalDate.now()).getYears();
+    int age2 = birthday2 == null? 1 : Period.between(birthday2, LocalDate.now()).getYears();
+    double genresOverlap = calculateGenresOverlap(user1GenreList, user2GenreList);
+
+    // Normalize age attributes
+    int maxAge = 100;
+    double normalizedAge1 = (double) age1 / maxAge;
+    double normalizedAge2 = (double) age2 / maxAge;
+
+    // Set attribute weights
+    double countryWeight = 1.0;
+    double ageWeight = 2.0;
+    double languageWeight = 1.0;
+    double genresWeight = 3.0;
+
+    // Calculate Euclidean distance with weights
+    double euclideanDistance = Math.sqrt(
+      Math.pow((normalizedAge1 - normalizedAge2) * ageWeight, 2) +
+      Math.pow((countrySimilarity) * countryWeight, 2) +
+      Math.pow((languageSimilarity) * languageWeight, 2) +
+      Math.pow((genresOverlap) * genresWeight, 2)
+    );
+
+    // Calculate similarity based on the Euclidean distance
+    double similarity = 1 / (1 + euclideanDistance);
+
+    return similarity;
+  }
+
+  private double calculateGenresOverlap(List<Integer> preferredGenres1, List<Integer> preferredGenres2) {
+    Set<Integer> intersection = new HashSet<>(preferredGenres1);
+    intersection.retainAll(preferredGenres2);
+    int overlappingGenres = intersection.size();
+    int totalGenresInUser2 = preferredGenres2.size();
+
+    return totalGenresInUser2 == 0 ? 0.0 : (double) overlappingGenres / totalGenresInUser2;
+  }
+
+
+  public ArrayList<MediaTimes> StatisticsRecommendCalculator(User user) {
+    // find the top 20 most popular media
+    List<Media> mediaTop20PopularList = mediaRepository.findTop20ByOrderByPopularityDesc();
+    // find the top 20 final rate media
+    List<Media> mediaTop20FinalRateList = mediaRepository.findTop20ByOrderByFinalRateDesc();
+    // find the top 20 final rate media in user's preferred genres
+    List<Media> mediaTop20FinalRateInPreferredGenresList = new ArrayList<>();
+    Optional<List<PreferredGenre>> preferredGenreListData = preferredGenreRepository.findPreferredGenresByUid(user);
+    if (preferredGenreListData.isPresent()) {
+      for (PreferredGenre preferredGenre : preferredGenreListData.get()) {
+        List<Media> mediaList = mediaRepository.findTop20ByGenresContainingOrderByFinalRateDesc(preferredGenre.getGid());
+        mediaTop20FinalRateInPreferredGenresList.addAll(mediaList);
+      }
+    }
+    // use the lists to generate the mediatimes list
+    ArrayList<MediaTimes> recommendMediaList = new ArrayList<>();
+    recommendMediaList = (ArrayList<MediaTimes>) mediaTimesListGeneratorByMedia(mediaTop20PopularList, recommendMediaList, 1);
+    recommendMediaList = (ArrayList<MediaTimes>) mediaTimesListGeneratorByMedia(mediaTop20FinalRateList, recommendMediaList, 1);
+    recommendMediaList = (ArrayList<MediaTimes>) mediaTimesListGeneratorByMedia(mediaTop20FinalRateInPreferredGenresList, recommendMediaList, 1);
+    return recommendMediaList;
+  }
+
+  // convert the media list into a list of mediatimes
+  public List<MediaTimes> mediaTimesListGeneratorById(List<Integer> mediaIdList, List<MediaTimes> existingMediaTimesList, double timeWeight) {
+    List<MediaTimes> mediaTimesList = existingMediaTimesList == null? new ArrayList<>() : existingMediaTimesList;
+    for (Integer id : mediaIdList) {
+      Optional<Movie> movieData = movieRepository.findByTmdbId(id);
+      if (movieData.isPresent()) {
+        int index = -1;
+        for (MediaTimes mediaTimes : mediaTimesList) {
+          if (mediaTimes.getMedia().getId().equals(movieData.get().getId())) {
+            index = mediaTimesList.indexOf(mediaTimes);
+            break;
+          }
+        }
+        if (index == -1) {
+          Media tmpMedia = movieData.get().getMedia();
+          tmpMedia.setFavourites(null);
+          tmpMedia.setHistories(null);
+          tmpMedia.setReviews(null);
+          mediaTimesList.add(new MediaTimes(tmpMedia, timeWeight));
+        } else {
+          mediaTimesList.get(index).setTime(mediaTimesList.get(index).getTime() + timeWeight);
+        }
+      }
+    }
+    return mediaTimesList;
+  }
+
+  public List<MediaTimes> mediaTimesListGeneratorByMedia(List<Media> mediaList, List<MediaTimes> existingMediaTimesList, double timeWeight) {
+    List<MediaTimes> mediaTimesList = existingMediaTimesList == null? new ArrayList<>() : existingMediaTimesList;
+    for (Media media : mediaList) {
+        int index = -1;
+        for (MediaTimes mediaTimes : mediaTimesList) {
+          if (mediaTimes.getMedia().getId().equals(media.getId())) {
+            index = mediaTimesList.indexOf(mediaTimes);
+            break;
+          }
+        }
+        if (index == -1) {
+          media.setFavourites(null);
+          media.setHistories(null);
+          media.setReviews(null);
+          mediaTimesList.add(new MediaTimes(media, timeWeight));
+        } else {
+          mediaTimesList.get(index).setTime(mediaTimesList.get(index).getTime() + timeWeight);
+        }
+    }
+    return mediaTimesList;
+  }
+
+  public class MediaTimes {
+    private Media media;
+    private double time;
+
+    public MediaTimes(Media media, double time) {
       this.media = media;
       this.time = time;
     }
+
     // getters and setters
     public Media getMedia() {
       return media;
     }
+
     public void setMedia(Media media) {
       this.media = media;
     }
-    public Integer getTime() {
+
+    public double getTime() {
       return time;
     }
-    public void setTime(Integer time) {
+
+    public void setTime(double time) {
       this.time = time;
     }
   }
