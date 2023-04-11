@@ -21,6 +21,7 @@ import Spinner from "../components/spinner";
 import { MediaContext } from "../context/mediaContextProvider";
 import { AuthContext } from "../context/authContext";
 import { Link } from "react-router-dom";
+import ImageSlider from "../components/imageSlider";
 const HomePage = (props) => {
   const movieContext = useContext(MediaContext);
   const authContext = useContext(AuthContext);
@@ -86,27 +87,39 @@ const HomePage = (props) => {
           </MediasBar>
         </Grid>
         <Grid item xs>
-          <Typography variant={"h6"}>The Top 10 in</Typography>
-          <Box>
-            <TabContext value={value}>
-              <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
-                <TabList onChange={handleChange} aria-label="lab API tabs example" variant="fullWidth">
-                  <Tab label="Movie" value="1" />
-                  <Tab label="Game" value="2" />
-                  <Tab label="Music" value="3" />
-                </TabList>
-              </Box>
-              <TabPanel value="1" style={{ padding: "0" }}>
-                <HpRankList page={0} />
-              </TabPanel>
-              <TabPanel value="2" style={{ padding: "0" }}>
-                <HpRankList page={1} />
-              </TabPanel>
-              <TabPanel value="3" style={{ padding: "0" }}>
-                <HpRankList page={2} />
-              </TabPanel>
-            </TabContext>
-          </Box>
+          <Grid container>
+            {
+              authContext.isAuthenticated ? (
+                <>
+                  <ImageSlider />
+                </>
+              ) : (
+                null
+              )
+            }
+
+            <Typography variant={"h6"}>The Top 10 in</Typography>
+            <Box>
+              <TabContext value={value}>
+                <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
+                  <TabList onChange={handleChange} aria-label="lab API tabs example" variant="fullWidth">
+                    <Tab label="Movie" value="1" />
+                    <Tab label="Game" value="2" />
+                    <Tab label="Music" value="3" />
+                  </TabList>
+                </Box>
+                <TabPanel value="1" style={{ padding: "0" }}>
+                  <HpRankList page={0} />
+                </TabPanel>
+                <TabPanel value="2" style={{ padding: "0" }}>
+                  <HpRankList page={1} />
+                </TabPanel>
+                <TabPanel value="3" style={{ padding: "0" }}>
+                  <HpRankList page={2} />
+                </TabPanel>
+              </TabContext>
+            </Box>
+          </Grid>
         </Grid>
       </Grid>
     </PageTemplate>

@@ -1,11 +1,9 @@
 package com.backend.project.controller;
 
-import com.backend.project.model.Favourite;
-import com.backend.project.model.FavouriteId;
-import com.backend.project.model.Media;
-import com.backend.project.model.User;
+import com.backend.project.model.*;
 import com.backend.project.repository.FavouriteRepository;
 import com.backend.project.repository.MediaRepository;
+import com.backend.project.repository.NotInterestedRepository;
 import com.backend.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,12 +25,12 @@ public class FavouriteController {
 
   @Autowired
   FavouriteRepository favouriteRepository;
-
   @Autowired
   UserRepository userRepository;
-
   @Autowired
   MediaRepository mediaRepository;
+  @Autowired
+  NotInterestedRepository notInterestedRepository;
   @GetMapping("/favourite/{userId}/getAllByPage")
   public ResponseEntity<Page<Favourite>> getFavourite(
       @PathVariable("userId") Integer userId,
@@ -96,6 +94,10 @@ public class FavouriteController {
     Optional<Favourite> favouriteData = favouriteRepository.findByUidAndMid(userData.get(), mediaData.get());
     if(favouriteData.isPresent()) {
       return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+    Optional<NotInterested> notInterestedData = notInterestedRepository.findByUidAndMid(userData.get(), mediaData.get());
+    if (notInterestedData.isPresent()) {
+      notInterestedRepository.delete(notInterestedData.get());
     }
     Favourite favourite = new Favourite();
     favourite.setId(new FavouriteId(userId, mediaId));

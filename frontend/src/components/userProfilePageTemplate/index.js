@@ -18,6 +18,7 @@ import { AuthContext } from "../../context/authContext";
 import { useParams } from "react-router-dom";
 import Favourite from "../userProfileTabs/favourite";
 import History from "../userProfileTabs/history";
+import Recommendation from "../userProfileTabs/Recommendation";
 
 const UserPageTemplete = (props) => {
   const theme = useTheme();
@@ -40,9 +41,7 @@ const UserPageTemplete = (props) => {
     // setSelectedValue(value);
   };
   return (
-
     <PageTemplate>
-
       <Paper sx={{ backgroundColor: theme.palette.primary.light }} elevation={0}>
         <Paper sx={{ opacity: 0.1, height: 200 }}>
         </Paper>
@@ -116,8 +115,9 @@ const UserPageTemplete = (props) => {
                         <Favourite />
                       ) :
                       tab === "recommendation" ?
-                        (<>recommendation
-                        </>) :
+                        (
+                          <Recommendation />
+                        ) :
                         tab === "accountConfig" ?
                           (<>accountConfig
                           </>) :

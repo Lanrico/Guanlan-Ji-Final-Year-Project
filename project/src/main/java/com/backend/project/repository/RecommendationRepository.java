@@ -11,4 +11,8 @@ import java.util.Optional;
 
 public interface RecommendationRepository extends JpaRepository<Recommendation, RecommendationId> {
   Optional<List<Recommendation>> findMediasByUid(User user);
+
+  void deleteRecommendationsByUid(User user);
+
+  Optional<Recommendation> findByUidAndMid(User user, Media media);
 }

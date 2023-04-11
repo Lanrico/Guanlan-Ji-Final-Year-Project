@@ -39,6 +39,7 @@ public class Media {
   private Set<PeopleMedia> peopleMedia = new LinkedHashSet<>();
 
   @ManyToMany
+  @JsonIgnore
   @JoinTable(name = "recommendation",
       joinColumns = @JoinColumn(name = "mid"),
       inverseJoinColumns = @JoinColumn(name = "uid"))

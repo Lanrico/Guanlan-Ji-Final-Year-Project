@@ -43,6 +43,7 @@ public class UserController {
       if (_user.isPresent()) {
         _user.get().setReviews(null);
         _user.get().setFavourites(null);
+        _user.get().setHistories(null);
         return new ResponseEntity<>(_user, HttpStatus.OK);
       }
       else {

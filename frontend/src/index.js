@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
 import AddMedia from "./components/addMedia";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -23,6 +23,7 @@ import ForgetPasswordPage from "./pages/forgetPasswordPage";
 import PaymentPage from "./pages/paymentPage";
 import Stripe from "./components/stripe";
 import MovieSearchPage from "./pages/movieSearchPage";
+import recommedationService from "./api/recommedationService";
 
 const storedUserProfile = sessionStorage.getItem('userProfile') ? sessionStorage.getItem('userProfile') : localStorage.getItem('userProfile');
 const initialUserProfile = storedUserProfile ? JSON.parse(storedUserProfile) : null;
@@ -60,6 +61,7 @@ const theme = createTheme({
   },
 });
 const App = () => {
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>

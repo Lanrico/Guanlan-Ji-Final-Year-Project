@@ -38,13 +38,103 @@ public class RecommendController {
   @Autowired
   MediaRepository mediaRepository;
   @Autowired
+  NotInterestedRepository notInterestedRepository;
+  @Autowired
   private RecommendationRepository recommendationRepository;
 
 
   @GetMapping("/recommend/{userId}")
   public ResponseEntity<List<Media>> getRecommend(@PathVariable("userId") int userId) {
+    // get user
+    Optional<User> userData = userRepository.findById(userId);
+    if (!userData.isPresent()) {
+      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+    User user = userData.get();
+    // get recommend list
+    Optional<List<Recommendation>> recommendData = recommendationRepository.findMediasByUid(user);
+    if (!recommendData.isPresent()) {
+      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+    List<Recommendation> recommendList = recommendData.get();
+    List<Media> mediaList = new ArrayList<>();
+    for (Recommendation recommendation : recommendList) {
+      Media tmpMedia = recommendation.getMid();
+      tmpMedia.setFavourites(null);
+      tmpMedia.setHistories(null);
+      tmpMedia.setReviews(null);
+      tmpMedia.setLanguages(null);
+      tmpMedia.setUsers(null);
+      mediaList.add(tmpMedia);
+    }
+    return new ResponseEntity<>(mediaList, HttpStatus.OK);
+  }
 
-    return new ResponseEntity<>(null, HttpStatus.OK);
+  @PostMapping("/recommend/{userId}/generate")
+  public ResponseEntity<List<MediaTimes>> generateRecommend(@PathVariable("userId") int userId) {
+    // get user
+    Optional<User> userData = userRepository.findById(userId);
+    if (!userData.isPresent()) {
+      return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+    List<MediaTimes> finalMediaTimes = new ArrayList<>();
+    User user = userData.get();
+    List<Review> reviewList = null;
+    List<History> historyList = null;
+    List<Favourite> favouriteList = null;
+    // get review list
+    Optional<List<Review>> reviewsData = reviewRepository.findReviewsByUid(user);
+    if (reviewsData.isPresent()) {
+      reviewList = reviewsData.get();
+    }
+    // get history list
+    Optional<List<History>> historyData = historyRepository.findHistoriesByUid(user);
+    if (historyData.isPresent()) {
+      historyList = historyData.get();
+    }
+    // get favourite list
+    Optional<List<Favourite>> favouriteData = favouriteRepository.findFavouritesByUid(user);
+    if (favouriteData.isPresent()) {
+      favouriteList = favouriteData.get();
+    }
+    //Get recommend from realTime section
+    List<MediaTimes> realTimeList = RealTimeRecommendCalculator(user, reviewList, historyList, favouriteList);
+    //Get recommend from offline section
+    List<MediaTimes> offlineList = OfflineRecommendCalculator(user);
+    //Get recommend from statistics section
+    List<MediaTimes> statisticsList = StatisticsRecommendCalculator(user);
+    List<NotInterested> notInterestedList = notInterestedRepository.findNotInterestedByUid(user);
+    List<Media> notInterestedTimesList = new ArrayList<>();
+    for (NotInterested notInterested : notInterestedList) {
+      notInterestedTimesList.add(notInterested.getMid());
+    }
+    //Merge all recommend list
+    finalMediaTimes = mediaTimesListGeneratorByMediaTimes(finalMediaTimes, realTimeList, 2);
+    finalMediaTimes = mediaTimesListGeneratorByMediaTimes(finalMediaTimes, offlineList, 1);
+    finalMediaTimes = mediaTimesListGeneratorByMediaTimes(finalMediaTimes, statisticsList, 3);
+    finalMediaTimes = mediaTimesListGeneratorByMedia(notInterestedTimesList, finalMediaTimes, -5);
+    List<MediaTimes> sortedMediaTimes = finalMediaTimes.stream()
+        .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
+            .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
+        .limit(20)
+        .collect(Collectors.toList());
+    List<Media> sortedMedia = finalMediaTimes.stream()
+        .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
+            .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
+        .map(MediaTimes::getMedia)
+        .limit(20)
+        .collect(Collectors.toList());
+    //delete user's old recommend
+    Optional<List<Recommendation>> oldRecommendations = recommendationRepository.findMediasByUid(user);
+    if (oldRecommendations.isPresent()) {
+      recommendationRepository.deleteAll(oldRecommendations.get());
+    }
+    //save new recommend
+    for (Media media : sortedMedia) {
+      Recommendation recommendation = new Recommendation(user, media);
+      recommendationRepository.save(recommendation);
+    }
+    return new ResponseEntity<>(sortedMediaTimes, HttpStatus.OK);
   }
 
   @GetMapping("/recommend/realTime/{userId}")
@@ -106,7 +196,6 @@ public class RecommendController {
             .thenComparing(mt -> mt.getMedia().getFinalRate()).reversed())
         .limit(recommendSize)
         .collect(Collectors.toList());
-
     return new ResponseEntity<>(sortedList, HttpStatus.OK);
   }
 
@@ -419,8 +508,32 @@ public class RecommendController {
     }
     return mediaTimesList;
   }
+  public List<MediaTimes> mediaTimesListGeneratorByMediaTimes(List<MediaTimes> mediaList1, List<MediaTimes> mediaTimesList2, double timeWeight) {
+    if (mediaTimesList2 == null) {
+      return mediaList1;
+    }
+    if (mediaList1 == null) {
+      return mediaTimesList2;
+    }
+    for (MediaTimes mediaTimes: mediaTimesList2) {
+      int index = -1;
+      for (MediaTimes mediaTimes1 : mediaList1) {
+        if (mediaTimes1.getMedia().getId().equals(mediaTimes.getMedia().getId())) {
+          index = mediaList1.indexOf(mediaTimes1);
+          break;
+        }
+      }
+      if (index == -1) {
+        mediaTimes.setTime(mediaTimes.getTime() * timeWeight);
+        mediaList1.add(mediaTimes);
+      } else {
+        mediaList1.get(index).setTime(mediaList1.get(index).getTime() + mediaTimes.getTime() * timeWeight);
+      }
+    }
+    return mediaList1;
+  }
 
-  public class MediaTimes {
+    public class MediaTimes {
     private Media media;
     private double time;
 

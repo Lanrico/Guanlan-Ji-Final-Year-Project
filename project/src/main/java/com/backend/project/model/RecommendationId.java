@@ -10,6 +10,13 @@ import java.util.Objects;
 @Embeddable
 public class RecommendationId implements Serializable {
   private static final long serialVersionUID = -3013547755730797338L;
+  public RecommendationId(Integer uid, Integer mid) {
+    this.mid = mid;
+    this.uid = uid;
+  }
+  public RecommendationId() {
+  }
+
   @Column(name = "mid", nullable = false)
   private Integer mid;
 

@@ -1,4 +1,4 @@
-import { Chip, Divider, IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography, useTheme } from "@mui/material"
+import { Button, Chip, Divider, IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography, useTheme } from "@mui/material"
 import { yellow } from "@mui/material/colors"
 import React, { useContext, useState } from "react"
 import genres from "../../sampleData/genres"
@@ -10,9 +10,11 @@ import Spinner from "../spinner"
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { AuthContext } from "../../context/authContext"
+import notInterestedService from "../../api/notInterestedService"
 const RankingListItem = (props) => {
   const theme = useTheme();
   const authContext = useContext(AuthContext);
+  const [notInterested, setNotInterested] = useState(false);
   const [isFavourite, setIsFavourite] = useState(authContext.favouriteList.includes(props.media.id));
 
   const handleSetFavourite = () => {
@@ -24,6 +26,14 @@ const RankingListItem = (props) => {
     setIsFavourite(false);
     authContext.removeFavourite(props.media.id);
   }
+
+  const handleNotInterested = () => {
+    notInterestedService.create(authContext.userProfile.id, props.media.id)
+      .then(() => {
+        setNotInterested(true);
+      })
+  }
+
   const { data, error, isLoading, isError } = useQuery(
     ["topMovieRanking", { id: props.media.id }], movieService.getRank
   )
@@ -36,7 +46,7 @@ const RankingListItem = (props) => {
   const rank = data.data;
   return (
     <>
-      <ListItem alignItems="flex-start">
+      <ListItem alignItems="flex-start" style={notInterested ? { display: "none" } : null}>
         <ListItemAvatar sx={{ marginRight: 1 }}>
           <img
             src={props.media.movie.posterPath ? `https://image.tmdb.org/t/p/w500/${props.media.movie.posterPath}` : placeholder}
@@ -47,15 +57,16 @@ const RankingListItem = (props) => {
         </ListItemAvatar>
         <ListItemSecondaryAction sx={{ top: "20%" }}>
           {
-            !isFavourite ? (
-              <IconButton size="small" onClick={handleSetFavourite}>
-                <FavoriteBorderIcon />
-              </IconButton>
-            ) : (
-              <IconButton size="small" onClick={handleSetUnfavourite}>
-                <FavoriteIcon color="secondary" />
-              </IconButton>
-            )
+            props.type === "recommendation" ? null :
+              !isFavourite ? (
+                <IconButton size="small" onClick={handleSetFavourite}>
+                  <FavoriteBorderIcon />
+                </IconButton>
+              ) : (
+                <IconButton size="small" onClick={handleSetUnfavourite}>
+                  <FavoriteIcon color="secondary" />
+                </IconButton>
+              )
           }
           {
             rank > 10000 ? (null) : (
@@ -68,7 +79,6 @@ const RankingListItem = (props) => {
               />
             )
           }
-
         </ListItemSecondaryAction>
         <ListItemText
           primary={
@@ -113,6 +123,15 @@ const RankingListItem = (props) => {
                   ({props.media.finalVoteCount} users)
                 </Typography>
               </div>
+              {
+                props.type === "recommendation" ? (
+                  <div style={{ display: "flex", flexDirection: "row-reverse" }} >
+                    <Button onClick={handleNotInterested} color="inherit" size="small">
+                      not interested
+                    </Button>
+                  </div>
+                ) : null
+              }
 
             </React.Fragment>
           }

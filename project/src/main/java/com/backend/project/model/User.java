@@ -62,6 +62,9 @@ public class User {
       inverseJoinColumns = @JoinColumn(name = "gid"))
   private Set<Genre> genres = new LinkedHashSet<>();
 
+  @OneToMany(mappedBy = "uid")
+  private Set<NotInterested> notInteresteds = new LinkedHashSet<>();
+
   public Integer getId() {
     return id;
   }
