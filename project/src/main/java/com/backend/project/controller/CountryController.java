@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://127.0.0.1:8081")
+@CrossOrigin(origins = "http://192.168.0.199:8081")
 @RestController
 @RequestMapping("/api")
 public class CountryController {
