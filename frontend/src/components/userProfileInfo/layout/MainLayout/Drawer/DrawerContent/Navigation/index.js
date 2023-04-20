@@ -4,11 +4,16 @@ import { Box, Typography } from '@mui/material';
 // project import
 import NavGroup from './NavGroup';
 import menuItem from '../../../../../menu-items';
+import { useContext } from 'react';
+import { AuthContext } from '../../../../../../../context/authContext';
 
 // ==============================|| DRAWER CONTENT - NAVIGATION ||============================== //
 
 const Navigation = () => {
-    const navGroups = menuItem.items.map((item) => {
+    const authContext = useContext(AuthContext);
+    console.log(authContext.userProfile.type);
+    const items = authContext.userProfile.type === 2 ? menuItem.adminItem : menuItem.items;
+    const navGroups = items.map((item) => {
         switch (item.type) {
             case 'group':
                 return <NavGroup key={item.id} item={item} />;

@@ -30,13 +30,6 @@ const config = {
     type: 'group',
     children: [
         {
-            id: 'account-config',
-            title: 'Account config',
-            type: 'item',
-            url: 'accountConfig',
-            icon: icons.SettingOutlined
-        },
-        {
             id: 'interest-config',
             title: 'Interest config',
             type: 'item',

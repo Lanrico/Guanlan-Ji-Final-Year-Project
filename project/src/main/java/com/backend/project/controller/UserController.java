@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@CrossOrigin(origins = "http://192.168.0.199:8081")
+@CrossOrigin(origins = "http://127.0.0.1:8081")
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -59,12 +59,17 @@ public class UserController {
   public ResponseEntity<User> createUser(@RequestBody User user) {
     Optional<User> userData = userRepository.findByEmail(user.getEmail());
     if (userData.isPresent()){
+      System.out.println("modify");
       User _user = userData.get();
       _user.setBirthday(user.getBirthday());
       _user.setCountry(user.getCountry());
       _user.setName(user.getName());
       _user.setPhone(user.getPhone());
       _user.setType(user.getType());
+      _user.setBio(user.getBio());
+      _user.setPreferLanguage(user.getPreferLanguage());
+      _user.setGenres(user.getGenres());
+      userRepository.save(_user);
       return new ResponseEntity<>(HttpStatus.OK);
     }
     else {

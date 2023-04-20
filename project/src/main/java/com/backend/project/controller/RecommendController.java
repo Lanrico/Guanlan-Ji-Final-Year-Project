@@ -15,7 +15,7 @@ import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://192.168.0.199:8081")
+@CrossOrigin(origins = "http://127.0.0.1:8081")
 @RestController
 @RequestMapping("/api")
 public class RecommendController {

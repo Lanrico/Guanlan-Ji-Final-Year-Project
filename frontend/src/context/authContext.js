@@ -4,6 +4,7 @@ import React, { useState, createContext } from "react";
 import { storage } from "../firebase";
 import favouriteService from "../api/favouriteService";
 import { currentTime } from "../util";
+import userService from "../api/userService";
 
 export const AuthContext = createContext(null);
 
@@ -84,6 +85,20 @@ const AuthContextProvider = (props) => {
         }
       })
   }
+  const handleSetUserProfile = (user) => {
+    userService.create(user).then((response) => {
+      if (localStorage.getItem('userProfile')) {
+        console.log(JSON.parse(localStorage.getItem('userProfile')))
+        if (JSON.parse(localStorage.getItem('userProfile')).id === userProfile.id) {
+          console.log('update local storage');
+          localStorage.setItem('userProfile', JSON.stringify(user));
+        }
+      }
+      console.log(user)
+      setUserProfile(user)
+    });
+
+  }
 
   const signOut = () => {
     // setToken('');
@@ -136,7 +151,8 @@ const AuthContextProvider = (props) => {
         setUserAvatarFromFirebase,
         favouriteList,
         addFavourite,
-        removeFavourite
+        removeFavourite,
+        handleSetUserProfile
         // recommendMovies
       }}
     >

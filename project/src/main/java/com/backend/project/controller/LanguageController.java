@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-@CrossOrigin(origins = "http://192.168.0.199:8081")
+@CrossOrigin(origins = "http://127.0.0.1:8081")
 @RestController
 @RequestMapping("/api")
 public class LanguageController {
@@ -36,5 +36,10 @@ public class LanguageController {
       }
     }
     return languagesList;
+  }
+
+  @GetMapping("/language")
+  public List<Language> getAllLanguages() {
+    return languageRepository.findAll();
   }
 }

@@ -8,13 +8,9 @@ import com.backend.project.model.Genre;
 
 import com.backend.project.repository.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://192.168.0.199:8081")
+@CrossOrigin(origins = "http://127.0.0.1:8081")
 @RestController
 @RequestMapping("/api")
 public class CountryController {
@@ -39,5 +35,10 @@ public class CountryController {
       }
     }
     return countriesList;
+  }
+
+  @GetMapping("/country")
+  public List<Country> getAllCountries() {
+    return countryRepository.findAll();
   }
 }

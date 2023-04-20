@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.project.repository.MovieRepository;
 import com.backend.project.repository.MediaRepository;
 
-@CrossOrigin(origins = "http://192.168.0.199:8081")
+@CrossOrigin(origins = "http://127.0.0.1:8081")
 @RestController
 @RequestMapping("/api")
 public class MediaController {

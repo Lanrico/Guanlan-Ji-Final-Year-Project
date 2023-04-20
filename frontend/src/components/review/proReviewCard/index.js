@@ -10,18 +10,18 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { green, red, yellow } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import { dateTimeFormatter } from '../../../util';
-import { Rating } from '@mui/material';
+import { Box, Menu, MenuItem, Rating } from '@mui/material';
 import { display } from '@mui/system';
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from '../../../firebase';
 import LikeDislikeBlock from '../../likeDislikeBlock';
-
+import ReportReviewButton from '../reportReviewButton';
+import { AuthContext } from '../../../context/authContext';
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -34,8 +34,10 @@ const ExpandMore = styled((props) => {
 }));
 
 const ProReviewCard = (props) => {
+  const authContext = React.useContext(AuthContext);
   const [expanded, setExpanded] = React.useState(false);
   const [avatarUrl, setAvartarUrl] = React.useState('');
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -55,9 +57,7 @@ const ProReviewCard = (props) => {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          authContext.isAuthenticated ? <ReportReviewButton review={props.review} /> : null
         }
         title={props.review.uid.name}
         subheader={
@@ -84,32 +84,7 @@ const ProReviewCard = (props) => {
       </CardContent>
       <CardActions disableSpacing>
         <LikeDislikeBlock likeNumber={props.review.like} disLikeNumber={props.review.dislike} likeOrNot={""} />
-        {/* <IconButton aria-label="thumb up">
-          <ThumbUpOffAltIcon />
-        </IconButton>
-        <Typography mr={1} color={'gray'} variant="body2">{props.review.like}</Typography>
-        <IconButton aria-label="thumb down">
-          <ThumbDownOffAltIcon />
-        </IconButton>
-        <Typography color={'gray'} variant="body2">{props.review.dislike}</Typography> */}
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
       </CardActions>
-      {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Reviews:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-            aside for 10 minutes.
-          </Typography>
-        </CardContent>
-      </Collapse> */}
     </Card>
   )
 }

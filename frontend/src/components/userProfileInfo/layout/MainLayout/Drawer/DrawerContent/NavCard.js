@@ -16,7 +16,7 @@ const NavCard = () => (
             <CardMedia component="img" image={avatar} sx={{ width: 112 }} />
             <Stack alignItems="center">
                 <Typography variant="h5">ILI Pro</Typography>
-                <Typography variant="h6" color="secondary">
+                <Typography variant="h6" color="secondary" align='center'>
                     Checkout pro features
                 </Typography>
             </Stack>

@@ -65,6 +65,15 @@ public class User {
   @OneToMany(mappedBy = "uid")
   private Set<NotInterested> notInteresteds = new LinkedHashSet<>();
 
+
+
+  @Column(name = "bio", length = 10000)
+  private String bio;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "prefer_language")
+  private Language preferLanguage;
+
   public Integer getId() {
     return id;
   }
@@ -169,4 +178,27 @@ public class User {
     this.histories = histories;
   }
 
+  public String getBio() {
+    return bio;
+  }
+
+  public void setBio(String bio) {
+    this.bio = bio;
+  }
+
+  public Language getPreferLanguage() {
+    return preferLanguage;
+  }
+
+  public void setPreferLanguage(Language preferLanguage) {
+    this.preferLanguage = preferLanguage;
+  }
+
+  public Set<Genre> getGenres() {
+    return genres;
+  }
+
+  public void setGenres(Set<Genre> genres) {
+    this.genres = genres;
+  }
 }

@@ -16,7 +16,11 @@ import { storage } from '../../../firebase';
 import { dateTimeFormatter } from '../../../util';
 import { yellow } from '@mui/material/colors';
 import LikeDislikeBlock from '../../likeDislikeBlock';
+import ReportReviewButton from '../reportReviewButton';
+import { AuthContext } from '../../../context/authContext';
+
 export default function ReviewCard(props) {
+  const authContext = React.useContext(AuthContext);
   const [avatarUrl, setAvartarUrl] = React.useState('');
 
   const storageRef = ref(storage, 'avatars/' + props.review.uid.id + ".jpg")
@@ -46,6 +50,7 @@ export default function ReviewCard(props) {
                   ) : (
                     <ThumbDownAltIcon fontSize="small" color="error" />
                   )}
+                  {authContext.isAuthenticated ? <ReportReviewButton review={props.review} /> : null}
                 </div>
               </div>
 
@@ -67,16 +72,6 @@ export default function ReviewCard(props) {
                 {dateTimeFormatter(props.review.time)}
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <LikeDislikeBlock likeNumber={props.review.like} disLikeNumber={props.review.dislike} likeOrNot={""} />
-
-                  {/* <IconButton aria-label="thumb up" sx={{ marginLeft: 1 }}>
-                    <ThumbUpOffAltIcon fontSize="small" />
-                  </IconButton>
-                  <Typography mr={1} color={'gray'} variant="body2">{props.review.like}</Typography>
-
-                  <IconButton aria-label="thumb down">
-                    <ThumbDownOffAltIcon fontSize="small" />
-                  </IconButton>
-                  <Typography color={'gray'} variant="body2">{props.review.dislike}</Typography> */}
                 </div>
               </div>
             </React.Fragment>

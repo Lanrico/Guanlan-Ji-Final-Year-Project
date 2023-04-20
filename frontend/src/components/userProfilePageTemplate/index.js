@@ -1,17 +1,12 @@
 import { Avatar, Button, Card, Chip, Grid, Paper, Typography, useTheme } from "@mui/material";
 import PageTemplate from "../pageTemplate";
-import AvatarDemo from "../../images/AvatarDemo.jpg"
 import CakeIcon from '@mui/icons-material/Cake';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { blue } from "@mui/material/colors";
 
 import StyledHeader from "../userProfileInfo/layout/MainLayout/Header"
-import StyledDrawer from "../userProfileInfo/layout/MainLayout/Drawer";
 import { useContext, useState } from "react";
 import { useSelector } from "react-redux";
-import { dispatch } from "../userProfileInfo/store";
-import { openDrawer } from "../userProfileInfo/store/reducers/menu";
-import Navigation from "../userProfileInfo/layout/MainLayout/Drawer/DrawerContent/Navigation";
 import DrawerContent from "../userProfileInfo/layout/MainLayout/Drawer/DrawerContent";
 import SettingDialog from "../settingDialog";
 import { AuthContext } from "../../context/authContext";
@@ -19,14 +14,15 @@ import { useParams } from "react-router-dom";
 import Favourite from "../userProfileTabs/favourite";
 import History from "../userProfileTabs/history";
 import Recommendation from "../userProfileTabs/Recommendation";
+import UserProfile from "../userProfileTabs/userProfile";
+import { dateFormatter } from "../../util";
+import InterestConfig from "../userProfileTabs/interestConfig";
+import CheckReview from "../userProfileTabs/checkReview";
 
 const UserPageTemplete = (props) => {
   const theme = useTheme();
   const { tab } = useParams();
-  const { drawerOpen } = useSelector((state) => state.menu);
   const authContext = useContext(AuthContext);
-
-  const [open, setOpen] = useState(true);
 
   const avatarSize = 120;
   const [openSetting, setOpenSetting] = useState(false);
@@ -64,7 +60,7 @@ const UserPageTemplete = (props) => {
                 {
                   props.user.birthday ?
                     (
-                      <Chip sx={{ ml: 1 }} icon={<CakeIcon />} label={<Typography sx={{ fontWeight: 'bold', color: "grey" }}>{props.user.birthday}</Typography>} />
+                      <Chip sx={{ ml: 1 }} icon={<CakeIcon />} label={<Typography sx={{ fontWeight: 'bold', color: "grey" }}>{dateFormatter(props.user.birthday)}</Typography>} />
                     ) : (
                       null
                     )
@@ -102,28 +98,31 @@ const UserPageTemplete = (props) => {
             </div> */}
             <Grid xs={9} p={3}>
               {
-                tab === "profile" ?
+                tab === "checkReview" ?
                   (<>
-                    profile
+                    <CheckReview />
                   </>) :
-                  tab === "history" ?
-                    (
-                      <History />
-                    ) :
-                    tab === "favourite" ?
+                  tab === "profile" ?
+                    (<>
+                      <UserProfile />
+                    </>) :
+                    tab === "history" ?
                       (
-                        <Favourite />
+                        <History />
                       ) :
-                      tab === "recommendation" ?
+                      tab === "favourite" ?
                         (
-                          <Recommendation />
+                          <Favourite />
                         ) :
-                        tab === "accountConfig" ?
-                          (<>accountConfig
-                          </>) :
+                        tab === "recommendation" ?
+                          (
+                            <Recommendation />
+                          ) :
+                          // tab === "accountConfig" ?
+                          //   (<>accountConfig
+                          //   </>) :
                           tab === "interestConfig" ?
-                            (<>interestConfig
-                            </>) :
+                            (<InterestConfig />) :
                             null
               }
             </Grid>

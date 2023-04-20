@@ -7,7 +7,6 @@ import {
   FormControl,
   FormHelperText,
   Grid,
-  Link,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -25,8 +24,7 @@ import { strengthColor, strengthIndicator } from '../../../utils/password-streng
 import { AuthContext } from '../../../../../context/authContext.js'
 import { auth } from '../../../../../firebase';
 
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import userService from '../../../../../api/userService';
 import HCaptchaBlock from '../../../../hCaptchaBlock';

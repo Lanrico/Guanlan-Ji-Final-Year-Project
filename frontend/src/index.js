@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
-import React, { useEffect } from "react";
+import React from "react";
 import AddMedia from "./components/addMedia";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -12,18 +12,15 @@ import SignUpPage from "./pages/signUpPage";
 import MediaRankPage from "./pages/movieRankPage";
 import UserPage from "./pages/userProfilePage";
 import Paperbase from "./examplePages/paperbase/Paperbase";
-import MainLayout from "./components/userProfileInfo/layout/MainLayout";
 import { Provider } from "react-redux";
 import { store } from './components/userProfileInfo/store';
 import LoginPage from "./pages/loginPage";
-import AdminPage from "./pages/adminPage";
 import MediaContextProvider from "./context/mediaContextProvider";
 import AuthContext from "./context/authContext";
 import ForgetPasswordPage from "./pages/forgetPasswordPage";
 import PaymentPage from "./pages/paymentPage";
 import Stripe from "./components/stripe";
 import MovieSearchPage from "./pages/movieSearchPage";
-import recommedationService from "./api/recommedationService";
 
 const storedUserProfile = sessionStorage.getItem('userProfile') ? sessionStorage.getItem('userProfile') : localStorage.getItem('userProfile');
 const initialUserProfile = storedUserProfile ? JSON.parse(storedUserProfile) : null;
@@ -83,8 +80,6 @@ const App = () => {
                   <Route path="/forgetPassword" element={<ForgetPasswordPage />} />
                   <Route path="/example/paperbase" element={<Paperbase />} />
                   <Route path="/example/123" element={<Stripe />} />
-                  {/* <Route path="/medias/:id" element={<Media />} /> */}
-                  <Route path="/admin/movie" element={<AdminPage />} />
                 </Routes>
               </AuthContext>
             </MediaContextProvider>
