@@ -18,7 +18,7 @@ import Stripe from '../stripe';
 import { useNavigate, useParams } from 'react-router-dom';
 import userService from '../../api/userService';
 import HCaptchaBlock from '../hCaptchaBlock';
-import professionalRequest from '../../api/professionalRequest';
+import proUserRequestService from '../../api/proUserRequestService';
 
 const steps = ['Describe your job', 'Submit your identification', 'Make payment'];
 
@@ -48,29 +48,24 @@ export default function PaymentStepper() {
     const searchParams = new URLSearchParams(window.location.search);
     const redirectStatus = searchParams.get('redirect_status');
 
-    // if (storedAuthToken && !authContext.isAuthenticated) {
-    //   userService.getByEmail(storedAuthToken)
-    //     .then((response) => {
-    //       console.log(response.data)
-    //       authContext.signIn(response.data)
-    //     })
-    // }
-
-
     console.log(redirectStatus);
     if (redirectStatus === "succeeded") {
       console.log(initialUserProfile)
-      // userService.update(initialUserProfile.id, "type", "1")
-      // .then((response1) => {
-      //   console.log("changed")
-      // })    
-      professionalRequest.create(initialUserProfile.id, {
-        company: company,
-        job: job,
-        describe: describe,
-
-      })
+      const proInfro = localStorage.getItem('proRequest') ? JSON.parse(localStorage.getItem('proRequest')) : null;
+      if (proInfro) {
+        console.log(proInfro)
+        proUserRequestService.create(initialUserProfile.id, {
+          company: proInfro.company,
+          job: proInfro.job,
+          description: proInfro.description,
+          time: new Date()
+        })
+      }
+      else {
+        console.log("no pro info")
+      }
     }
+
 
   }, [authContext])
 
@@ -210,6 +205,11 @@ export default function PaymentStepper() {
                   setJob(values.job);
                   setCompany(values.company);
                   setDescribe(values.jobDescription);
+                  localStorage.setItem("proRequest", JSON.stringify({
+                    company: values.company,
+                    job: values.job,
+                    description: values.jobDescription,
+                  }));
                 } catch (err) {
                   setStatus({ success: false });
                   setErrors({ submit: err.message });

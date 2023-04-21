@@ -14,7 +14,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import SimpleLogo from '../../images/SimpleLogo.png';
-import { Avatar, Button, ButtonGroup, Grid } from "@mui/material";
+import { Avatar, Button, ButtonGroup, Grid, useMediaQuery } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import MenuButton from "../menuButton";
@@ -75,11 +75,11 @@ const PageHeader = (props) => {
   const authContext = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [avatarMenuOpen, setAvatarMenuOpen] = React.useState(null);
   const [searchText, setSearchText] = React.useState('');
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const navigate = useNavigate()
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -89,21 +89,9 @@ const PageHeader = (props) => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleAvatarClick = (event) => {
-    setAvatarMenuOpen(event.currentTarget);
-  };
-
-  const handleAvatarClose = () => {
-    setAvatarMenuOpen(null);
-  };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const handleSearchButton = (event) => {
@@ -199,35 +187,20 @@ const PageHeader = (props) => {
         <Toolbar>
           <Box sx={{ flexGrow: 1 }} />
           <Link to={`/homepage`}>
-            <img src={SimpleLogo} height="50px" alt="companylogo"></img>
+            <img src={SimpleLogo} height={isMobile ? "25px" : "50px"} alt="companylogo"></img>
           </Link>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: 'flex' }}>
             <MyButtonGroup variant="text" color="inherit" style={{ color: 'grey' }}>
               <MenuButton title="Game" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["/ranking/game", "", ""]} />
               <MenuButton title="Movie" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["/ranking/movie/1", "", ""]} />
               <MenuButton title="Music" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["/ranking/music", "", ""]} />
             </MyButtonGroup>
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-
           <Box sx={{ flexGrow: 1 }} />
           <Search>
             <IconButton sx={{ marginLeft: 1 }} onClick={handleSearchButton}>
-              {/* <SearchIconWrapper onClick={handleSearchButton}> */}
               <SearchIcon />
-              {/* </SearchIconWrapper> */}
             </IconButton>
             <StyledInputBase
               placeholder="Search…"

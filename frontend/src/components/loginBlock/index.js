@@ -21,6 +21,7 @@ import { auth } from "../../firebase";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
+import HCaptchaBlock from "../hCaptchaBlock";
 
 export default function LoginBlock() {
   const authContext = useContext(AuthContext);
@@ -62,6 +63,7 @@ export default function LoginBlock() {
       });
     event.preventDefault();
   };
+  const [captchaToken, setCaptchaToken] = React.useState('');
 
   const handleSuccessSnackClose = (event) => {
     setOpenSuccess(false);
@@ -72,7 +74,9 @@ export default function LoginBlock() {
   const handleFailSnackClose = (event) => {
     setOpenFail(false);
   };
-
+  const handleGetCaptchaToken = (token) => {
+    setCaptchaToken(token);
+  };
   const handleRememberMe = (event) => {
     setRememberMe(event.target.checked);
   };
@@ -154,23 +158,32 @@ export default function LoginBlock() {
               label="Keep me sign in"
               name="rm"
             />
-            <ColorButton
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 0, mb: 0.5, bgcolor: theme.palette.primary.main }}
-            >
-              Sign In
-            </ColorButton>
-            <Grid container>
-              <Grid item sx={{ justifyContent: 'center', margin: 'auto' }}>
-                <Typography variant="body2">
-                  <Link to='/register' style={{ textDecoration: "none", color: theme.palette.primary.main }}>
-                    {"Sign Up"}
-                  </Link>
-                </Typography>
-              </Grid>
-            </Grid>
+            {
+              captchaToken ?
+                (<>
+                  <ColorButton
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 0, mb: 0.5, bgcolor: theme.palette.primary.main }}
+                  >
+                    Sign In
+                  </ColorButton>
+                  <Grid container>
+                    <Grid item sx={{ justifyContent: 'center', margin: 'auto' }}>
+                      <Typography variant="body2">
+                        <Link to='/register' style={{ textDecoration: "none", color: theme.palette.primary.main }}>
+                          {"Sign Up"}
+                        </Link>
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </>) :
+                <HCaptchaBlock getToken={handleGetCaptchaToken} />
+            }
+
+
+
           </Box>
         </Box>
       </Container>

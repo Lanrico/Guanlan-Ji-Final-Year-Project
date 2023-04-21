@@ -18,6 +18,7 @@ import UserProfile from "../userProfileTabs/userProfile";
 import { dateFormatter } from "../../util";
 import InterestConfig from "../userProfileTabs/interestConfig";
 import CheckReview from "../userProfileTabs/checkReview";
+import ProUserRequest from "../userProfileTabs/proUserRequest";
 
 const UserPageTemplete = (props) => {
   const theme = useTheme();
@@ -102,28 +103,32 @@ const UserPageTemplete = (props) => {
                   (<>
                     <CheckReview />
                   </>) :
-                  tab === "profile" ?
+                  tab === "proUserRequest" ?
                     (<>
-                      <UserProfile />
+                      <ProUserRequest />
                     </>) :
-                    tab === "history" ?
-                      (
-                        <History />
-                      ) :
-                      tab === "favourite" ?
+                    tab === "profile" ?
+                      (<>
+                        <UserProfile />
+                      </>) :
+                      tab === "history" ?
                         (
-                          <Favourite />
+                          <History />
                         ) :
-                        tab === "recommendation" ?
+                        tab === "favourite" ?
                           (
-                            <Recommendation />
+                            <Favourite />
                           ) :
-                          // tab === "accountConfig" ?
-                          //   (<>accountConfig
-                          //   </>) :
-                          tab === "interestConfig" ?
-                            (<InterestConfig />) :
-                            null
+                          tab === "recommendation" ?
+                            (
+                              <Recommendation />
+                            ) :
+                            // tab === "accountConfig" ?
+                            //   (<>accountConfig
+                            //   </>) :
+                            tab === "interestConfig" ?
+                              (<InterestConfig />) :
+                              null
               }
             </Grid>
           </Grid>

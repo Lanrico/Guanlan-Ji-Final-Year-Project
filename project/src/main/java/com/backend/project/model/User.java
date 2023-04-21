@@ -64,8 +64,6 @@ public class User {
   @OneToMany(mappedBy = "uid")
   private Set<NotInterested> notInteresteds = new LinkedHashSet<>();
 
-
-
   @Column(name = "bio", length = 10000)
   private String bio;
 
@@ -75,9 +73,6 @@ public class User {
 
   @OneToMany(mappedBy = "uid")
   private Set<Report> reports = new LinkedHashSet<>();
-
-  @OneToOne(mappedBy = "uid")
-  private ProfessionalRequest professionalRequests = new ProfessionalRequest();
 
 
   public Integer getId() {
