@@ -1,11 +1,10 @@
-import { Avatar, IconButton, Menu, MenuItem } from "@mui/material"
+import { IconButton, Menu, MenuItem } from "@mui/material"
 import React, { useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/authContext"
 
 const MyButtonMenu = ((props) => {
   const authContext = useContext(AuthContext)
-  const navigate = useNavigate();
   const [avatarMenuOpen, setAvatarMenuOpen] = React.useState(null);
   const handleAvatarClick = (event) => {
     setAvatarMenuOpen(event.currentTarget);

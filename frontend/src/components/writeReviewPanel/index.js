@@ -1,5 +1,5 @@
-import { Alert, Button, CircularProgress, FormHelperText, IconButton, InputAdornment, Rating, Snackbar, TextField, Typography } from "@mui/material";
-import { Box, width } from "@mui/system";
+import { Alert, Button, CircularProgress, FormHelperText, IconButton, Rating, Snackbar, TextField, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import React, { useContext, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import { grey, yellow } from "@mui/material/colors";
@@ -9,7 +9,6 @@ import reviewService from "../../api/reviewService";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { currentTime } from "../../util";
-import Spinner from "../spinner";
 const WriteReviewPanel = (props) => {
   const { id } = useParams();
   const [comment, setComment] = useState("");

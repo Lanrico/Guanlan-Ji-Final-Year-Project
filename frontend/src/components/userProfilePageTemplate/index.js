@@ -1,12 +1,9 @@
-import { Avatar, Button, Card, Chip, Grid, Paper, Typography, useTheme } from "@mui/material";
+import { Avatar, Button, Chip, Grid, Paper, Typography, useTheme } from "@mui/material";
 import PageTemplate from "../pageTemplate";
 import CakeIcon from '@mui/icons-material/Cake';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { blue } from "@mui/material/colors";
 
-import StyledHeader from "../userProfileInfo/layout/MainLayout/Header"
 import { useContext, useState } from "react";
-import { useSelector } from "react-redux";
 import DrawerContent from "../userProfileInfo/layout/MainLayout/Drawer/DrawerContent";
 import SettingDialog from "../settingDialog";
 import { AuthContext } from "../../context/authContext";
@@ -93,10 +90,6 @@ const UserPageTemplete = (props) => {
             <Grid xs={3}>
               <DrawerContent />
             </Grid>
-            {/* <div id="drawer-container" style={{ position: "relative" }}>
-              <StyledHeader open={open} handleDrawerToggle={handleDrawerToggle} />
-              <StyledDrawer open={open} handleDrawerToggle={handleDrawerToggle} />
-            </div> */}
             <Grid xs={9} p={3}>
               {
                 tab === "checkReview" ?
@@ -123,9 +116,6 @@ const UserPageTemplete = (props) => {
                             (
                               <Recommendation />
                             ) :
-                            // tab === "accountConfig" ?
-                            //   (<>accountConfig
-                            //   </>) :
                             tab === "interestConfig" ?
                               (<InterestConfig />) :
                               null

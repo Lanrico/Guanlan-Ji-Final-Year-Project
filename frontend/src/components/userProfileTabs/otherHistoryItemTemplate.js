@@ -1,4 +1,4 @@
-import { Avatar, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography } from "@mui/material";
+import { Avatar, ListItem, ListItemAvatar, ListItemText, Rating, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';

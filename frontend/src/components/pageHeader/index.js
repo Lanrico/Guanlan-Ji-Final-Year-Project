@@ -12,15 +12,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import SimpleLogo from '../../images/SimpleLogo.png';
 import { Avatar, Button, ButtonGroup, Grid, useMediaQuery } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
 
 import MenuButton from "../menuButton";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
-import AvatarDemo from "../../images/AvatarDemo.jpg"
 import MyButtonMenu from "../myButtonMenu";
 
 const MyButtonGroup = styled(ButtonGroup)(({ theme }) => ({

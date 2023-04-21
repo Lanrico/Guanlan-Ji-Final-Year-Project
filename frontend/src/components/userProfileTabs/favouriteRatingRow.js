@@ -1,7 +1,6 @@
 import { Grid, Rating, Typography } from "@mui/material";
 import reviewService from "../../api/reviewService";
 import { useQuery } from "react-query";
-import Spinner from "../spinner";
 import { yellow } from "@mui/material/colors";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';

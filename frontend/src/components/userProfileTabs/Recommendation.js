@@ -1,4 +1,4 @@
-import { Button, List, Pagination, PaginationItem } from "@mui/material";
+import { Button, List } from "@mui/material";
 import RankingListItem from "../RankingListItem";
 import { useQuery } from "react-query";
 import recommedationService from "../../api/recommedationService";

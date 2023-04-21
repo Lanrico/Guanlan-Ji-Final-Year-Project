@@ -26,36 +26,16 @@ const MainDrawer = ({ open, handleDrawerToggle, window }) => {
 
     return (
         <Box component="nav" sx={{ flexShrink: { md: 0 }, zIndex: 1300 }} aria-label="mailbox folders">
-            {/* <MiniDrawerStyled variant="permanent" open={open}>
-                {drawerHeader}
-                {drawerContent}
-            </MiniDrawerStyled> */}
-
             {!matchDownMD ? (
                 <MiniDrawerStyled variant="permanent" open={open}>
-                    {/* {drawerHeader} */}
                     {drawerContent}
                 </MiniDrawerStyled>
             ) : (
                 <Drawer
-                    // container={container}
                     variant="temporary"
                     open={open}
                     onClose={handleDrawerToggle}
-                // ModalProps={{ keepMounted: true }}
-                // sx={{
-                //     display: { xs: 'block', lg: 'none' },
-                //     '& .MuiDrawer-paper': {
-                //         boxSizing: 'border-box',
-                //         width: drawerWidth,
-                //         borderRight: `1px solid ${theme.palette.divider}`,
-                //         backgroundImage: 'none',
-                //         boxShadow: 'inherit'
-                //     }
-                // }}
                 >
-                    {/* {open && drawerHeader}
-                    {open && drawerContent} */}
                 </Drawer>
             )}
         </Box>

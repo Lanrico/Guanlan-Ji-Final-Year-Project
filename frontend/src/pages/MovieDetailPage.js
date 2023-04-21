@@ -1,5 +1,4 @@
 import MediaPageTemplate from "../components/mediaPageTemplate"
-import movies from "../sampleData/movies";
 import { useParams } from "react-router-dom";
 import movieService from "../api/movieService";
 import { useQuery } from "react-query";

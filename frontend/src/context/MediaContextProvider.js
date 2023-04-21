@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 export const MediaContext = React.createContext(null);
 
 const MediaContextProvider = (props) => {

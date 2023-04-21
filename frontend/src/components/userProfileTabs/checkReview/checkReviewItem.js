@@ -1,9 +1,6 @@
-import { Avatar, Button, Divider, List, ListItem, ListItemAvatar, ListItemText, Rating, Typography, useTheme } from "@mui/material";
-import React, { useContext } from "react";
-import { AuthContext } from "../../../context/authContext";
+import { Avatar, Button, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import React from "react";
 import ReviewCard from "../../review/reviewCard"
-import { Link } from "react-router-dom";
-import { yellow } from "@mui/material/colors";
 import { dateTimeFormatter } from "../../../util";
 import { storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";

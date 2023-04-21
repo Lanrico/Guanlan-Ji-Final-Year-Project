@@ -1,9 +1,7 @@
-import { Avatar, Button, Divider, List, ListItem, ListItemAvatar, ListItemText, Rating, Typography, useTheme } from "@mui/material";
+import { Avatar, Button, Divider, List, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../../../context/authContext";
-import ReviewCard from "../../review/reviewCard"
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { yellow } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 import { dateTimeFormatter } from "../../../util";
 import { storage } from "../../../firebase";
 import { getDownloadURL, ref } from "firebase/storage";
@@ -37,7 +35,6 @@ const RequestItem = (props) => {
   const authContext = useContext(AuthContext);
   const [avatarUrl, setAvartarUrl] = React.useState('');
   console.log(props.request)
-  const navigate = useNavigate();
   const storageRef = ref(storage, 'avatars/' + props.request.uid.id + ".jpg")
   const [isHandled, setIsHandled] = React.useState(false)
   getDownloadURL(storageRef).then((url) => {

@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { Fade, Grid, IconButton, Slide, Typography } from '@mui/material';
+import { Grid, IconButton, Typography } from '@mui/material';
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import recommedationService from '../../api/recommedationService';
-import { Link, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import Spinner from '../spinner';
 import { AuthContext } from '../../context/authContext';

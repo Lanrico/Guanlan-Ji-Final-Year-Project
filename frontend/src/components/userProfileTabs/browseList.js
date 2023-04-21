@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import Spinner from '../spinner';
-import { Grid, Pagination, TablePagination } from '@mui/material';
+import { Grid, TablePagination } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import historyService from '../../api/historyService';
 import BrowseListItem from './browseListItem';

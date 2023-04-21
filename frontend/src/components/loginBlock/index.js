@@ -9,7 +9,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useTheme } from '@mui/material/styles';
-import { purple } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import { Snackbar } from '@mui/material';
 import Alert from "@mui/material/Alert";
@@ -18,8 +17,7 @@ import { AuthContext } from "../../context/authContext";
 import userService from "../../api/userService";
 import { auth } from "../../firebase";
 
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import HCaptchaBlock from "../hCaptchaBlock";
 
@@ -30,18 +28,6 @@ export default function LoginBlock() {
   const [userName, setUserName] = useState(authContext.userProfile.name);
   const [rememberMe, setRememberMe] = useState(false);
   const theme = useTheme();
-  // const firebaseConfig = {
-  //   apiKey: "AIzaSyB_opQz9NSfRrPLhwc9yvckrDv4mSinUxI",
-  //   authDomain: "final-year-project-jgl.firebaseapp.com",
-  //   projectId: "final-year-project-jgl",
-  //   storageBucket: "final-year-project-jgl.appspot.com",
-  //   messagingSenderId: "1082745032013",
-  //   appId: "1:1082745032013:web:01781659139f87f093fb04",
-  //   measurementId: "G-0E0943XPMF"
-  // };
-
-  // const app = initializeApp(firebaseConfig);
-  // const auth = getAuth(app);
   const context = useContext(AuthContext);
   const handleSubmit = (event) => {
     const data = new FormData(event.currentTarget);

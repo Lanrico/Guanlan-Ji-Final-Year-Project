@@ -1,5 +1,4 @@
-import { List, Stack } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { List } from "@mui/material";
 import OtherHistoryItemTemplate from "./otherHistoryItemTemplate";
 
 const OtherHistoryTemplate = (props) => {

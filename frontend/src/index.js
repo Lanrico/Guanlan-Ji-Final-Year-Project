@@ -11,7 +11,6 @@ import MovieDetailPage from "./pages/movieDetailPage";
 import SignUpPage from "./pages/signUpPage";
 import MediaRankPage from "./pages/movieRankPage";
 import UserPage from "./pages/userProfilePage";
-import Paperbase from "./examplePages/paperbase/Paperbase";
 import { Provider } from "react-redux";
 import { store } from './components/userProfileInfo/store';
 import LoginPage from "./pages/loginPage";
@@ -78,7 +77,6 @@ const App = () => {
                   <Route path="/user/payment/:step?" element={<PaymentPage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/forgetPassword" element={<ForgetPasswordPage />} />
-                  <Route path="/example/paperbase" element={<Paperbase />} />
                   <Route path="/example/123" element={<Stripe />} />
                 </Routes>
               </AuthContext>

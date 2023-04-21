@@ -1,14 +1,11 @@
 import { useTheme } from "@emotion/react";
 import { Grid } from "@mui/material";
 import React from "react";
-import { useQuery } from "react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import reviewService from "../../api/reviewService";
 import { AuthContext } from "../../context/authContext";
 import ProReviewBar from "../review/proReviewBar";
 import ReviewList from "../review/reviewList";
-import Spinner from "../spinner";
 import WriteReviewPanel from "../writeReviewPanel";
 
 const ReviewPanel = (props) => {

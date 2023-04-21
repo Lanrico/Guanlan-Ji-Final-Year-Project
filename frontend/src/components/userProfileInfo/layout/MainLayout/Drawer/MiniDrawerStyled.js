@@ -24,7 +24,6 @@ const closedMixin = (theme) => ({
     overflowX: 'hidden',
     width: 0,
     borderRight: 'none',
-    // boxShadow: theme.customShadows.z1
 });
 
 // ==============================|| DRAWER - MINI STYLED ||============================== //
@@ -34,12 +33,6 @@ const MiniDrawerStyled = styled(Drawer, { shouldForwardProp: (prop) => prop !== 
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
-    // PaperProps: { style: { position: 'absolute' } },
-    // BackdropProps: { style: { position: 'absolute' } },
-    // ModalProps: {
-    //     container: document.getElementById('drawer-container'),
-    //     style: { position: 'absolute' }
-    // },
     variant: "temporary",
     ...(open && {
         ...openedMixin(theme),

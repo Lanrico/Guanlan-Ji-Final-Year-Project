@@ -8,15 +8,13 @@ import Typography from '@mui/material/Typography';
 
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import AnimateButton from '../userProfileInfo/components/@extended/AnimateButton';
-import { Backdrop, CircularProgress, FormHelperText, Grid, Input, InputLabel, Link, OutlinedInput } from '@mui/material';
+import { CircularProgress, FormHelperText, Grid, Input, InputLabel, Link, OutlinedInput } from '@mui/material';
 import { Stack } from '@mui/system';
 import { AuthContext } from '../../context/authContext';
 import { storage } from '../../firebase';
 import { ref, uploadBytes } from 'firebase/storage';
 import Stripe from '../stripe';
 import { useNavigate, useParams } from 'react-router-dom';
-import userService from '../../api/userService';
 import HCaptchaBlock from '../hCaptchaBlock';
 import proUserRequestService from '../../api/proUserRequestService';
 

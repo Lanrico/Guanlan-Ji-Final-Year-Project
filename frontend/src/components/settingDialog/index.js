@@ -1,11 +1,9 @@
-import { Avatar, Backdrop, Box, Button, CircularProgress, Dialog, DialogTitle, Input, List, ListItem, ListItemAvatar, ListItemButton, ListItemText } from "@mui/material";
-import { blue } from "@mui/material/colors";
+import { Backdrop, Box, Button, CircularProgress, Dialog, DialogTitle, Input } from "@mui/material";
 import React, { useContext, useState } from "react";
 
 import { storage } from "../../firebase";
 
-import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes } from "firebase/storage";
 import 'firebase/storage';
 import { AuthContext } from "../../context/authContext";
 const SettingDialog = (props) => {

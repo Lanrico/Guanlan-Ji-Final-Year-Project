@@ -1,5 +1,4 @@
-import { Chip, Divider, IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Rating, Typography, useTheme } from "@mui/material"
-import { yellow } from "@mui/material/colors"
+import { IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography, useTheme } from "@mui/material"
 import React, { useContext, useState } from "react"
 import genres from "../../sampleData/genres"
 import placeholder from "../../images/film-poster-placeholder.png"

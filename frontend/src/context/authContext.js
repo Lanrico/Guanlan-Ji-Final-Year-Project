@@ -9,38 +9,12 @@ import userService from "../api/userService";
 export const AuthContext = createContext(null);
 
 const AuthContextProvider = (props) => {
-  // const existingToken = localStorage.getItem("token");
   const [isAuthenticated, setIsAuthenticated] = useState(props.initialUserProfile ? true : false);
   console.log(props)
-  // const [authToken, setAuthToken] = useState(existingToken);
   const [userProfile, setUserProfile] = useState(props.initialUserProfile ? props.initialUserProfile : {});
   const [userAvatar, setUserAvatar] = useState(props.initialUserAvatar ? props.initialUserAvatar : "");
   const [favouriteList, setFavouriteList] = useState(props.initialUserFavourite ? props.initialUserFavourite : []);
-  // const [recommendMovies, setRecommendMovies] = useState([]);
 
-  //Function to put JWT token in local storage.
-  // const setToken = (data) => {
-  //   localStorage.setItem("token", data);
-  //   // setAuthToken(data);
-  // }
-
-  // const authenticate = async (username, password) => {
-  //   const result = await login(username, password);
-
-  //   if (result.token) {
-  //     // setToken(result.token)
-  //     setIsAuthenticated(true);
-  //     setUserName(username);
-  //     // const r = await getUserRecommend(username)
-  //     // setRecommendMovies(r);
-  //   }
-  //   return (result.success === true) ? true : false;
-  // };
-
-  // const register = async (username, password) => {
-  //   const result = await signup(username, password);
-  //   return (result.code === 201) ? true : false;
-  // };
   const setUserAvatarFromFirebase = (id, rm) => {
     const storageRef = ref(storage, "avatars/" + id + ".jpg")
     getDownloadURL(storageRef).then((url) => {
@@ -101,9 +75,6 @@ const AuthContextProvider = (props) => {
   }
 
   const signOut = () => {
-    // setToken('');
-    // setAuthToken("123123");
-    // setTimeout(() => setIsAuthenticated(false), 100);
     localStorage.removeItem('userProfile');
     localStorage.removeItem('userFavourite');
     localStorage.removeItem('userAvatar');

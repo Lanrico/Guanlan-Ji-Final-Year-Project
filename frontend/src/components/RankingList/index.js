@@ -1,8 +1,7 @@
 import * as React from 'react';
 import List from '@mui/material/List';
-import TopRatedMovies from '../../sampleData/topRatedMovie';
 import RankingListItem from '../RankingListItem';
-import { Button, Pagination, PaginationItem } from '@mui/material';
+import { Pagination, PaginationItem } from '@mui/material';
 import { useQuery } from 'react-query';
 import movieService from '../../api/movieService';
 import Spinner from '../spinner';
@@ -14,7 +13,6 @@ export default function RankingList(props) {
   var rank = 1;
   const page = parseInt(props.page)
   const filterString = useParams().filter
-  const filter = filterString === undefined ? 1 : 2;
   const searchString = useParams().searchString
   console.log(filterString)
   console.log(searchString)

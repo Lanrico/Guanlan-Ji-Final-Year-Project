@@ -1,9 +1,8 @@
-import { Card, CardContent, CardHeader, CardMedia, Grid, Rating, Typography } from "@mui/material";
+import { Card, CardHeader, CardMedia, Typography } from "@mui/material";
 import movieService from "../../api/movieService";
 import { useQuery } from "react-query";
 import Spinner from "../spinner";
 import { Link } from "react-router-dom";
-import truncate from "lodash/truncate";
 import placeholder from "../../images/film-poster-placeholder.png"
 import FavouriteRatingRow from "./favouriteRatingRow";
 const MediaCard = (props) => {

@@ -1,6 +1,5 @@
 import { useQuery } from "react-query";
 import Spinner from "../spinner";
-import { useEffect } from "react";
 import reviewService from "../../api/reviewService";
 import { useLocation } from "react-router-dom";
 import OtherHistoryTemplate from "./otherHistoryTemplate";

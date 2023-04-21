@@ -1,5 +1,4 @@
-import { Alert, Autocomplete, Box, Button, Collapse, Grid, IconButton, Input, TextField, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Alert, Autocomplete, Box, Button, Collapse, Grid, IconButton, TextField, Typography } from '@mui/material';
 import React, { useContext, useEffect } from 'react';
 import { AuthContext } from '../../context/authContext';
 import countryService from '../../api/countryService';
@@ -7,7 +6,6 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import languageService from '../../api/languageService';
 import AnimateButton from '../userProfileInfo/components/@extended/AnimateButton';
-import userService from '../../api/userService';
 import CloseIcon from '@mui/icons-material/Close';
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
@@ -16,7 +14,6 @@ const UserProfile = () => {
   const authContext = useContext(AuthContext);
   console.log(authContext.userProfile);
   const labelWidth = 4;
-  const labelWidth2 = 4;
   const [name, setName] = React.useState(authContext.userProfile.name);
   const [phone, setPhone] = React.useState(authContext.userProfile.phone);
   const [bio, setBio] = React.useState(authContext.userProfile.bio);
@@ -25,11 +22,6 @@ const UserProfile = () => {
   const [birthDate, setBirthDate] = React.useState(authContext.userProfile.birthday);
   const [preferLanguage, setPreferLanguage] = React.useState(authContext.userProfile.preferLanguage);
   const [languages, setLanguages] = React.useState([]);
-  const [openSuccess, setOpenSuccess] = React.useState(false);
-
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
-  const [newPassword, setNewPassword] = React.useState('');
   const [openPassword, setOpenPassword] = React.useState(false);
 
   // console.log(authContext.userProfile);
@@ -59,25 +51,8 @@ const UserProfile = () => {
     setCountry(value);
   }
 
-  const handleSetBirthDate = (e) => {
-    setBirthDate(e.target.value);
-  }
-
   const handleSetPreferLanguage = (value) => {
     setPreferLanguage(value);
-  }
-
-  const handleOpenPassword = () => {
-    setOpenPassword(!openPassword);
-  }
-  const handleSetPassword = (e) => {
-    setPassword(e.target.value);
-  }
-  const handleSetConfirmPassword = (e) => {
-    setConfirmPassword(e.target.value);
-  }
-  const handleSetNewPassword = (e) => {
-    setNewPassword(e.target.value);
   }
 
   const handleSave = () => {

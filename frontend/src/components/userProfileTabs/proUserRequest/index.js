@@ -4,7 +4,6 @@ import { useQuery } from "react-query"
 import proUserRequestService from "../../../api/proUserRequestService"
 import Spinner from "../../spinner"
 import { List, Typography } from "@mui/material"
-import CheckReviewItem from "../checkReview/checkReviewItem"
 import RequestItem from "./requestItem"
 
 

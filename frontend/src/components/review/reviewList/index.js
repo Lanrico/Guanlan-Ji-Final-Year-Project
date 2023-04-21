@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Grid, IconButton, Pagination, PaginationItem, Switch, Typography } from '@mui/material';
+import { Button, Grid, IconButton, Pagination, PaginationItem, Typography } from '@mui/material';
 import ReviewCard from '../reviewCard';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
@@ -14,7 +14,6 @@ const checkToString = (checked) => {
 
 const ReviewList = (props) => {
   const [reviewPage, setReviewPage] = React.useState(1);
-  const [orderBy, setOrderBy] = React.useState("rate");
   const [checked, setChecked] = React.useState(false);
   const toggleChecked = () => {
     setChecked((prev) => !prev);

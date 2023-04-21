@@ -1,46 +1,25 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { green, red, yellow } from '@mui/material/colors';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { yellow } from '@mui/material/colors';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import { dateTimeFormatter } from '../../../util';
-import { Box, Menu, MenuItem, Rating } from '@mui/material';
-import { display } from '@mui/system';
+import { Rating } from '@mui/material';
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from '../../../firebase';
 import LikeDislikeBlock from '../../likeDislikeBlock';
 import ReportReviewButton from '../reportReviewButton';
 import { AuthContext } from '../../../context/authContext';
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 const ProReviewCard = (props) => {
   const authContext = React.useContext(AuthContext);
-  const [expanded, setExpanded] = React.useState(false);
   const [avatarUrl, setAvartarUrl] = React.useState('');
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
   const storageRef = ref(storage, 'avatars/' + props.review.uid.id + ".jpg")
   getDownloadURL(storageRef).then((url) => {
     setAvartarUrl(url)

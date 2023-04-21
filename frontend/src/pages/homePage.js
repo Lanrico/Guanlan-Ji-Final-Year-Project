@@ -1,4 +1,4 @@
-import { Button, Grid, Typography, useTheme } from "@mui/material";
+import { Grid, Typography, useTheme } from "@mui/material";
 import React, { useContext, useState } from "react";
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -14,16 +14,13 @@ import LoginBlock from "../components/loginBlock";
 import PageTemplate from "../components/pageTemplate";
 import MediasBar from "../components/mediasBar";
 import HpRankList from "../components/hpRankList";
-import movies from "../sampleData/movies";
 import movieService from "../api/movieService";
 import Spinner from "../components/spinner";
 
-import { MediaContext } from "../context/mediaContextProvider";
 import { AuthContext } from "../context/authContext";
 import { Link } from "react-router-dom";
 import ImageSlider from "../components/imageSlider";
 const HomePage = (props) => {
-  const movieContext = useContext(MediaContext);
   const authContext = useContext(AuthContext);
   const [value, setValue] = useState('1');
   const theme = useTheme();
@@ -44,9 +41,6 @@ const HomePage = (props) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const handleSubmitButton1 = () => {
-    console.log(movieContext.movieFilter)
-  }
 
   return (
     <PageTemplate>
