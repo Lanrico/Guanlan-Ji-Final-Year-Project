@@ -275,7 +275,6 @@ public class RecommendController {
       } else {
         InterestScore interestScore1 = new InterestScore(user, media, interestScore);
         interestScore1.setId(new InterestScoreId(user.getId(), media.getId()));
-        System.out.println(interestScore1.getId().getUid());
         interestScoreRepository.save(interestScore1);
       }
     }
@@ -289,7 +288,6 @@ public class RecommendController {
         List<Integer> similarList = tmdbController.getIdsFromTMDB(interestScore.getMid().getMovie().getImdbId(), "similar", myTmdbKey);
         recommendMediaList = (ArrayList<MediaTimes>) mediaTimesListGeneratorById(similarList, recommendMediaList, 1);
       } catch (IOException e) {
-        System.out.println(e.getMessage());
         throw new RuntimeException(e);
       }
     }
@@ -358,7 +356,6 @@ public class RecommendController {
     ArrayList<MediaTimes> recommendMediaList = new ArrayList<MediaTimes>();
 
     for (User userN : top5SimilarUsers) {
-      System.out.println(userN.getId());
       Optional<List<Recommendation>> similarRecommendationList = recommendationRepository.findMediasByUid(userN);
       if (!similarRecommendationList.isPresent()) {
         continue;

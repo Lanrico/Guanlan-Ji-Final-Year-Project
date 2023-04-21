@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,15 +38,27 @@ public class ProfessionalRequestController {
       @RequestBody ProfessionalRequest professionalRequest,
       @PathVariable("userId") int userId
   ) {
+
+
     Optional<User> userData = userRepository.findById(userId);
     if (userData.isPresent()) {
       User _user = userData.get();
-      professionalRequest.setUid(_user);
+//      professionalRequest.setU(_user);
+      ProfessionalRequest pr = new ProfessionalRequest();
+      System.out.println(professionalRequest.getId());
+//      pr.setId(professionalRequest.getId());
+//      professionalRequest.setUid(_user);
+//      pr.setJob(professionalRequest.getJob());
+//      pr.setCompany(professionalRequest.getCompany());
+//      pr.setTime(professionalRequest.getTime());
+//      pr.setDescribe(professionalRequest.getDescribe());
+//      professionalRequest.setUid(_user);
+      professionalRequestRepository.save(professionalRequest);
+      return new ResponseEntity<>(HttpStatus.OK);
     }
     else {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return new ResponseEntity<>(HttpStatus.OK);
   }
 
 }

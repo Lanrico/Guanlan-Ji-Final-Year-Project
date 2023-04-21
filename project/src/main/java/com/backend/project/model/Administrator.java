@@ -23,9 +23,6 @@ public class Administrator {
   @Column(name = "phone", length = 20)
   private String phone;
 
-  @OneToMany(mappedBy = "aid")
-  private Set<ProfessionalRequest> professionalRequests = new LinkedHashSet<>();
-
   public Integer getId() {
     return id;
   }
@@ -64,14 +61,6 @@ public class Administrator {
 
   public void setPhone(String phone) {
     this.phone = phone;
-  }
-
-  public Set<ProfessionalRequest> getProfessionalRequests() {
-    return professionalRequests;
-  }
-
-  public void setProfessionalRequests(Set<ProfessionalRequest> professionalRequests) {
-    this.professionalRequests = professionalRequests;
   }
 
 }

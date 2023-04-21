@@ -1,4 +1,7 @@
 package com.backend.project.repository;
 
-public interface ProUserRequestRepository extends org.springframework.data.jpa.repository.JpaRepository<com.backend.project.model.ProUserRequest, java.lang.Integer> {
+import com.backend.project.model.ProUserRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProUserRequestRepository extends JpaRepository<ProUserRequest, Integer> {
 }

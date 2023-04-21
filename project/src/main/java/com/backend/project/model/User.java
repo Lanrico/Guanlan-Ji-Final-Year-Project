@@ -43,8 +43,7 @@ public class User {
   @OneToMany(mappedBy = "uid")
   private Set<Discuss> discusses = new LinkedHashSet<>();
 
-  @OneToMany(mappedBy = "uid")
-  private Set<ProfessionalRequest> professionalRequests = new LinkedHashSet<>();
+
 
   @OneToMany(mappedBy = "uid")
   private Set<Review> reviews = new LinkedHashSet<>();
@@ -73,6 +72,13 @@ public class User {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "prefer_language")
   private Language preferLanguage;
+
+  @OneToMany(mappedBy = "uid")
+  private Set<Report> reports = new LinkedHashSet<>();
+
+  @OneToOne(mappedBy = "uid")
+  private ProfessionalRequest professionalRequests = new ProfessionalRequest();
+
 
   public Integer getId() {
     return id;
@@ -152,14 +158,6 @@ public class User {
 
   public void setDiscusses(Set<Discuss> discusses) {
     this.discusses = discusses;
-  }
-
-  public Set<ProfessionalRequest> getProfessionalRequests() {
-    return professionalRequests;
-  }
-
-  public void setProfessionalRequests(Set<ProfessionalRequest> professionalRequests) {
-    this.professionalRequests = professionalRequests;
   }
 
   public Set<Review> getReviews() {
