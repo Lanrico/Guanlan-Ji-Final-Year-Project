@@ -18,6 +18,7 @@ import Stripe from '../stripe';
 import { useNavigate, useParams } from 'react-router-dom';
 import userService from '../../api/userService';
 import HCaptchaBlock from '../hCaptchaBlock';
+import professionalRequest from '../../api/professionalRequest';
 
 const steps = ['Describe your job', 'Submit your identification', 'Make payment'];
 
@@ -32,6 +33,9 @@ export default function PaymentStepper() {
   const [upLoadSuccess, setUpLoadSuccess] = React.useState(false);
   const authContext = React.useContext(AuthContext);
   const [captchaToken, setCaptchaToken] = React.useState('');
+  const [company, setCompany] = React.useState('');
+  const [job, setJob] = React.useState('');
+  const [describe, setDescribe] = React.useState('');
 
   const navigate = useNavigate();
 
@@ -56,10 +60,16 @@ export default function PaymentStepper() {
     console.log(redirectStatus);
     if (redirectStatus === "succeeded") {
       console.log(initialUserProfile)
-      userService.update(initialUserProfile.id, "type", "1")
+      // userService.update(initialUserProfile.id, "type", "1")
       // .then((response1) => {
       //   console.log("changed")
       // })    
+      professionalRequest.create(initialUserProfile.id, {
+        company: company,
+        job: job,
+        describe: describe,
+
+      })
     }
 
   }, [authContext])
@@ -141,7 +151,7 @@ export default function PaymentStepper() {
     navigate(link)
   }
 
-  return (
+  return authContext.userProfile.type === 0 ? (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
@@ -195,8 +205,11 @@ export default function PaymentStepper() {
                 try {
                   setStatus({ success: false });
                   setSubmitting(false);
-                  console.log(values)
-                  handleNext()
+                  console.log(values);
+                  handleNext();
+                  setJob(values.job);
+                  setCompany(values.company);
+                  setDescribe(values.jobDescription);
                 } catch (err) {
                   setStatus({ success: false });
                   setErrors({ submit: err.message });
@@ -374,6 +387,11 @@ export default function PaymentStepper() {
               </Box>
             </React.Fragment>
           )}
+    </Box>
+  ) : (
+    <Box width={"100%"} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+      <Typography>Your are not a general user</Typography>
+      <Button onClick={e => { navigate("/user/" + authContext.userProfile.id + "/profile") }}>Back</Button>
     </Box>
   );
 }
