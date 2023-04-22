@@ -53,7 +53,7 @@ const SettingDialog = (props) => {
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle textAlign={"center"}>Change Avatar</DialogTitle>
       <Box>
-        <Input type="file" accept="image/*" fullWidth onChange={handleFileChange} > 123 </Input>
+        <Input type="file" inputProps={{ accept: '.jpg' }} fullWidth onChange={handleFileChange} > 123 </Input>
       </Box>
       {previewUrl && <img src={previewUrl} alt="avatar preview" />}
       <Backdrop

@@ -171,8 +171,6 @@ export default function PaymentStepper() {
             All steps completed - Your identification has been submitted for review. Once it is successfully reviewed, you will become our professional user. If it fails, you will receive a full refund of the payment made.
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: "center", flexDirection: 'row', pt: 2 }}>
-            {/* <Box sx={{ flex: '1 1 auto' }} /> */}
-            {/* <Button onClick={handleReset}>Reset</Button> */}
             <Button onClick={handleBackToUserProfile}>Back to user profile</Button>
           </Box>
         </React.Fragment>
@@ -326,7 +324,7 @@ export default function PaymentStepper() {
               <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
               <Typography>Upload materials to verify your identity</Typography>
               <Box>
-                <Input type="file" fullWidth onChange={handleFileChange} ></Input>
+                <Input type="file" fullWidth onChange={handleFileChange} inputProps={{ accept: '.pdf' }}></Input>
               </Box>
               <Button onClick={handleUpload} fullWidth>Upload</Button>
               <FormHelperText>
