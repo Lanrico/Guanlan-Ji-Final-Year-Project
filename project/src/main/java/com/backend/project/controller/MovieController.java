@@ -103,11 +103,7 @@ public class MovieController {
         Optional<Movie> movieData = movieRepository.findByTmdbId(m.getTmdbId());
         if (movieData.isPresent()) {
           Movie _movie = movieData.get();
-          int mid = _movie.getMedia().getId();
-//          System.out.println(mid);
-//          Optional<Media> mediaData = Optional.ofNullable(mediaRepository.findById(122));
           System.out.println("Modify");
-//          Media _media = mediaData.get();
           _movie.setImdbId(m.getImdbId());
           _movie.setOverview(m.getOverview());
           _movie.setReleaseDate(m.getReleaseDate());
@@ -123,9 +119,6 @@ public class MovieController {
           _movie.setAdult(m.getAdult());
           _movie.setVideo(m.getVideo());
           _movie.setOriginalTitle(m.getOriginalTitle());
-//          _movie.setMedia(m.getMedia());
-//          _media.setType(m.getMedia().getType());
-
           Movie __movie = movieRepository.save(_movie);
         }
        else {

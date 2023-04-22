@@ -99,7 +99,6 @@ public class MediaController {
       @RequestParam(required = false) Integer minRuntime,
       @RequestParam(required = false) Integer maxRuntime
   ) {
-    System.out.println(title);
     try {
       int size = pageSize == null ? 20 : Integer.parseInt(pageSize);
       int pageNumber = page == null ? 0 : Integer.parseInt(page);
@@ -201,8 +200,6 @@ public class MediaController {
         }
         LocalDate startDate1 = startDate != null ? LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd-MM-yyyy")) : null;
         LocalDate endDate1 = endDate != null ? LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd-MM-yyyy")) : null;
-        System.out.println(startDate);
-//    Sort sort = new Sort("qwe");
         if (order == null) {
           pageable = PageRequest.of(pageNumber, size, Sort.by(property).descending());
         } else {

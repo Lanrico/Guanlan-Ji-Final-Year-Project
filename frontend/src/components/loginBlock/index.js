@@ -12,6 +12,7 @@ import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import { Snackbar } from '@mui/material';
 import Alert from "@mui/material/Alert";
+import StarsIcon from '@mui/icons-material/Stars';
 
 import { AuthContext } from "../../context/authContext";
 import userService from "../../api/userService";
@@ -176,9 +177,28 @@ export default function LoginBlock() {
       <Container sx={context.isAuthenticated ? null : { display: "none" }} >
         <Typography textAlign={'center'} variant="h4" >
           Welcome,
-          <br></br>
-          {userName}!
         </Typography>
+        {
+          context.userProfile.type === 2 ?
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Typography color="primary" textAlign={'center'} variant="h4" >
+                {userName}
+              </Typography>
+              <StarsIcon color="primary" />
+            </div> :
+            context.userProfile.type === 1 ?
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Typography color="secondary" textAlign={'center'} variant="h4" >
+                  {userName}
+                </Typography>
+                <StarsIcon color="secondary" />
+              </div> :
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Typography textAlign={'center'} variant="h4" >
+                  {userName}
+                </Typography>
+              </div>
+        }
         <ColorButton
           fullWidth
           onClick={handleLogout}
@@ -187,7 +207,7 @@ export default function LoginBlock() {
         >
           Logout
         </ColorButton>
-      </Container>
+      </Container >
     </>
   );
 }

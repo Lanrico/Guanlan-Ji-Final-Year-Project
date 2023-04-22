@@ -54,7 +54,7 @@ const HomePage = (props) => {
           alt="Poster"
         />
         {/* To be fixed: Change Image background color to fit the website */}
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <LoginBlock />
         </Box>
       </Card>

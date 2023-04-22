@@ -15,10 +15,28 @@ import { storage } from '../../../firebase';
 import LikeDislikeBlock from '../../likeDislikeBlock';
 import ReportReviewButton from '../reportReviewButton';
 import { AuthContext } from '../../../context/authContext';
+import { useQuery } from 'react-query';
+import proUserRequestService from '../../../api/proUserRequestService';
+import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 
 const ProReviewCard = (props) => {
   const authContext = React.useContext(AuthContext);
   const [avatarUrl, setAvartarUrl] = React.useState('');
+
+  const { data, error, isLoading, isError } = useQuery(
+    ["proRequest", { userId: props.review.uid.id }],
+    proUserRequestService.getById
+  )
+
+  if (isLoading) {
+    return null
+  }
+  if (isError) {
+    console.log("error")
+    return <h6>{error.message}</h6>
+  }
+
+  const proUserRequest = data.data;
 
   const storageRef = ref(storage, 'avatars/' + props.review.uid.id + ".jpg")
   getDownloadURL(storageRef).then((url) => {
@@ -38,9 +56,18 @@ const ProReviewCard = (props) => {
         action={
           authContext.isAuthenticated ? <ReportReviewButton review={props.review} /> : null
         }
-        title={props.review.uid.name}
+        title={
+          <React.Fragment>
+            <div style={{ display: "flex" }}>
+              {props.review.uid.name}
+            </div>
+          </React.Fragment>}
         subheader={
           <React.Fragment>
+            <div style={{ display: "flex" }}>
+              <CheckCircleOutlineRoundedIcon style={{ marginRight: 2 }} fontSize='small' color='secondary' />
+              {proUserRequest.job + " of " + proUserRequest.company}
+            </div>
             {dateTimeFormatter(props.review.time)}
             <br></br>
             <div style={{ display: "flex" }}>
@@ -56,7 +83,7 @@ const ProReviewCard = (props) => {
             </div>
           </React.Fragment>}
       />
-      <CardContent>
+      <CardContent style={{ paddingTop: 0, paddingBottom: 0 }}>
         <Typography variant="body2">
           {props.review.content}
         </Typography>

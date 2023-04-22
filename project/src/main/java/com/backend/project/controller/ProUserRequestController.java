@@ -49,6 +49,30 @@ public class ProUserRequestController {
     }
   }
 
+  @GetMapping("/proUserRequest/{userId}")
+  public ResponseEntity<ProUserRequest> getProUserRequestByUserId(@PathVariable("userId") int userId) {
+    Optional<User> userData = userRepository.findById(userId);
+    if (!userData.isPresent()) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    Optional<ProUserRequest> proUserRequestData = proUserRequestRepository.findByUid(userData.get());
+    if (proUserRequestData.isPresent()) {
+      ProUserRequest proUserRequest = proUserRequestData.get();
+      proUserRequest.getUid().setFavourites(null);
+      proUserRequest.getUid().setReviews(null);
+      proUserRequest.getUid().setRecommendations(null);
+      proUserRequest.getUid().setHistories(null);
+      if (proUserRequest.getAid() != null){
+        proUserRequest.getAid().setFavourites(null);
+        proUserRequest.getAid().setReviews(null);
+        proUserRequest.getAid().setRecommendations(null);
+        proUserRequest.getAid().setHistories(null);
+      }
+      return new ResponseEntity<>(proUserRequest, HttpStatus.OK);
+    }
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+  }
+
   @PostMapping ("/proUserRequest/add/{userId}")
   public ResponseEntity<ProUserRequest> createProUserRequest(
       @RequestBody ProUserRequest proUserRequest,

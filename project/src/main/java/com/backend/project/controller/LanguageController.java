@@ -30,8 +30,6 @@ public class LanguageController {
 
         Language __language = languageRepository.save(_language);
       } else {
-      System.out.println(l.getId());
-//        l.setId(l.getId());
         Language _language = languageRepository.save(l);
       }
     }

@@ -20,6 +20,8 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
   Optional<List<Review>> findReviewsByUid(User user);
 
+  List<Review> getReviewsByMid(Media media);
+
 //  @Query("SELECT MEDIAN(e.voteCount) FROM Media e")
 //  Double findMedian();
 }

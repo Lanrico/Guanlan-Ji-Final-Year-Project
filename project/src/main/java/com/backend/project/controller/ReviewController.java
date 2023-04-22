@@ -57,6 +57,31 @@ public class ReviewController {
     }
   }
 
+  @GetMapping("/review/{media}/all")
+  public ResponseEntity<List<Review>> getAllMediaReview(
+      @PathVariable("media") int media
+      ) {
+    Optional<Media> mediaData = mediaRepository.findById(media);
+    if (!mediaData.isPresent()) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    List<Review> reviewList = reviewRepository.getReviewsByMid(mediaData.get());
+    for (Review r : reviewList) {
+      Media tmpMedia = r.getMid();
+      tmpMedia.setReviews(null);
+      tmpMedia.setFavourites(null);
+      tmpMedia.setGenres(null);
+      r.setMid(tmpMedia);
+      User tmpUser = r.getUid();
+      tmpUser.setReviews(null);
+      tmpUser.setFavourites(null);
+      tmpUser.setHistories(null);
+      r.setUid(tmpUser);
+    }
+    return new ResponseEntity<>(reviewList, HttpStatus.OK);
+  }
+
+
   @GetMapping("/review/{media}")
   public ResponseEntity<Page<Review>> getMediaReviews(
       @PathVariable("media") int media,

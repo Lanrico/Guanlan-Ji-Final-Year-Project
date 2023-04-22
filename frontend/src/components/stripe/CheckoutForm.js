@@ -61,7 +61,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: REACT_APP_FRONTEND_URL + "/user/payment/3",
+        return_url: process.env.REACT_APP_FRONTEND_URL + "/user/payment/3",
       },
     });
 

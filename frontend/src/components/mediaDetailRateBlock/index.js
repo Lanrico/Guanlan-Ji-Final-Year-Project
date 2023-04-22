@@ -7,8 +7,20 @@ import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import { useQuery } from "react-query";
 import movieService from "../../api/movieService";
 import Spinner from "../spinner";
+import { useEffect, useState } from "react";
+import reviewService from "../../api/reviewService";
 
 const MediaDetailRateBlock = (props) => {
+  const [recommend, setRecommend] = useState(0);
+  const [unrecommend, setUnrecommend] = useState(0);
+  useEffect(() => {
+    reviewService.getAllReviewsByMedia(props.media.id).then((res) => {
+      console.log(res.data)
+      setRecommend(res.data.filter((r) => r.isRecommend).length);
+      setUnrecommend(res.data.filter((r) => !r.isRecommend).length);
+    })
+  }, [])
+
   const { data, error, isLoading, isError } = useQuery(
     ["MovieRank", { id: props.media.id }], movieService.getRank
   )
@@ -18,13 +30,12 @@ const MediaDetailRateBlock = (props) => {
   if (isError) {
     return <h1>{error.message}</h1>
   }
-  console.log(props.media.id)
+  console.log(props.media)
   const rank = data.data;
   const scoreConverter = (score) => {
     return Math.ceil(score) / 2;
   }
-  const recommend = 1230 //props.media.recommend;
-  const unrecommend = 237 //props.media.unrecommend;
+
   const labels = {
     0.5: 'Terrible',
     1: 'Terrible+',
@@ -65,13 +76,13 @@ const MediaDetailRateBlock = (props) => {
   const recommendRate = [
     {
       title: 'Good',
-      value: (recommend * 100 / (recommend + unrecommend)).toFixed(0),
+      value: recommend + unrecommend > 0 ? (recommend * 100 / (recommend + unrecommend)).toFixed(0) : 0,
       icon: ThumbUpOffAltIcon,
       color: green[500]
     },
     {
       title: 'Bad',
-      value: (unrecommend * 100 / (recommend + unrecommend)).toFixed(0),
+      value: recommend + unrecommend > 0 ? (unrecommend * 100 / (recommend + unrecommend)).toFixed(0) : 0,
       icon: ThumbDownOffAltIcon,
       color: red[500]
     }
@@ -137,12 +148,6 @@ const MediaDetailRateBlock = (props) => {
               }}
             >
               <Icon color="action" />
-              {/* <Typography
-                    color="textPrimary"
-                    variant="body1"
-                  >
-                    {title}
-                  </Typography> */}
               <Typography
                 style={{ color }}
                 variant="h6"

@@ -3,7 +3,7 @@ import PageTemplate from "../pageTemplate";
 import CakeIcon from '@mui/icons-material/Cake';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DrawerContent from "../userProfileInfo/layout/MainLayout/Drawer/DrawerContent";
 import SettingDialog from "../settingDialog";
 import { AuthContext } from "../../context/authContext";
@@ -16,6 +16,10 @@ import { dateFormatter } from "../../util";
 import InterestConfig from "../userProfileTabs/interestConfig";
 import CheckReview from "../userProfileTabs/checkReview";
 import ProUserRequest from "../userProfileTabs/proUserRequest";
+import StarsIcon from '@mui/icons-material/Stars';
+import proUserRequestService from "../../api/proUserRequestService";
+import { useQuery } from "react-query";
+import Spinner from "../spinner";
 
 const UserPageTemplete = (props) => {
   const theme = useTheme();
@@ -24,6 +28,22 @@ const UserPageTemplete = (props) => {
 
   const avatarSize = 120;
   const [openSetting, setOpenSetting] = useState(false);
+  const { data, error, isLoading, isError } = useQuery(
+    ["proRequest", { userId: props.user.id }],
+    proUserRequestService.getById
+  )
+
+  if (isLoading) {
+    return <Spinner />
+  }
+  if (isError) {
+    console.log("error")
+    return <h1>{error.message}</h1>
+  }
+
+  const proUserRequest = data.data;
+  console.log(proUserRequest)
+
   // const [selectedValue, setSelectedValue] = React.useState(emails[1]);
 
   const handleSettingOpen = () => {
@@ -34,6 +54,7 @@ const UserPageTemplete = (props) => {
     setOpenSetting(false);
     // setSelectedValue(value);
   };
+  console.log(props.user)
   return (
     <PageTemplate>
       <Paper sx={{ backgroundColor: theme.palette.primary.light }} elevation={0}>
@@ -47,10 +68,22 @@ const UserPageTemplete = (props) => {
                 src={authContext.userAvatar}
                 sx={{ width: `${avatarSize}px`, height: `${avatarSize}px`, marginTop: `-${avatarSize / 2 + avatarSize / 50}px`, border: "4px solid #fff", position: "absolute" }}
               />
-
-              <Typography variant="h4" sx={{ fontWeight: 'bold' }} pt={11}>
-                {props.user.name}
-              </Typography>
+              <div style={{ display: "flex" }}>
+                <div style={{ display: "flex" }}>
+                  <div style={{ width: '20px', display: props.user.type === 0 ? "none" : null }}></div>
+                  <Typography variant="h4" sx={{ fontWeight: 'bold' }} color={props.user.type === 2 ? "primary" : "secondary"} pt={11}>
+                    {props.user.name}
+                  </Typography>
+                  <StarsIcon sx={{ mt: 11, display: props.user.type === 0 ? "none" : null }} color={props.user.type === 2 ? "primary" : "secondary"} />
+                </div>
+                {
+                  props.user.type === 0 ?
+                    null :
+                    <Typography pl={2} variant="h6" sx={{ color: "grey" }} pt={12}>
+                      {props.user.type === 1 ? proUserRequest.job + " of " + proUserRequest.company : "website admin account"}
+                    </Typography>
+                }
+              </div>
               <div style={{ display: "flex", marginTop: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: 'bold', color: "grey" }}>
                   {props.user.email}
@@ -72,6 +105,9 @@ const UserPageTemplete = (props) => {
                     )
                 }
               </div>
+              <Typography variant="subtitle1" sx={{ color: "grey" }}>
+                {props.user.bio}
+              </Typography>
             </Paper>
             <Paper elevation={0}>
               <Button size="large" onClick={handleSettingOpen} startIcon={<SettingsIcon color="inherit" />} sx={{ mt: 1 }}>

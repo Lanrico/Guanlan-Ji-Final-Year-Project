@@ -17,7 +17,7 @@ const NavCard = () => (
             <Stack alignItems="center">
                 <Typography variant="h5">ILI Pro</Typography>
                 <Typography variant="h6" color="secondary" align='center'>
-                    Checkout pro features
+                    Checkout for <br></br> Pro features
                 </Typography>
             </Stack>
             <AnimateButton>

@@ -19,6 +19,10 @@ class ReviewDataService {
     return http.get(`/review/${argsQuery.media}?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}&orderBy=${argsQuery.orderBy}&type=${argsQuery.type}`)
   }
 
+  getAllReviewsByMedia(media) {
+    return http.get(`/review/${media}/all`)
+  }
+
   addReviewToMedia(id, data) {
     return http.post(`/review/${id}`, data);
   }

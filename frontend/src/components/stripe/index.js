@@ -17,7 +17,7 @@ export default function Stripe() {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch(REACT_APP_BACKEND_URL + "/api/create-payment-intent", {
+    fetch(process.env.REACT_APP_FRONTEND_URL + "/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items: [{ id: "pro-request" }] }),
