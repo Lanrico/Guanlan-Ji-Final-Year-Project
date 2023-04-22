@@ -8,13 +8,11 @@ class MovieDataService {
   // getTopTrending(pageSize, page) {
   getTopTrending(args) {
     const [, argsQuery] = args.queryKey
-    console.log(argsQuery)
     return http.get(`/media/top/popularity/movie?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`);
   }
 
   getRank(args) {
     const [, argsQuery] = args.queryKey
-    console.log(argsQuery)
     return http.get(`/media/rank/${argsQuery.id}`);
   }
 
@@ -27,7 +25,6 @@ class MovieDataService {
     const [, argsQuery] = args.queryKey
     var sort = argsQuery.filter.sort ? argsQuery.filter.sort : "finalRate"
     sort = argsQuery.filter.sort === "releaseDate" ? "movie_releaseDate" : sort
-    console.log(`/media/top/${sort}/movie?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}${filterAPIEncoder(argsQuery.filter)}`)
     return http.get(`/media/top/${sort}/movie?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}${filterAPIEncoder(argsQuery.filter)}`);
   }
 
@@ -35,13 +32,11 @@ class MovieDataService {
     const [, argsQuery] = args.queryKey
     var sort = argsQuery.sort ? argsQuery.sort : "finalRate"
     sort = argsQuery.sort === "releaseDate" ? "movie_releaseDate" : sort
-    console.log(`/media/search/${sort}/movie?title=${argsQuery.title}&pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`)
     return http.get(`/media/search/${sort}/movie?title=${argsQuery.title}&pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`);
   }
 
   get(args) {
     const [, argsQuery] = args.queryKey
-    console.log(argsQuery)
     return http.get(`/media/${argsQuery.id}`);
   }
 

@@ -127,11 +127,18 @@ public class RecommendController {
     //delete user's old recommend
     Optional<List<Recommendation>> oldRecommendations = recommendationRepository.findMediasByUid(user);
     if (oldRecommendations.isPresent()) {
-      recommendationRepository.deleteAll(oldRecommendations.get());
+      try {
+        recommendationRepository.deleteAll(oldRecommendations.get());
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
     //save new recommend
     for (Media media : sortedMedia) {
       Recommendation recommendation = new Recommendation(user, media);
+      if (recommendationRepository.findByUidAndMid(user, media).isPresent()){
+        continue;
+      }
       recommendationRepository.save(recommendation);
     }
     return new ResponseEntity<>(sortedMediaTimes, HttpStatus.OK);

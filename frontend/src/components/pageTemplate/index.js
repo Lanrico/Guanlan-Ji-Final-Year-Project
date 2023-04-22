@@ -12,7 +12,7 @@ const PageTemplate = (props) => {
     if (authContext.isAuthenticated) {
       const interval = setInterval(() => {
         recommedationService.generateRecommendation(authContext.userProfile.id);
-      }, 10000);
+      }, 60000);
     }
   }, [authContext.isAuthenticated, authContext.userProfile.id])
   return (

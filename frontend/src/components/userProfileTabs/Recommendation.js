@@ -1,5 +1,5 @@
 import { Button, List } from "@mui/material";
-import RankingListItem from "../RankingListItem";
+import RankingListItem from "../rankingListItem";
 import { useQuery } from "react-query";
 import recommedationService from "../../api/recommedationService";
 import Spinner from "../spinner";

@@ -15,7 +15,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SimpleLogo from '../../images/SimpleLogo.png';
 import { Avatar, Button, ButtonGroup, Grid, useMediaQuery } from "@mui/material";
 
-import MenuButton from "../menuButton";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import MyButtonMenu from "../myButtonMenu";
@@ -53,6 +52,19 @@ const SearchIconWrapper = styled(IconButton)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  backgroundColor: alpha(theme.palette.grey[300], 0.5),
+  ':hover': {
+    backgroundColor: alpha(theme.palette.primary.main, 1),
+    color: theme.palette.primary.contrastText,
+    transform: "scale(1.3)",
+    zIndex: 9999
+  },
+  transition: theme.transitions.create(['background-color', 'transform'], {
+    duration: theme.transitions.duration.standard,
+  })
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -126,6 +138,14 @@ const PageHeader = (props) => {
     </Menu>
   );
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      console.log('Enter key pressed');
+      handleSearchButton()
+    }
+  }
+
+
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
@@ -189,9 +209,9 @@ const PageHeader = (props) => {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: 'flex' }}>
             <MyButtonGroup variant="text" color="inherit" style={{ color: 'grey' }}>
-              <MenuButton title="Game" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["/ranking/game", "", ""]} />
-              <MenuButton title="Movie" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["/ranking/movie/1", "", ""]} />
-              <MenuButton title="Music" textList={["Ranking", "Recommandation", "History", "Trending", "Genres"]} linkList={["/ranking/music", "", ""]} />
+              <StyledButton onClick={() => { navigate(`/ranking/movie/1`) }}>Movie</StyledButton>
+              <StyledButton onClick={() => { navigate(`/ranking/movie/1`) }}>Game</StyledButton>
+              <StyledButton onClick={() => { navigate(`/ranking/movie/1`) }}>Music</StyledButton>
             </MyButtonGroup>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
@@ -203,6 +223,7 @@ const PageHeader = (props) => {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
               onChange={handleSearchTFChange}
+              onKeyPress={handleKeyPress}
             />
           </Search>
           {

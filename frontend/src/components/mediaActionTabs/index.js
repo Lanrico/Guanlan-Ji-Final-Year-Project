@@ -7,9 +7,6 @@ import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
 
 import ReviewPanel from '../reviewsPanel';
-import { AuthContext } from '../../context/authContext';
-import { useTheme } from '@emotion/react';
-
 
 const StyledTabs = styled((props) =>
   <Tabs
@@ -60,17 +57,10 @@ export default function MediaActionTabs() {
           aria-label="styled tabs example"
         >
           <StyledTab label="Reviews" value="1" />
-          <StyledTab label="Discussion" value="2" />
         </StyledTabs>
         <Box sx={{ py: 3 }} >
           <TabPanel value="1" style={{ padding: "0" }}>
             <ReviewPanel />
-          </TabPanel>
-          <TabPanel value="2" style={{ padding: "0" }}>
-            456
-          </TabPanel>
-          <TabPanel value="3" style={{ padding: "0" }}>
-            789
           </TabPanel>
         </Box>
       </TabContext >

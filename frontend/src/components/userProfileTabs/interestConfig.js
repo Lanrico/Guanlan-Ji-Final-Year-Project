@@ -1,6 +1,6 @@
 import { Alert, Box, Button, Collapse, Grid, IconButton, Typography } from "@mui/material";
 import FilterCardCheckbox from "../filterCardCheckbox";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import CloseIcon from '@mui/icons-material/Close';
 import genresService from "../../api/genresService";
@@ -34,7 +34,7 @@ const InterestConfig = () => {
         My interest genres
       </Typography>
       {
-        genres.genres.map((g) => {
+        genres.map((g) => {
           console.log(genresList.includes(g.id))
           return (
             <FilterCardCheckbox value={g.id} text={g.name} checked={genresList.includes(g.id)} onChange={(event) => {

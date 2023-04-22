@@ -1,5 +1,5 @@
 import { IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography, useTheme } from "@mui/material"
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import placeholder from "../../images/film-poster-placeholder.png"
 import { Link } from "react-router-dom"
 import { useQuery } from "react-query"
@@ -80,7 +80,7 @@ const BrowseListItem = (props) => {
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: 100 }}>
               <div style={{ display: "flex", marginTop: 5 }}>
                 {media.movie.releaseDate}
-                {genres.genres.map((m) => {
+                {genres.map((m) => {
                   if (media.genres.find((n) => n.id === m.id)) {
                     return ' / ' + m.name
                   }

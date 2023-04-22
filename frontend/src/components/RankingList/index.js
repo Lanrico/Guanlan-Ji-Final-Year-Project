@@ -1,6 +1,6 @@
 import * as React from 'react';
 import List from '@mui/material/List';
-import RankingListItem from '../RankingListItem';
+import RankingListItem from '../rankingListItem';
 import { Pagination, PaginationItem } from '@mui/material';
 import { useQuery } from 'react-query';
 import movieService from '../../api/movieService';

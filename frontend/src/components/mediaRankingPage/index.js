@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import PageTemplate from "../pageTemplate"
 import { capitalizeFirstLowercaseRest } from "../../util";
-import RankingList from "../RankingList";
+import RankingList from "../rankingList";
 import SortAndFilterCard from "../sortAndFilterCard";
 import { useParams } from "react-router-dom";
 const MediaRankingPage = (props) => {
