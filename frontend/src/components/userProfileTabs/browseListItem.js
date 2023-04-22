@@ -1,6 +1,5 @@
 import { IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography, useTheme } from "@mui/material"
 import React, { useContext, useState } from "react"
-import genres from "../../sampleData/genres"
 import placeholder from "../../images/film-poster-placeholder.png"
 import { Link } from "react-router-dom"
 import { useQuery } from "react-query"
@@ -10,7 +9,14 @@ import Spinner from "../spinner"
 import { AuthContext } from "../../context/authContext"
 import { dateTimeFormatter } from "../../util"
 import historyService from "../../api/historyService"
+import genresService from "../../api/genresService"
 const BrowseListItem = (props) => {
+  useEffect(() => {
+    genresService.getAll().then((response) => {
+      setGenres(response.data);
+    });
+  })
+  const [genres, setGenres] = useState([]);
   const theme = useTheme();
   const authContext = useContext(AuthContext);
   const [isFavourite, setIsFavourite] = useState(authContext.favouriteList.includes(props.media_id));

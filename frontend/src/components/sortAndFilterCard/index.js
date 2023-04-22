@@ -1,20 +1,32 @@
 import { Button, Card, Divider, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, Slider, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import FilterCardCheckbox from "../filterCardCheckbox";
-import genres from "../../sampleData/genres";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SortIcon from '@mui/icons-material/Sort';
-import languages from "../../sampleData/languages";
 import { MediaContext } from "../../context/mediaContextProvider";
 import { dateFormatter, filterStringEncoder } from "../../util";
+import languageService from "../../api/languageService";
+import genresService from "../../api/genresService";
 
 const SortAndFilterCard = (props) => {
+  useEffect(() => {
+    languageService.getAll().then((response) => {
+      console.log(response.data)
+      setLanguages(response.data);
+    });
+
+    genresService.getAll().then((response) => {
+      console.log(response.data)
+      setGenres(response.data);
+    });
+  }, []);
+  const [genres, setGenres] = useState([]);
   const movieContext = useContext(MediaContext);
   const [genresChecked, setGenresChecked] = React.useState(movieContext.movieFilter.genresChecked)
   const [startDate, setStartDate] = React.useState(movieContext.movieFilter.startDate);
@@ -24,6 +36,7 @@ const SortAndFilterCard = (props) => {
   const [language, setLanguage] = React.useState(movieContext.movieFilter.language);
   const [rate, setRate] = React.useState(movieContext.movieFilter.rate);
   const [runtime, setRuntime] = React.useState(movieContext.movieFilter.runtime);
+  const [languages, setLanguages] = React.useState([]);
   const handleSortChange = (event) => {
     setSort(event.target.value);
   };
@@ -87,7 +100,7 @@ const SortAndFilterCard = (props) => {
           Genres
         </Typography>
         {
-          genres.genres.map((g) => {
+          genres.map((g) => {
             return (
               <FilterCardCheckbox value={g.id} text={g.name} checked={genresChecked[g.id]} onChange={(event) => {
                 var tmp = genresChecked;
@@ -143,7 +156,7 @@ const SortAndFilterCard = (props) => {
             {
               languages.map((l) => {
                 return (
-                  <MenuItem value={l.iso_639_1}>{l.english_name}</MenuItem>
+                  <MenuItem value={l.id}>{l.englishName}</MenuItem>
                 )
               })
             }

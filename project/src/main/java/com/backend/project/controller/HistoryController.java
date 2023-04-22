@@ -18,7 +18,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://127.0.0.1:8081")
+@CrossOrigin(origins = "${FRONTEND_URL}")
 @RestController
 @RequestMapping("/api")
 public class HistoryController {

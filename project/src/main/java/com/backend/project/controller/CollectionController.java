@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://127.0.0.1:8081")
+@CrossOrigin(origins = "${FRONTEND_URL}")
 @RestController
 @RequestMapping("/api")
 public class CollectionController {

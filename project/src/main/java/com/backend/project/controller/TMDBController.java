@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-@CrossOrigin(origins = "http://127.0.0.1:8081")
+@CrossOrigin(origins = "${FRONTEND_URL}")
 @RestController
 @RequestMapping("/api")
 public class TMDBController {

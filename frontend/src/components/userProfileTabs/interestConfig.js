@@ -1,12 +1,18 @@
 import { Alert, Box, Button, Collapse, Grid, IconButton, Typography } from "@mui/material";
-import genres from "../../sampleData/genres";
 import FilterCardCheckbox from "../filterCardCheckbox";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import CloseIcon from '@mui/icons-material/Close';
+import genresService from "../../api/genresService";
 
 
 const InterestConfig = () => {
+  useEffect(() => {
+    genresService.getAll().then((response) => {
+      setGenres(response.data);
+    });
+  }, [])
+  const [genres, setGenres] = useState([]);
   const authContext = useContext(AuthContext)
   const [genresChecked, setGenresChecked] = React.useState(authContext.userProfile.genres)
   const [open, setOpen] = React.useState(false)

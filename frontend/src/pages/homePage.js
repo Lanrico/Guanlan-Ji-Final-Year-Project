@@ -37,7 +37,7 @@ const HomePage = (props) => {
   const medias1 = medias.slice(0, 4)
   const medias2 = medias.slice(4, 8)
   const medias3 = medias.slice(8, 12)
-
+  console.log(process.env.REACT_APP_BACKEND_URL)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.project.repository.MovieRepository;
 import com.backend.project.repository.MediaRepository;
 
-@CrossOrigin(origins = "http://127.0.0.1:8081")
+@CrossOrigin(origins = "${FRONTEND_URL}")
 @RestController
 @RequestMapping("/api")
 public class GenreController {
@@ -50,5 +50,10 @@ public class GenreController {
       }
     }
     return genresList;
+  }
+
+  @GetMapping("/genre/all")
+  public ResponseEntity<List<Genre>> getAllGenres() {
+      return new ResponseEntity<>(genreRepository.findAll(), HttpStatus.OK);
   }
 }

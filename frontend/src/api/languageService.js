@@ -2,7 +2,7 @@ import http from "../http-common";
 
 class LanguageDataService {
   getAll() {
-    return http.get("/language");
+    return http.get("/language/all");
   }
 
   get(id) {

@@ -17,7 +17,7 @@ import com.stripe.Stripe;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 
-@CrossOrigin(origins = "http://127.0.0.1:8081")
+@CrossOrigin(origins = "${FRONTEND_URL}")
 @RestController
 @RequestMapping("/api")
 public class PaymentController {
