@@ -20,7 +20,6 @@ import { AuthContext } from "../../context/authContext";
 import MyButtonMenu from "../myButtonMenu";
 
 const MyButtonGroup = styled(ButtonGroup)(({ theme }) => ({
-  // color: theme.palette.grey,
   backgroundColor: alpha(theme.palette.common.white, 0),
   '& :hover': {
     backgroundColor: theme.palette.primary.main,
@@ -42,16 +41,6 @@ const Search = styled('div')(({ theme }) => ({
     marginLeft: theme.spacing(3),
     width: 'auto',
   },
-}));
-
-const SearchIconWrapper = styled(IconButton)(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({

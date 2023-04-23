@@ -14,7 +14,7 @@ const PageTemplate = (props) => {
         recommedationService.generateRecommendation(authContext.userProfile.id);
       }, 60000);
     }
-  }, [authContext.isAuthenticated, authContext.userProfile.id])
+  }, [])
   return (
     <Grid container>
       <Grid item xs></Grid>
