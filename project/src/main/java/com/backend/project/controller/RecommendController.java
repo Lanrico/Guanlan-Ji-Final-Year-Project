@@ -394,11 +394,11 @@ public class RecommendController {
     // Get user attributes
     String country1 = user1.getCountry() == null ? "unknown1" : user1.getCountry().getId();
     LocalDate birthday1 = user1.getBirthday();
-    String language1 = "en"; // 以后改为用户偏好的语言
+    String language1 = user1.getPreferLanguage().getId();
 
     String country2 = user2.getCountry() == null ? "unknown2" : user2.getCountry().getId();
     LocalDate birthday2 = user2.getBirthday();
-    String language2 = "cn";
+    String language2 = user2.getPreferLanguage().getId();
 
     // Convert attributes to numerical values
     double countrySimilarity = country1.equals(country2) ? 1.0 : 0.0;

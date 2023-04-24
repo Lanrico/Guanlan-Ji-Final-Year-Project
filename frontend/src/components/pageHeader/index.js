@@ -227,13 +227,16 @@ const PageHeader = (props) => {
               </>
             ) : (
               <>
-                <Button variant="contained" href="/login">
-                  Sign in
-                </Button>
-                <Button variant="outlined" href="/register">
-                  Sign up
-                </Button>
-
+                <Link to="/login">
+                  <Button variant="contained" href="/login">
+                    Sign in
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button variant="outlined" href="/register">
+                    Sign up
+                  </Button>
+                </Link>
               </>
             )
           }
