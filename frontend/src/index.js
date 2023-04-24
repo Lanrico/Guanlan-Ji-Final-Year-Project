@@ -2,7 +2,6 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import React, { useEffect } from "react";
-import AddMedia from "./components/addMedia";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -20,7 +19,6 @@ import ForgetPasswordPage from "./pages/forgetPasswordPage";
 import PaymentPage from "./pages/paymentPage";
 import Stripe from "./components/stripe";
 import MovieSearchPage from "./pages/movieSearchPage";
-import recommedationService from "./api/recommedationService";
 import IndexHelper from "./indexHelper";
 
 const storedUserProfile = sessionStorage.getItem('userProfile') ? sessionStorage.getItem('userProfile') : localStorage.getItem('userProfile');
@@ -77,12 +75,10 @@ const App = () => {
                     <Route path="/search/:media_type/:searchString/:page/:filter?" element={<MovieSearchPage />} />
                     <Route path="/register" element={<SignUpPage />} />
                     <Route path="/medias/movie/:id" element={<MovieDetailPage />} />
-                    <Route path="/add" element={<AddMedia />} />
                     <Route path="/user/:user_id/:tab" element={<UserPage />} />
                     <Route path="/user/payment/:step?" element={<PaymentPage />} />
                     <Route path="/login" element={<LoginPage />} />
-                    <Route path="/forgetPassword" element={<ForgetPasswordPage />} />
-                    <Route path="/example/123" element={<Stripe />} />
+                    {/* <Route path="/forgetPassword" element={<ForgetPasswordPage />} /> */}
                   </Routes>
                 </AuthContext>
               </MediaContextProvider>
