@@ -48,7 +48,7 @@
     "yup": "^1.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --open http://127.0.0.1:8081/",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

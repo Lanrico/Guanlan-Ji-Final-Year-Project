@@ -6,15 +6,15 @@ import { AuthContext } from "../../context/authContext";
 import recommedationService from "../../api/recommedationService";
 
 const PageTemplate = (props) => {
-  const authContext = React.useContext(AuthContext);
-  console.log(authContext)
-  useEffect(() => {
-    if (authContext.isAuthenticated) {
-      const interval = setInterval(() => {
-        recommedationService.generateRecommendation(authContext.userProfile.id);
-      }, 60000);
-    }
-  }, [])
+  // const authContext = React.useContext(AuthContext);
+  // console.log(authContext)
+  // useEffect(() => {
+  //   if (authContext.isAuthenticated) {
+  //     const interval = setInterval(() => {
+  //       recommedationService.generateRecommendation(authContext.userProfile.id);
+  //     }, 60000);
+  //   }
+  // }, [])
   return (
     <Grid container>
       <Grid item xs></Grid>

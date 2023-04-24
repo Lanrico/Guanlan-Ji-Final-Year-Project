@@ -28,20 +28,27 @@ const UserPageTemplete = (props) => {
 
   const avatarSize = 120;
   const [openSetting, setOpenSetting] = useState(false);
-  const { data, error, isLoading, isError } = useQuery(
-    ["proRequest", { userId: props.user.id }],
-    proUserRequestService.getById
-  )
+  const [proUserRequest, setProUserRequest] = useState(null);
+  useEffect(() => {
+    proUserRequestService.getById0(props.user.id).then(res => {
+      setProUserRequest(res.data)
+    })
+  }, [props.user.id])
 
-  if (isLoading) {
-    return <Spinner />
-  }
-  if (isError) {
-    console.log("error")
-    return <h1>{error.message}</h1>
-  }
+  // const { data, error, isLoading, isError } = useQuery(
+  //   ["proRequest", { userId: props.user.id }],
+  //   proUserRequestService.getById
+  // )
 
-  const proUserRequest = data.data;
+  // if (isLoading) {
+  //   return <Spinner />
+  // }
+  // if (isError) {
+  //   console.log("error")
+  //   return null
+  // }
+
+  // const proUserRequest = data.data;
   console.log(proUserRequest)
 
   // const [selectedValue, setSelectedValue] = React.useState(emails[1]);
@@ -71,7 +78,7 @@ const UserPageTemplete = (props) => {
               <div style={{ display: "flex" }}>
                 <div style={{ display: "flex" }}>
                   <div style={{ width: '20px', display: props.user.type === 0 ? "none" : null }}></div>
-                  <Typography variant="h4" sx={{ fontWeight: 'bold' }} color={props.user.type === 2 ? "primary" : "secondary"} pt={11}>
+                  <Typography variant="h4" sx={{ fontWeight: 'bold' }} color={props.user.type === 2 ? "primary" : props.user.type === 1 ? "secondary" : null} pt={11}>
                     {props.user.name}
                   </Typography>
                   <StarsIcon sx={{ mt: 11, display: props.user.type === 0 ? "none" : null }} color={props.user.type === 2 ? "primary" : "secondary"} />
@@ -80,7 +87,7 @@ const UserPageTemplete = (props) => {
                   props.user.type === 0 ?
                     null :
                     <Typography pl={2} variant="h6" sx={{ color: "grey" }} pt={12}>
-                      {props.user.type === 1 ? proUserRequest.job + " of " + proUserRequest.company : "website admin account"}
+                      {props.user.type === 1 && proUserRequest ? proUserRequest.job + " of " + proUserRequest.company : "website admin account"}
                     </Typography>
                 }
               </div>

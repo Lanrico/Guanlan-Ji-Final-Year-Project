@@ -9,6 +9,9 @@ class ProUserRequestDataService {
     const [, argsQuery] = args.queryKey
     return http.get(`/proUserRequest/${argsQuery.userId}`);
   }
+  getById0(userId) {
+    return http.get(`/proUserRequest/${userId}`);
+  }
   getProUserRequestsByMediaAndUser(args) {
     const [, argsQuery] = args.queryKey
     return http.get(`/proUserRequest/${argsQuery.media}/${argsQuery.user}`)

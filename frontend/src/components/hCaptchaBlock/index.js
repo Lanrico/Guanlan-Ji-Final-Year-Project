@@ -7,7 +7,7 @@ const HCaptchaBlock = (props) => {
   }
   return (
     <div style={{ margin: "auto" }}>
-      <HCaptcha sitekey={process.env.REACT_APP_HCAPTCHA_SITE_KEY} onVerify={onVerifyCaptcha} />
+      <HCaptcha sitekey={process.env.REACT_APP_HCAPTCHA_SITE_KEY} onVerify={onVerifyCaptcha} languageOverride={"en"} />
     </div>
   );
 }

@@ -360,7 +360,7 @@ export default function PaymentStepper() {
             //Step 3
             <React.Fragment>
               <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-              <Link href={"https://buy.stripe.com/test_4gw9B054Lcob4rmbII"} >Make payment</Link>
+              {/* <Link href={"https://buy.stripe.com/test_4gw9B054Lcob4rmbII"} >Make payment</Link> */}
               <Stripe></Stripe>
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                 <Button

@@ -14,6 +14,7 @@ const MediaPageTemplate = (props) => {
   const authContext = useContext(AuthContext);
   const [isFavourite, setIsFavourite] = useState(authContext.favouriteList.includes(props.media.id));
 
+  console.log(authContext.favouriteList)
   // Add to history by api when enter the page
   useEffect(() => {
     historyService.create(authContext.userProfile.id, props.media.id)
@@ -35,7 +36,6 @@ const MediaPageTemplate = (props) => {
     setIsFavourite(false);
     authContext.removeFavourite(props.media.id);
   }
-  console.log(props.media)
   return (
     <PageTemplate>
       {props.media_type === "movie" ? (
