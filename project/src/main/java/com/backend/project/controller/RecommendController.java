@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @CrossOrigin(origins = "${FRONTEND_URL}")
 @RestController
@@ -82,6 +83,7 @@ public class RecommendController {
     List<Review> reviewList = null;
     List<History> historyList = null;
     List<Favourite> favouriteList = null;
+    List<PreferredGenre> preferredGenreList = null;
     // get review list
     Optional<List<Review>> reviewsData = reviewRepository.findReviewsByUid(user);
     if (reviewsData.isPresent()) {
@@ -96,6 +98,12 @@ public class RecommendController {
     Optional<List<Favourite>> favouriteData = favouriteRepository.findFavouritesByUid(user);
     if (favouriteData.isPresent()) {
       favouriteList = favouriteData.get();
+    }
+
+    // get prefer genre list
+    Optional<List<PreferredGenre>> interestGenreData = preferredGenreRepository.findPreferredGenresByUid(user);
+    if (reviewsData.isPresent()) {
+      preferredGenreList = interestGenreData.get();
     }
     //Get recommend from realTime section
     List<MediaTimes> realTimeList = RealTimeRecommendCalculator(user, reviewList, historyList, favouriteList);
@@ -113,17 +121,84 @@ public class RecommendController {
     finalMediaTimes = mediaTimesListGeneratorByMediaTimes(finalMediaTimes, offlineList, 1);
     finalMediaTimes = mediaTimesListGeneratorByMediaTimes(finalMediaTimes, statisticsList, 3);
     finalMediaTimes = mediaTimesListGeneratorByMedia(notInterestedTimesList, finalMediaTimes, -5);
-    List<MediaTimes> sortedMediaTimes = finalMediaTimes.stream()
-        .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
-            .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
-        .limit(20)
-        .collect(Collectors.toList());
-    List<Media> sortedMedia = finalMediaTimes.stream()
-        .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
-            .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
-        .map(MediaTimes::getMedia)
-        .limit(20)
-        .collect(Collectors.toList());
+    List<MediaTimes> sortedMediaTimes = null;
+    List<Media> sortedMedia = null;
+    if (preferredGenreList == null) {
+      if (user.getPreferLanguage() == null) {
+        sortedMediaTimes = finalMediaTimes.stream()
+            .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
+                .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
+            .limit(20)
+            .collect(Collectors.toList());
+        sortedMedia = finalMediaTimes.stream()
+            .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
+                .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
+            .map(MediaTimes::getMedia)
+            .limit(20)
+            .collect(Collectors.toList());
+      } else {
+        sortedMediaTimes = finalMediaTimes.stream()
+            .filter(mt -> mt.getMedia().getOriginalLanguage().equals(user.getPreferLanguage().getId()))
+            .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
+                .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
+            .limit(20)
+            .collect(Collectors.toList());
+        sortedMedia = finalMediaTimes.stream()
+            .filter(mt -> mt.getMedia().getOriginalLanguage().equals(user.getPreferLanguage().getId()))
+            .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
+                .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
+            .map(MediaTimes::getMedia)
+            .limit(20)
+            .collect(Collectors.toList());
+      }
+    } else {
+      if (user.getPreferLanguage() == null){
+        System.out.println("Only prefer genre");
+        final List<Integer> preferredGenreIdList = preferredGenreList.stream()
+            .map(PreferredGenre::getGid)
+            .map(Genre::getId)
+            .collect(Collectors.toList());
+        sortedMediaTimes = finalMediaTimes.stream()
+            .filter(mt -> mt.getMedia().getGenres().stream()
+                .anyMatch(genre -> preferredGenreIdList.contains(genre.getId())))
+            .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
+                .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
+            .limit(20)
+            .collect(Collectors.toList());
+        sortedMedia = finalMediaTimes.stream()
+            .filter(mt -> mt.getMedia().getGenres().stream()
+                .anyMatch(genre -> preferredGenreIdList.contains(genre.getId())))
+            .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
+                .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
+            .map(MediaTimes::getMedia)
+            .limit(20)
+            .collect(Collectors.toList());
+      }
+      else {
+        final List<Integer> preferredGenreIdList = preferredGenreList.stream()
+            .map(PreferredGenre::getGid)
+            .map(Genre::getId)
+            .collect(Collectors.toList());
+        sortedMediaTimes = finalMediaTimes.stream()
+            .filter(mt -> mt.getMedia().getGenres().stream()
+                .anyMatch(genre -> preferredGenreIdList.contains(genre.getId()))
+                && mt.getMedia().getOriginalLanguage().equals(user.getPreferLanguage().getId()))
+            .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
+                .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
+            .limit(20)
+            .collect(Collectors.toList());
+        sortedMedia = finalMediaTimes.stream()
+            .filter(mt -> mt.getMedia().getGenres().stream()
+                .anyMatch(genre -> preferredGenreIdList.contains(genre.getId()))
+                && mt.getMedia().getOriginalLanguage().equals(user.getPreferLanguage().getId()))
+            .sorted(Comparator.comparing(MediaTimes::getTime).reversed()
+                .thenComparing((MediaTimes mt) -> mt.getMedia().getFinalRate()))
+            .map(MediaTimes::getMedia)
+            .limit(20)
+            .collect(Collectors.toList());
+      }
+    }
+
     //delete user's old recommend
     Optional<List<Recommendation>> oldRecommendations = recommendationRepository.findMediasByUid(user);
     if (oldRecommendations.isPresent()) {
@@ -394,11 +469,11 @@ public class RecommendController {
     // Get user attributes
     String country1 = user1.getCountry() == null ? "unknown1" : user1.getCountry().getId();
     LocalDate birthday1 = user1.getBirthday();
-    String language1 = user1.getPreferLanguage().getId();
+    String language1 = user1.getPreferLanguage() == null ? "unknown1" : user1.getPreferLanguage().getId();
 
     String country2 = user2.getCountry() == null ? "unknown2" : user2.getCountry().getId();
     LocalDate birthday2 = user2.getBirthday();
-    String language2 = user2.getPreferLanguage().getId();
+    String language2 = user2.getPreferLanguage() == null ? "unknown2" : user2.getPreferLanguage().getId();
 
     // Convert attributes to numerical values
     double countrySimilarity = country1.equals(country2) ? 1.0 : 0.0;
@@ -444,7 +519,7 @@ public class RecommendController {
 
   public ArrayList<MediaTimes> StatisticsRecommendCalculator(User user) {
     // find the top 20 most popular media
-    List<Media> mediaTop20PopularList = mediaRepository.findTop20ByOrderByPopularityDesc();
+    List<Media> mediaTop20PopularList = mediaRepository.findTop20ByOrderByFinalPopularityDesc();
     // find the top 20 final rate media
     List<Media> mediaTop20FinalRateList = mediaRepository.findTop20ByOrderByFinalRateDesc();
     // find the top 20 final rate media in user's preferred genres

@@ -158,6 +158,16 @@ public class MovieController {
     }
   }
 
+  @DeleteMapping("/movieAdult")
+  public ResponseEntity<HttpStatus> deleteAdultMovie() {
+    try {
+      movieRepository.deleteAllByAdult(true);
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
 //    @DeleteMapping("/movie")
 //    public ResponseEntity<HttpStatus> deleteAllMovies() {
 //        try {

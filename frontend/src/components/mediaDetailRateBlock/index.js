@@ -1,4 +1,4 @@
-import { Avatar, Box, Divider, Grid, Link, Paper, Typography } from "@mui/material";
+import { Avatar, Box, Button, Divider, Grid, Link, Paper, CircularProgress, Typography } from "@mui/material";
 import { green, red } from "@mui/material/colors";
 import { Doughnut } from 'react-chartjs-2';
 import Chart from "chart.js/auto";
@@ -7,12 +7,26 @@ import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import { useQuery } from "react-query";
 import movieService from "../../api/movieService";
 import Spinner from "../spinner";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import reviewService from "../../api/reviewService";
+import { AuthContext } from "../../context/authContext";
+import regularUpdateService from "../../api/regularUpdateService";
 
 const MediaDetailRateBlock = (props) => {
+  const authContext = useContext(AuthContext);
+  const [upLoading, setUpLoading] = useState(false);
   const [recommend, setRecommend] = useState(0);
   const [unrecommend, setUnrecommend] = useState(0);
+
+  const handleUpateRate = () => {
+    setUpLoading(true);
+    regularUpdateService.updateFinalRates(props.media.id).then(() => {
+      setUpLoading(false);
+    }).catch(() => {
+      console.log("Error in handle Update Rate");
+      setUpLoading(false);
+    });
+  }
   useEffect(() => {
     reviewService.getAllReviewsByMedia(props.media.id).then((res) => {
       console.log(res.data)
@@ -113,7 +127,6 @@ const MediaDetailRateBlock = (props) => {
       </Grid>
       <Divider></Divider>
       <Grid>
-
         <Box
           sx={{
             height: 90,
@@ -159,6 +172,19 @@ const MediaDetailRateBlock = (props) => {
           ))}
         </Box>
       </Grid>
+      {
+        authContext.userProfile.type === 2 ?
+          (
+            <>
+              <Divider></Divider>
+              {upLoading ?
+                <CircularProgress sx={{ marginY: 1 }} />
+                :
+                <Button fullWidth onClick={handleUpateRate} sx={{ marginY: 1 }}>Update Rate</Button>
+              }
+            </>
+          ) : null
+      }
     </Paper>
   )
 }

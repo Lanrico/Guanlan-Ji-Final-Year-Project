@@ -193,23 +193,23 @@ const PageHeader = (props) => {
         <Toolbar>
           <Box sx={{ flexGrow: 1 }} />
           <Link to={`/homepage`}>
-            <img src={SimpleLogo} height={isMobile ? "25px" : "50px"} alt="companylogo"></img>
+            <img src={SimpleLogo} height={isMobile ? "30px" : "50px"} style={{ marginRight: isMobile ? 5 : null }} alt="companylogo"></img>
           </Link>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: 'flex' }}>
             <MyButtonGroup variant="text" color="inherit" style={{ color: 'grey' }}>
               <StyledButton onClick={() => { navigate(`/ranking/movie/1`) }}>Movie</StyledButton>
-              <StyledButton onClick={() => { navigate(`/ranking/movie/1`) }}>Game</StyledButton>
-              <StyledButton onClick={() => { navigate(`/ranking/movie/1`) }}>Music</StyledButton>
+              <StyledButton sx={{ display: isMobile ? "none" : "block" }} onClick={() => { navigate(`/ranking/movie/1`) }}>Game</StyledButton>
+              <StyledButton sx={{ display: isMobile ? "none" : "block" }} onClick={() => { navigate(`/ranking/movie/1`) }}>Music</StyledButton>
             </MyButtonGroup>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <Search>
-            <IconButton sx={{ marginLeft: 1 }} onClick={handleSearchButton}>
+          <Search sx={{ display: "flex" }}>
+            <IconButton sx={{ marginLeft: isMobile ? 0 : 1 }} onClick={handleSearchButton}>
               <SearchIcon />
             </IconButton>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder={isMobile ? "" : "Search…"}
               inputProps={{ 'aria-label': 'search' }}
               onChange={handleSearchTFChange}
               onKeyPress={handleKeyPress}
@@ -228,12 +228,12 @@ const PageHeader = (props) => {
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant="contained" href="/login">
-                    Sign in
+                  <Button variant="contained">
+                    {isMobile ? "login" : "Sign in"}
                   </Button>
                 </Link>
-                <Link to="/register">
-                  <Button variant="outlined" href="/register">
+                <Link to="/register" style={{ display: isMobile ? "none" : "block" }}>
+                  <Button variant="outlined">
                     Sign up
                   </Button>
                 </Link>

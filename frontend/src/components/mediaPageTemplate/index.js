@@ -1,4 +1,4 @@
-import { Grid, IconButton, Paper, Typography } from "@mui/material";
+import { Grid, IconButton, Paper, Typography, useMediaQuery } from "@mui/material";
 import CastBar from "../cast/castBar";
 import MediaActionTabs from "../mediaActionTabs";
 import MediaDetailRateBlock from "../mediaDetailRateBlock";
@@ -13,6 +13,7 @@ import historyService from "../../api/historyService";
 const MediaPageTemplate = (props) => {
   const authContext = useContext(AuthContext);
   const [isFavourite, setIsFavourite] = useState(authContext.favouriteList.includes(props.media.id));
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   console.log(authContext.favouriteList)
   // Add to history by api when enter the page
@@ -56,7 +57,7 @@ const MediaPageTemplate = (props) => {
       )}
       {props.children}
       <Grid container spacing={3} sx={{ padding: "15px" }}>
-        <Grid item xs={3}>
+        <Grid item xs={isMobile ? 12 : 3}>
           <div sx={{
             display: "flex",
             flexWrap: "wrap",
@@ -92,14 +93,14 @@ const MediaPageTemplate = (props) => {
           />
         </Grid>
 
-        <Grid item xs={9}>
+        <Grid item xs={isMobile ? 12 : 9}>
           <Grid container spacing={1}>
-            <Grid item xs={9}>
+            <Grid item xs={isMobile ? 12 : 9}>
               <Typography variant="body1" component="p">
                 {props.media[props.media_type].overview}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={isMobile ? 12 : 3}>
               <MediaDetailRateBlock media={props.media} />
             </Grid>
           </Grid>

@@ -11,6 +11,10 @@ class FavouriteDataService {
     return http.get(`/favourite/${argsQuery.user}/getAll`);
   }
 
+  getAllFavourte0(userId) {
+    return http.get(`/favourite/${userId}/getAll`);
+  }
+
 
   get(id) {
     return http.get(`/favourite/${id}`);

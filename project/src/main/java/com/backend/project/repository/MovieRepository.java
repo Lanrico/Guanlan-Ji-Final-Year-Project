@@ -10,4 +10,6 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 //    List<Movies> findByPublished(boolean published);
     List<Movie> findByOriginalTitleContaining(String title);
     Optional<Movie> findByTmdbId(int tmdb_id);
+
+    void deleteAllByAdult(boolean adult);
 }

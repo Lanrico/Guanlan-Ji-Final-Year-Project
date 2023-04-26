@@ -46,7 +46,7 @@ const AuthContextProvider = (props) => {
 
     setUserProfile(user)
     setUserAvatarFromFirebase(user.id, rm)
-    favouriteService.getAllFavourte(user.id)
+    favouriteService.getAllFavourte0(user.id)
       .then((response) => {
         var mediaList = response.data.map((item) => item.id.mid);
         console.log(mediaList)
@@ -68,8 +68,13 @@ const AuthContextProvider = (props) => {
           localStorage.setItem('userProfile', JSON.stringify(user));
         }
       }
-      console.log(user)
       setUserProfile(user)
+      /* eslint-disable no-restricted-globals */
+      location.reload()
+      /* eslint-disable no-restricted-globals */
+
+    }).catch((error) => {
+      console.log(error)
     });
 
   }

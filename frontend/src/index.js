@@ -20,6 +20,7 @@ import PaymentPage from "./pages/paymentPage";
 import Stripe from "./components/stripe";
 import MovieSearchPage from "./pages/movieSearchPage";
 import IndexHelper from "./indexHelper";
+import ProtectedRoutes from "./protectedRoutes";
 
 const storedUserProfile = sessionStorage.getItem('userProfile') ? sessionStorage.getItem('userProfile') : localStorage.getItem('userProfile');
 const initialUserProfile = storedUserProfile ? JSON.parse(storedUserProfile) : null;
@@ -75,8 +76,10 @@ const App = () => {
                     <Route path="/search/:media_type/:searchString/:page/:filter?" element={<MovieSearchPage />} />
                     <Route path="/register" element={<SignUpPage />} />
                     <Route path="/medias/movie/:id" element={<MovieDetailPage />} />
-                    <Route path="/user/:user_id/:tab" element={<UserPage />} />
-                    <Route path="/user/payment/:step?" element={<PaymentPage />} />
+                    <Route element={<ProtectedRoutes />}>
+                      <Route path="/user/:user_id/:tab" element={<UserPage />} />
+                      <Route path="/user/payment/:step?" element={<PaymentPage />} />
+                    </Route>
                     <Route path="/login" element={<LoginPage />} />
                     {/* <Route path="/forgetPassword" element={<ForgetPasswordPage />} /> */}
                   </Routes>

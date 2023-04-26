@@ -99,6 +99,17 @@ public class Media {
   @Column(name = "final_vote_count")
   private Integer finalVoteCount;
 
+  @Column(name = "final_popularity")
+  private Double finalPopularity;
+
+  public Double getFinalPopularity() {
+    return finalPopularity;
+  }
+
+  public void setFinalPopularity(Double finalPopularity) {
+    this.finalPopularity = finalPopularity;
+  }
+
   public Integer getFinalVoteCount() {
     return finalVoteCount;
   }

@@ -3,6 +3,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const MediasBarCard = ({ item, xs }) => {
+  console.log(item.movie);
+  if (!item.movie) {
+    return null;
+  }
   return (
     <Grid key={item.movie.id} item xs={xs ? xs : 3}>
       <Link to={`/medias/movie/${item.movie.id}`}>

@@ -1,19 +1,22 @@
 package com.backend.project.controller;
 
 import com.backend.project.model.Media;
+import com.backend.project.model.Movie;
 import com.backend.project.model.Review;
-import com.backend.project.repository.MediaRepository;
-import com.backend.project.repository.ReviewRepository;
+import com.backend.project.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import spark.Route;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
@@ -23,11 +26,25 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api")
 public class RegularUpdateController {
-
+  @Value("${TMDB_KEY}")
+  private String myTmdbKey;
   @Autowired
   MediaRepository mediaRepository;
   @Autowired
   ReviewRepository reviewRepository;
+  @Autowired
+  HistoryRepository historyRepository;
+  @Autowired
+  CompanyRepository companyRepository;
+  @Autowired
+  MovieRepository movieRepository;
+
+  @Scheduled(cron = "0 0 4 * * ?")
+  public void dailyUpdateTask() throws IOException {
+    updateAllMediaFinalRate();
+    updateAllMediaPopularity();
+    updateDailyMovie();
+  }
   @PostMapping("/update/finalRate/{media}")
   public ResponseEntity<Double> updateMediaFinalRate(@PathVariable("media") Integer media_id) {
     Optional<Media> mediaData = mediaRepository.findById(media_id);
@@ -44,6 +61,115 @@ public class RegularUpdateController {
     }
   }
 
+  @PostMapping("/update/finalRateAll")
+  public ResponseEntity<Double> updateAllMediaFinalRate() {
+    List<Media> mediaList = mediaRepository.findAll();
+    for (Media media:mediaList) {
+      double[] compute_result = finalRateComputer(media);
+      media.setFinalVoteCount((int) compute_result[1]);
+      media.setFinalRate(compute_result[0]);
+    }
+    mediaRepository.saveAll(mediaList);
+    return new ResponseEntity<>(null, HttpStatus.OK);
+  }
+
+  @PostMapping("/update/popularityAll")
+  public ResponseEntity<Double> updateAllMediaPopularity() {
+    List<Media> mediaList = mediaRepository.findAll();
+    for (Media media:mediaList) {
+      double historyCount = historyRepository.countByMid(media);
+      double reviewCount = reviewRepository.countByMid(media);
+      media.setFinalPopularity(media.getPopularity() + historyCount + reviewCount * 10);
+    }
+    mediaRepository.saveAll(mediaList);
+    return new ResponseEntity<>(null, HttpStatus.OK);
+  }
+
+//  @PostMapping("/update/mediaAll/daily")
+//  public ResponseEntity<List<Integer>> updateDailyMedia() throws IOException {
+//    TMDBController tmdbController = new TMDBController();
+//    List<Integer> updateTMDBIdList = tmdbController.getDailyUpdateIdsFromTMDB(myTmdbKey);
+//    int modifyCount = 0;
+//    int addCount = 0;
+//    for (Integer id:updateTMDBIdList) {
+//      Media newMedia = tmdbController.getMediaDataFromTMDB(id, myTmdbKey, companyRepository);
+//      if (newMedia != null) {
+//        if (newMedia.getPopularity() > 1) {
+//          Optional<Media> mediaData = mediaRepository.findByMovieTmdbId(id);
+//          if (mediaData.isPresent()) {
+//            Media media = mediaData.get();
+//            media.setRate(newMedia.getRate());
+//            media.setVoteCount(newMedia.getVoteCount());
+//            media.setPopularity(newMedia.getPopularity());
+//            mediaRepository.save(media);
+//            System.out.println("modify media: " + id);
+//            modifyCount++;
+//          } else {
+//            mediaRepository.save(newMedia);
+//            System.out.println("add media: " + id);
+//            addCount++;
+//          }
+//        }
+//      }
+//    }
+//    System.out.println("modify media count: " + modifyCount);
+//    System.out.println("add media count: " + addCount);
+//    return new ResponseEntity<>(updateTMDBIdList, HttpStatus.OK);
+//  }
+
+  @PostMapping("/update/movieAll/daily")
+  public ResponseEntity<List<Integer>> updateDailyMovie() throws IOException {
+    TMDBController tmdbController = new TMDBController();
+    List<Integer> updateTMDBIdList = tmdbController.getDailyUpdateIdsFromTMDB(myTmdbKey);
+    int modifyCount = 0;
+    int addCount = 0;
+    for (Integer id:updateTMDBIdList) {
+      Movie newMovie = tmdbController.getMovieDataFromTMDB(id, myTmdbKey, companyRepository);
+      if (newMovie != null) {
+        if (newMovie.getMedia().getPopularity() > 1 && newMovie.getMedia().getVoteCount() > 0 && !newMovie.getAdult()) {
+          Optional<Movie> movieData = movieRepository.findByTmdbId(id);
+          if (movieData.isPresent()) {
+            Movie movie = movieData.get();
+            movie.getMedia().setRate(newMovie.getMedia().getRate());
+            movie.getMedia().setVoteCount(newMovie.getMedia().getVoteCount());
+            movie.getMedia().setPopularity(newMovie.getMedia().getPopularity());
+            movieRepository.save(movie);
+            System.out.println("modify movie: " + id);
+            modifyCount++;
+          } else {
+            movieRepository.save(newMovie);
+            System.out.println("add movie: " + id);
+            addCount++;
+          }
+        }
+      }
+    }
+    System.out.println("modify media count: " + modifyCount);
+    System.out.println("add media count: " + addCount);
+    return new ResponseEntity<>(updateTMDBIdList, HttpStatus.OK);
+  }
+
+  @PostMapping("/update/movie/{movieTMDBId}")
+  public ResponseEntity<Integer> updateDailyMovieById(@PathVariable int movieTMDBId) throws IOException {
+    TMDBController tmdbController = new TMDBController();
+    Movie newMovie = tmdbController.getMovieDataFromTMDB(movieTMDBId, myTmdbKey, companyRepository);
+    if (newMovie != null) {
+      Optional<Movie> movieData = movieRepository.findByTmdbId(movieTMDBId);
+      if (movieData.isPresent()) {
+        Movie movie = movieData.get();
+        movie.getMedia().setRate(newMovie.getMedia().getRate());
+        movie.getMedia().setVoteCount(newMovie.getMedia().getVoteCount());
+        movie.getMedia().setPopularity(newMovie.getMedia().getPopularity());
+        movieRepository.save(movie);
+        System.out.println("modify movie: " + movieTMDBId);
+      } else {
+        movieRepository.save(newMovie);
+        System.out.println("add movie: " + movieTMDBId);
+      }
+    }
+    return new ResponseEntity<>(movieTMDBId, HttpStatus.OK);
+  }
+
   @PostMapping("/rate/average")
   public Double getAverageRate() {
     return mediaRepository.findRateAverage();
@@ -53,11 +179,6 @@ public class RegularUpdateController {
   public Double getVoteCountAverage() {
     return mediaRepository.findVoteCountAverage();
   }
-
-//  @GetMapping("/voteCount/median")
-//  public Double getMedianVoteCount() {
-//    return reviewRepository.findMedian();
-//  }
 
   public double[] finalRateComputer(Media media) {
     // weights of different types of users

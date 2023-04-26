@@ -38,9 +38,10 @@ const Recommendation = (props) => {
     <>
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
         {
-          medias[group].map((m) =>
-            <RankingListItem media={m} type="recommendation" />
-          )
+          medias.length > 0 ?
+            medias[group].map((m) =>
+              <RankingListItem media={m} type="recommendation" />
+            ) : null
         }
       </List>
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: 5 }}>

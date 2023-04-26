@@ -345,14 +345,13 @@ export default function PaymentStepper() {
                     Skip
                   </Button>
                 )}
-
                 {upLoading ?
                   <CircularProgress />
                   :
                   <Button onClick={handleNext} disabled={!selectedFile || !upLoadSuccess}>
                     {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                  </Button>}
-
+                  </Button>
+                }
               </Box>
             </React.Fragment>
           ) : (

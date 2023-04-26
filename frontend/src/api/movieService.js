@@ -7,7 +7,7 @@ class MovieDataService {
 
   getTopTrending(args) {
     const [, argsQuery] = args.queryKey
-    return http.get(`/media/top/popularity/movie?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`);
+    return http.get(`/media/top/finalPopularity/movie?pageSize=${argsQuery.pageSize}&page=${argsQuery.page}`);
   }
 
   getRank(args) {

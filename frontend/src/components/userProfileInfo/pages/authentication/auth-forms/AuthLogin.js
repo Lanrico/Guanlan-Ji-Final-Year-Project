@@ -93,6 +93,7 @@ const AuthLogin = () => {
                 userService.getByEmail(user.email)
                   .then((response) => {
                     context.signIn(response.data, values.rememberMe)
+                    console.log("qwqweqweqwe")
                     navigate('/homepage')
                   })
               })

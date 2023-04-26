@@ -71,7 +71,7 @@ const SortAndFilterCard = (props) => {
             defaultValue={sort}
           >
             <MenuItem value={"finalRate"}>Rate</MenuItem>
-            <MenuItem value={"popularity"}>Popularity</MenuItem>
+            <MenuItem value={"finalPopularity"}>Popularity</MenuItem>
             <MenuItem value={"releaseDate"}>Release Date</MenuItem>
           </Select>
         </FormControl>

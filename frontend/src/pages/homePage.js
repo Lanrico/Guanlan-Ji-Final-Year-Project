@@ -1,4 +1,4 @@
-import { Grid, Typography, useTheme } from "@mui/material";
+import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React, { useContext, useState } from "react";
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -24,6 +24,7 @@ const HomePage = (props) => {
   const authContext = useContext(AuthContext);
   const [value, setValue] = useState('1');
   const theme = useTheme();
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
   const { data, error, isLoading, isError } = useQuery(
     ["trendingMovie4", { pageSize: 12, page: 0 }], movieService.getTopTrending
   )
@@ -37,7 +38,9 @@ const HomePage = (props) => {
   const medias1 = medias.slice(0, 4)
   const medias2 = medias.slice(4, 8)
   const medias3 = medias.slice(8, 12)
-  console.log(process.env.REACT_APP_BACKEND_URL)
+  console.log(medias1)
+  console.log(medias2)
+  console.log(medias3)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -46,10 +49,10 @@ const HomePage = (props) => {
     <PageTemplate>
       {/* <Button fullWidth onClick={handleSubmitButton1} >context checker</Button> */}
 
-      <Card sx={{ display: 'flex', height: 330 }} elevation={1}>
+      <Card sx={{ display: 'flex', height: 330, justifyContent: 'center' }} elevation={1}>
         <CardMedia
           component="img"
-          sx={{ width: "70%" }}
+          sx={{ width: "70%", display: isMobile ? "none" : "block" }}
           image={Poster}
           alt="Poster"
         />
@@ -59,7 +62,7 @@ const HomePage = (props) => {
         </Box>
       </Card>
       <Grid container spacing={2} mt={1}>
-        <Grid item xs={8} borderRight={1} borderColor={theme.palette.primary.main}>
+        <Grid item xs={12} md={8} borderRight={1} borderColor={theme.palette.primary.main}>
           <Typography variant={"h4"}>What's popular</Typography>
           <MediasBar mb={3} medias={medias1}>
             <Box mb={0.5} container width={"98%"} style={{ flexDirection: "row", justifyContent: "space-between", display: "flex" }}>
@@ -70,7 +73,7 @@ const HomePage = (props) => {
           <MediasBar mb={3} medias={medias2}>
             <Box mb={0.5} container width={"98%"} style={{ flexDirection: "row", justifyContent: "space-between", display: "flex" }}>
               <Link to="/ranking/movie/1" style={{ color: theme.palette.primary.main }}>Movie</Link>
-              <Link to="/ranking/Movie/1/sort=popularity&order=desc&genres=&releasedate=to&language=&rate=0to10&runtime=0to400" style={{ color: theme.palette.primary.main }}>more</Link>
+              <Link to="/ranking/Movie/1/sort=finalPopularity&order=desc&genres=&releasedate=to&language=&rate=0to10&runtime=0to400" style={{ color: theme.palette.primary.main }}>more</Link>
             </Box>
           </MediasBar>
           <MediasBar mb={2} medias={medias3}>

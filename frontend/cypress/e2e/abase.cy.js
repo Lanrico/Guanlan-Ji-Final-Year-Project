@@ -18,14 +18,14 @@ describe("Base tests", () => {
       cy.get(".MuiBox-root>a").eq(0).should("have.attr", "href", "/");
       cy.get(".MuiBox-root>a").eq(1).should("have.attr", "href", "/");
       cy.get(".MuiBox-root>a").eq(2).should("have.attr", "href", "/ranking/movie/1");
-      cy.get(".MuiBox-root>a").eq(3).should("have.attr", "href", "/ranking/Movie/1/sort=popularity&order=desc&genres=&releasedate=to&language=&rate=0to10&runtime=0to400");
+      cy.get(".MuiBox-root>a").eq(3).should("have.attr", "href", "/ranking/Movie/1/sort=finalPopularity&order=desc&genres=&releasedate=to&language=&rate=0to10&runtime=0to400");
       cy.get(".MuiBox-root>a").eq(4).should("have.attr", "href", "/");
       cy.get(".MuiBox-root>a").eq(5).should("have.attr", "href", "/");
     });
 
     describe("navigations work well", () => {
       before(() => {
-        cy.request("GET", "http://127.0.0.1:8080/api/media/top/popularity/movie?pageSize=12&page=0").then((response) => {
+        cy.request("GET", "http://127.0.0.1:8080/api/media/top/finalPopularity/movie?pageSize=12&page=0").then((response) => {
           trendingMovies = response.body.content;
           cy.log(trendingMovies)
         });
@@ -56,7 +56,7 @@ describe("Base tests", () => {
   describe("Detailed media page", () => {
     beforeEach(() => {
       cy.visit(`/medias/movie/${trendingMovies[0].id}`);
-      cy.request("GET", "http://127.0.0.1:8080/api/media/top/popularity/movie?pageSize=12&page=0").then((response) => {
+      cy.request("GET", "http://127.0.0.1:8080/api/media/top/finalPopularity/movie?pageSize=12&page=0").then((response) => {
         trendingMovies = response.body.content;
         cy.log(trendingMovies)
       });

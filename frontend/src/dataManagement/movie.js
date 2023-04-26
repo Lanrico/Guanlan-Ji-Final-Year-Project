@@ -118,11 +118,6 @@ export const addMovieDetailedListByMovieList = async (movieList) => {
             })
         }
         return null;
-        // m['media'] = {
-        //   popularity: m.popularity,
-        //   type: '0'
-        // }
-        // return m
       })
     })
 }

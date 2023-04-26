@@ -17,6 +17,8 @@ import org.springframework.lang.Nullable;
 public interface MediaRepository extends JpaRepository<Media, Integer>, JpaSpecificationExecutor {
   Optional<Media> findById(int id);
 
+  Optional<Media> findByMovieTmdbId(int tmdb_id);
+
 //  Page<Media> findAllByType(Pageable pageable, String type, Specification<Media> spec);
   Page<Media> findAll(Pageable pageable);
   List<Media> findAllByType(Pageable pageable, String type);
@@ -35,4 +37,6 @@ public interface MediaRepository extends JpaRepository<Media, Integer>, JpaSpeci
   List<Media> findTop20ByOrderByFinalRateDesc();
 
   List<Media> findTop20ByGenresContainingOrderByFinalRateDesc(Genre genre);
+
+  List<Media> findTop20ByOrderByFinalPopularityDesc();
 }

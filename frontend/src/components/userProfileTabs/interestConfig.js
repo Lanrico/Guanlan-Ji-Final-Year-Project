@@ -20,13 +20,14 @@ const InterestConfig = () => {
   const handleSave = () => {
     var tmp = authContext.userProfile;
     tmp.genres = genresChecked;
+    console.log(tmp)
 
     authContext.handleSetUserProfile(tmp);
     setOpen(true);
   }
 
   const genresList = genresChecked.map((g) => g.id);
-  // console.log(genresList)
+  console.log(authContext.userProfile.genres)
 
   return (
     <>

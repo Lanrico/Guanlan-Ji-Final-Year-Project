@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -19,7 +19,7 @@ const ReviewPanel = (props) => {
       </Grid>
       <ReviewList>
       </ReviewList>
-      {authContext.isAuthenticated ? <WriteReviewPanel /> : <Link to={"/login"} style={{ textDecoration: "none", color: theme.palette.primary.main }}>Login to send your review</Link>}
+      {authContext.isAuthenticated ? (authContext.userProfile.type === 2 ? <Typography>Administrator can't write review</Typography> : <WriteReviewPanel />) : <Link to={"/login"} style={{ textDecoration: "none", color: theme.palette.primary.main }}>Login to send your review</Link>}
     </>
   )
 }

@@ -1,11 +1,13 @@
 import {
   AlertOutlined,
-  AuditOutlined
+  AuditOutlined,
+  RetweetOutlined
 } from '@ant-design/icons';
 
 const icons = {
   AlertOutlined,
-  AuditOutlined
+  AuditOutlined,
+  RetweetOutlined
 };
 
 const adminFunction = {
@@ -26,6 +28,13 @@ const adminFunction = {
       type: 'item',
       url: 'proUserRequest',
       icon: icons.AuditOutlined
+    },
+    {
+      id: 'Update-data',
+      title: 'Update data',
+      type: 'item',
+      url: 'updateData',
+      icon: icons.RetweetOutlined
     }
   ]
 };

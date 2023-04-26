@@ -68,7 +68,7 @@ const UserProfile = () => {
     authContext.handleSetUserProfile(newUserProfile);
     // setOpenSuccess(true);
     /* eslint-disable no-restricted-globals */
-    location.reload()
+    // location.reload()
     /* eslint-enable no-restricted-globals */
 
   }

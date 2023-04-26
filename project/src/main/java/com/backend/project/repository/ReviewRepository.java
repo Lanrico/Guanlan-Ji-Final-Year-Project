@@ -22,6 +22,8 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
   List<Review> getReviewsByMid(Media media);
 
+  int countByMid(Media media);
+
 //  @Query("SELECT MEDIAN(e.voteCount) FROM Media e")
 //  Double findMedian();
 }
