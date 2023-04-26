@@ -1,6 +1,7 @@
 import { Grid, IconButton, ImageListItem, ImageListItemBar } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
+import errorImg from "../../images/film-poster-placeholder.png";
 
 const MediasBarCard = ({ item, xs }) => {
   console.log(item.movie);
@@ -15,7 +16,7 @@ const MediasBarCard = ({ item, xs }) => {
             src={
               item.movie.posterPath
                 ? `https://image.tmdb.org/t/p/w500/${item.movie.posterPath}`
-                : `../../images/film-poster-placeholder.png`
+                : errorImg
             }
             alt={item.title}
             loading="lazy"

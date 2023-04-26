@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import MediaDataService from "../services/mediaService";
 import { Link } from "react-router-dom";
 import { CardMedia } from "@mui/material";
+import errorImg from "../images/film-poster-placeholder.png";
 
 export default class MediaList extends Component {
   constructor(props) {
@@ -167,7 +168,7 @@ export default class MediaList extends Component {
                   image={
                     currentMedia.poster_path
                       ? `https://image.tmdb.org/t/p/w500/${currentMedia.poster_path}`
-                      : `../images/film-poster-placeholder.png`
+                      : errorImg
                   }
                 />
               </div>
