@@ -15,7 +15,6 @@ const MediaPageTemplate = (props) => {
   const [isFavourite, setIsFavourite] = useState(authContext.favouriteList.includes(props.media.id));
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
-  console.log(authContext.favouriteList)
   // Add to history by api when enter the page
   useEffect(() => {
     historyService.create(authContext.userProfile.id, props.media.id)
@@ -65,15 +64,17 @@ const MediaPageTemplate = (props) => {
           }}>
             <div style={{ display: "flex", alignItems: "center" }}>
               {
-                !isFavourite ? (
-                  <IconButton onClick={handleSetFavourite}>
-                    <FavoriteBorderIcon />
-                  </IconButton>
-                ) : (
-                  <IconButton onClick={handleSetUnfavourite}>
-                    <FavoriteIcon color="secondary" />
-                  </IconButton>
-                )
+                authContext.isAuthenticated ? (
+                  !isFavourite ? (
+                    <IconButton onClick={handleSetFavourite}>
+                      <FavoriteBorderIcon />
+                    </IconButton>
+                  ) : (
+                    <IconButton onClick={handleSetUnfavourite}>
+                      <FavoriteIcon color="secondary" />
+                    </IconButton>
+                  )
+                ) : null
               }
 
               <Typography variant="h6">{props.media.movie.originalTitle}</Typography>

@@ -65,15 +65,16 @@ const RankingListItem = (props) => {
         <ListItemSecondaryAction sx={{ top: "20%" }}>
           {
             props.type === "recommendation" ? null :
-              !isFavourite ? (
-                <IconButton size="small" onClick={handleSetFavourite}>
-                  <FavoriteBorderIcon />
-                </IconButton>
-              ) : (
-                <IconButton size="small" onClick={handleSetUnfavourite}>
-                  <FavoriteIcon color="secondary" />
-                </IconButton>
-              )
+              !authContext.isAuthenticated ? null :
+                !isFavourite ? (
+                  <IconButton size="small" onClick={handleSetFavourite}>
+                    <FavoriteBorderIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton size="small" onClick={handleSetUnfavourite}>
+                    <FavoriteIcon color="secondary" />
+                  </IconButton>
+                )
           }
           {
             rank > 10000 ? (null) : (

@@ -41,9 +41,9 @@ public class RegularUpdateController {
 
   @Scheduled(cron = "0 0 4 * * ?")
   public void dailyUpdateTask() throws IOException {
+    updateDailyMovie();
     updateAllMediaFinalRate();
     updateAllMediaPopularity();
-    updateDailyMovie();
   }
   @PostMapping("/update/finalRate/{media}")
   public ResponseEntity<Double> updateMediaFinalRate(@PathVariable("media") Integer media_id) {

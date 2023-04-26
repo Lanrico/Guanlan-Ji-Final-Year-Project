@@ -153,7 +153,6 @@ public class RecommendController {
       }
     } else {
       if (user.getPreferLanguage() == null){
-        System.out.println("Only prefer genre");
         final List<Integer> preferredGenreIdList = preferredGenreList.stream()
             .map(PreferredGenre::getGid)
             .map(Genre::getId)
